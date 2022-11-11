@@ -1,13 +1,7 @@
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { GetServerSideProps } from 'next'
-import { useState } from 'react'
-
-interface Food {
-  id: number
-  description: string
-  energy_kcal: number
-}
+import { useContext, useState } from 'react'
+import { useRouter } from 'next/router'
+import { PersonContext } from '../contexts/Person'
 
 interface BenedictEquation {
   weight: number
@@ -22,21 +16,18 @@ interface TotalKcal {
   cardioIntensity: 'low' | 'medium' | 'high'
 }
 
-interface HomeProps {
-  foods: Food[]
-}
+interface HomeProps {}
 
-export default function Home({ foods }: HomeProps) {
+export default function Home(props: HomeProps) {
+  const { personData, createPersonData } = useContext(PersonContext)
+
+  const [gender, setGender] = useState('' as 'male' | 'female')
   const [bmr, setBmr] = useState(0)
-  const [totalBmr, setTotalBmr] = useState(0)
+  const [totalCaloricSpending, setTotalCaloricSpending] = useState(0)
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm()
+  const { push } = useRouter()
+
+  const { register, handleSubmit, reset } = useForm()
 
   function handleBenedictEquation(data: BenedictEquation) {
     console.log('data: ')
@@ -56,6 +47,8 @@ export default function Home({ foods }: HomeProps) {
 
       setBmr(66 + (calculedWeight + calculedHeight) - calculedAge)
     }
+
+    setGender(gender)
 
     reset()
   }
@@ -116,19 +109,30 @@ export default function Home({ foods }: HomeProps) {
 
     const bmrPlusDailyActivity = dailyActivityValue * bmr
 
-    console.log(`TMB+Trabalho Diário ${bmrPlusDailyActivity}`)
+    const totaKcalSum =
+      bmrPlusDailyActivity + workoutIntensityValue + cardioIntensityValue
 
-    setTotalBmr(
-      bmrPlusDailyActivity + workoutIntensityValue + cardioIntensityValue,
-    )
-    console.log(totalBmr)
-    reset()
+    setTotalCaloricSpending((state) => totaKcalSum)
+
+    createPersonData({
+      bmr,
+      gender,
+      kcalSpender: {
+        cardioIntensity,
+        dailyActivity,
+        workoutIntensity,
+      },
+      totalCaloricSpending: totaKcalSum,
+    })
+
+    // reset()
+    // push('/diet')
   }
 
   return (
     <div>
       <h1>Rdieta</h1>
-      {bmr === 0 ? (
+      <div>
         <form
           style={{
             display: 'flex',
@@ -186,93 +190,65 @@ export default function Home({ foods }: HomeProps) {
           </span>
           <input type="submit" />
         </form>
-      ) : (
-        <>
-          <div>
-            <p>
-              Sua Taxa de Metabolismo Basal é de aproximadamente:{' '}
-              <strong>{bmr} kcal</strong>
-            </p>
-            <button type="button" onClick={() => setBmr(0)}>
-              Recarcular Basal
-            </button>
-          </div>
-          <hr />
-          <form
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-            onSubmit={handleSubmit(handleTotalKcal)}
-          >
-            <span>
-              <label>Atividade Diária: </label>
-              <select defaultValue="" {...register('dailyActivity')}>
-                <option value="" disabled>
-                  Selecione uma opção
-                </option>
-                <option value="sedentary">Sedentário</option>
-                <option value="moderate">Moderado</option>
-                <option value="high">Alto</option>
-              </select>
-            </span>
-            <span>
-              <label>Intensidade do cardio: </label>
-              <select defaultValue="" {...register('cardioIntensity')}>
-                <option value="" disabled>
-                  Selecione uma opção
-                </option>
-                <option value="beginner">Baixa</option>
-                <option value="intermediary">Média</option>
-                <option value="advanced">Alta</option>
-              </select>
-            </span>
-            <span>
-              <label>Intensidade do treino: </label>
-              <select defaultValue="" {...register('workoutIntensity')}>
-                <option value="" disabled>
-                  Selecione uma opção
-                </option>
-                <option value="beginner">Iniciante</option>
-                <option value="intermediary">Intermediário</option>
-                <option value="advanced">Avançado</option>
-              </select>
-            </span>
-            <input type="submit" />
-          </form>
-        </>
-      )}
-      {/* <div>
-        <ul>
-          {foods &&
-            foods.map((food) => {
-              return (
-                <div key={food.id}>
-                  <li>
-                    Comida: <strong>{food.description}</strong>
-                    <br />
-                    Calorias: <strong>{food.energy_kcal}</strong>
-                  </li>
-                  <hr />
-                </div>
-              )
-            })}
-        </ul>
-      </div> */}
+        <div>
+          <h2>
+            Sua Taxa de Metabolismo Basal é de aproximadamente:{' '}
+            <strong>{bmr} kcal</strong>
+          </h2>
+          <button type="button" onClick={() => setBmr(0)}>
+            Recarcular Basal
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div>
+        <form
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          onSubmit={handleSubmit(handleTotalKcal)}
+        >
+          <span>
+            <label>Atividade Diária: </label>
+            <select defaultValue="" {...register('dailyActivity')}>
+              <option value="" disabled>
+                Selecione uma opção
+              </option>
+              <option value="sedentary">Sedentário</option>
+              <option value="moderate">Moderado</option>
+              <option value="high">Alto</option>
+            </select>
+          </span>
+          <span>
+            <label>Intensidade do cardio: </label>
+            <select defaultValue="" {...register('cardioIntensity')}>
+              <option value="" disabled>
+                Selecione uma opção
+              </option>
+              <option value="beginner">Baixa</option>
+              <option value="intermediary">Média</option>
+              <option value="advanced">Alta</option>
+            </select>
+          </span>
+          <span>
+            <label>Intensidade do treino: </label>
+            <select defaultValue="" {...register('workoutIntensity')}>
+              <option value="" disabled>
+                Selecione uma opção
+              </option>
+              <option value="beginner">Iniciante</option>
+              <option value="intermediary">Intermediário</option>
+              <option value="advanced">Avançado</option>
+            </select>
+          </span>
+          <input type="submit" />
+        </form>
+        <h2>Gasto Calórico total: {totalCaloricSpending}</h2>
+        <button type="button" onClick={() => push('/diet')}>
+          Ir para Dieta
+        </button>
+      </div>
     </div>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await axios.get<Food[]>('http://localhost:3000/api/foods')
-
-  const fetchedFoods = response.data.map((food) => {
-    return food
-  })
-
-  return {
-    props: {
-      foods: fetchedFoods,
-    },
-  }
 }
