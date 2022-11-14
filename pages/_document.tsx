@@ -1,5 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
+const whTooltips = { colorLinks: true, iconizeLinks: true, renameLinks: true }
+
 class MyDocument extends Document {
   render() {
     return (

@@ -49,10 +49,19 @@ export default function Diet({ foods, categories }: DietProps) {
     lip: 0,
     ptn: 0,
   } as MacroNutrients)
-  const [mealFraction, setMealFraction] = useState(5)
+  const [mealFraction, setMealFraction] = useState(1)
+  const [mealCategory, setMealCategory] = useState('')
   const [meal, setMeal] = useState([] as MealProps[])
-
-  const [mealCreate, setMealCreate] = useState([])
+  const [checkedFood, setCheckedFood] = useState([] as Food[])
+  const [lastCheckedFood, setLastCheckedFood] = useState({
+    id: 0,
+    category: 'nenhum',
+    description: 'vazio',
+    energy_kcal: 0,
+    carbohydrate_g: 0,
+    lipid_g: 0,
+    protein_g: 0,
+  } as Food)
 
   const { register, handleSubmit, reset } = useForm()
 
@@ -106,16 +115,76 @@ export default function Diet({ foods, categories }: DietProps) {
   }
 
   function handleMealFractionChange(e: any) {
-    setMealFraction(e.target.value)
+    setMealFraction(Number(e.target.value))
+  }
+
+  function handleLastCheckedFood(e: any, newFood: Food) {
+    if (e.target.checked) {
+      console.log('------checked------')
+
+      setCheckedFood((state) => [...state, newFood])
+      setLastCheckedFood((state) => newFood)
+    } else {
+      console.log('------unchecked------')
+
+      const updatedCheckedFood = checkedFood.filter(
+        (food) => food.id !== newFood.id,
+      )
+
+      setCheckedFood(updatedCheckedFood)
+
+      setLastCheckedFood((state) => {
+        return {
+          id: 0,
+          category: 'nenhum',
+          description: 'vazio',
+          energy_kcal: 0,
+          carbohydrate_g: 0,
+          lipid_g: 0,
+          protein_g: 0,
+        }
+      })
+    }
+  }
+
+  function handleCreateNewMeal(data: {
+    mealName: string
+    foodsListOnMeal: []
+  }) {
+    console.log(data)
+    const { mealName } = data
+
+    console.log(mealName)
+    console.log(checkedFood)
+
+    let totalKcal = 0
+    let totalCho = 0
+    let totalPtn = 0
+    let totalLip = 0
+
+    checkedFood.forEach((food) => {
+      totalKcal += food.energy_kcal
+      totalCho += food.carbohydrate_g
+      totalPtn += food.protein_g
+      totalLip += food.lipid_g
+    })
+
+    const newMeal: MealProps = {
+      name: mealName,
+      foods: checkedFood,
+      macroNutrients: {
+        cho: totalCho,
+        ptn: totalPtn,
+        lip: totalLip,
+      },
+      totalKcal,
+    }
+
+    setMeal([...meal, newMeal])
   }
 
   useEffect(() => {
-    for (let index = 0; index < mealFraction; index++) {
-      setMealCreate((state) => {
-        return [...state, <p>mealcreateCampo</p>]
-      })
-    }
-    console.log(mealCreate)
+    console.log(mealFraction)
   }, [mealFraction])
 
   return (
@@ -198,14 +267,185 @@ export default function Diet({ foods, categories }: DietProps) {
       <hr />
       <div>
         Divisão das refeições:{' '}
-        <input type="number" onChange={handleMealFractionChange} />
+        <select onChange={handleMealFractionChange}>
+          <option disabled selected value="">
+            Selecione um valor
+          </option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
         <h2>Seu número de refeições é de: {mealFraction}</h2>
-        {mealCreate.map((p, index) => (
-          <p key={index}>refeição: {index}</p>
-        ))}
+        <h2>Estimativa de Kcal por refeição</h2>
+        <ul>
+          <li>
+            Carboidrato: <strong>{metaDietKcal.cho / mealFraction}</strong>g
+          </li>
+          <li>
+            Proteína: <strong>{metaDietKcal.ptn / mealFraction}</strong>g
+          </li>
+          <li>
+            Gordura: <strong>{metaDietKcal.lip / mealFraction}</strong>g
+          </li>
+        </ul>
       </div>
       <hr />
-
+      <div>
+        <h2>Monte a sua refeição</h2>
+        <div style={{ display: 'flex', margin: '0 auto' }}>
+          {/* <ul>
+            {[...Array(mealFraction)].map((value, index) => (
+              <li key={index}>
+                <p>
+                  Refeição {index + 1}: {meal[index]?.name}
+                </p>
+                <input
+                  type="text"
+                  placeholder="Digite um nome da refeição"
+                  onChange={(e) => handleCreateNewMeal(e.target.value, index)}
+                />
+                <ul>
+                  <select
+                    onChange={() => {
+                      setMealCategory(event?.target.value)
+                    }}
+                  >
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                  <ul>
+                    {foods
+                      .filter((food) => food.category === mealCategory)
+                      .map((food) => {
+                        return (
+                          <li key={food.id}>
+                            {food.description}
+                            {'  '}
+                            <input
+                              type="checkbox"
+                              value={food.description}
+                              onChange={(e) => {
+                                handleLastCheckedFood(e, food)
+                              }}
+                            />
+                          </li>
+                        )
+                      })}
+                  </ul>
+                </ul>
+              </li>
+            ))}
+          </ul> */}
+          <form onSubmit={handleSubmit(handleCreateNewMeal)}>
+            <p>Criando uma refeição</p>
+            <label>Nome da refeição:</label>
+            <input
+              type="text"
+              placeholder="Digite o nome da refeição"
+              {...register('mealName')}
+            />
+            <select
+              onChange={() => {
+                setMealCategory(event?.target.value)
+              }}
+            >
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <ul>
+              {foods
+                .filter((food) => food.category === mealCategory)
+                .map((food) => {
+                  return (
+                    <li key={food.id}>
+                      {food.description}
+                      {' - '}
+                      {food.energy_kcal}
+                      <input
+                        type="checkbox"
+                        value={food.description}
+                        {...register('foodListOnMeal')}
+                        onChange={(e) => {
+                          handleLastCheckedFood(e, food)
+                        }}
+                      />
+                    </li>
+                  )
+                })}
+            </ul>
+            <input type="submit" />
+          </form>
+          <div>
+            {lastCheckedFood.id !== 0 ? (
+              <div>
+                <p>Última comida selecionada</p>
+                <h4>{lastCheckedFood.description}</h4>
+                <p>
+                  KCAL: <strong>{lastCheckedFood.energy_kcal}</strong>
+                </p>
+                <ul>
+                  <li>
+                    Calorias: <strong>{lastCheckedFood.carbohydrate_g}</strong>
+                  </li>
+                  <li>
+                    Proteínas: <strong>{lastCheckedFood.protein_g}</strong>
+                  </li>
+                  <li>
+                    Lipídeos: <strong>{lastCheckedFood.lipid_g}</strong>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <h3>Nenhuma comida selecionada</h3>
+            )}
+          </div>
+          <div
+            style={{
+              marginLeft: 100,
+            }}
+          >
+            <p>Todas as comidas selecionadas: </p>
+            <ul>
+              {checkedFood &&
+                checkedFood.map((food) => (
+                  <li key={food.id}>{food.description}</li>
+                ))}
+            </ul>
+          </div>
+          <div
+            style={{
+              marginLeft: 100,
+            }}
+          >
+            Refeição :
+            {meal !== undefined ? (
+              <div>
+                <p>Nome: {meal[0].name}</p>
+                <p>Total Kcal: {meal[0].totalKcal}</p>
+                Total Macros:{' '}
+                <ul>
+                  <li>CHO: {meal[0].macroNutrients.cho}</li>
+                  <li>PTN: {meal[0].macroNutrients.ptn}</li>
+                  <li>LIP: {meal[0].macroNutrients.lip}</li>
+                </ul>
+              </div>
+            ) : (
+              <h4>Nenhuma refeição cadastrada</h4>
+            )}
+          </div>
+        </div>
+      </div>
       {/* <div>
         <h2>Valores nutricionais em 100g {'(TabelaTaco)'}</h2>
         <ul>
