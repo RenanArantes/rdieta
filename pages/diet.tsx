@@ -64,7 +64,6 @@ export default function Diet({ foods, categories }: DietProps) {
   } as Food)
 
   const { register, handleSubmit, reset } = useForm()
-
   function handleDiet(data: DietType) {
     const { dietIntensity, dietType } = data
 
@@ -351,6 +350,7 @@ export default function Diet({ foods, categories }: DietProps) {
               type="text"
               placeholder="Digite o nome da refeição"
               {...register('mealName')}
+              required
             />
             <select
               onChange={() => {
@@ -429,7 +429,7 @@ export default function Diet({ foods, categories }: DietProps) {
             }}
           >
             Refeição :
-            {meal !== undefined ? (
+            {meal.length > 0 ? (
               <div>
                 <p>Nome: {meal[0].name}</p>
                 <p>Total Kcal: {meal[0].totalKcal}</p>
