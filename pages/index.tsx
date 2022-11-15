@@ -2,13 +2,7 @@ import { useForm } from 'react-hook-form'
 import { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import { PersonContext } from '../contexts/Person'
-
-interface BenedictEquation {
-  weight: number
-  height: number
-  age: number
-  gender: 'male' | 'female'
-}
+import { BMRForm } from '../components/forms/BMRForm'
 
 interface TotalKcal {
   dailyActivity: 'sedentary' | 'moderate' | 'high'
@@ -19,39 +13,15 @@ interface TotalKcal {
 interface HomeProps {}
 
 export default function Home(props: HomeProps) {
-  const { personData, createPersonData } = useContext(PersonContext)
+  const { personData, createPersonData, bmr } = useContext(PersonContext)
 
   const [gender, setGender] = useState('' as 'male' | 'female')
-  const [bmr, setBmr] = useState(0)
+
   const [totalCaloricSpending, setTotalCaloricSpending] = useState(0)
 
   const { push } = useRouter()
 
   const { register, handleSubmit, reset } = useForm()
-
-  function handleBenedictEquation(data: BenedictEquation) {
-    console.log('data: ')
-    console.log(data)
-
-    const { gender, weight, height, age } = data
-
-    // Equação de Harris-Benedict
-    if (gender === 'male') {
-      const calculedWeight = 13.8 * weight
-      const calculedHeight = 5 * height
-      const calculedAge = 6.8 * age
-
-      console.log(`PesoC:${calculedWeight}`)
-      console.log(`AlturaC:${calculedHeight}`)
-      console.log(`IdadeC:${calculedAge}`)
-
-      setBmr(66 + (calculedWeight + calculedHeight) - calculedAge)
-    }
-
-    setGender(gender)
-
-    reset()
-  }
 
   function handleTotalKcal(data: TotalKcal) {
     console.log('data')
@@ -124,80 +94,18 @@ export default function Home(props: HomeProps) {
       },
       totalCaloricSpending: totaKcalSum,
     })
-
-    // reset()
-    // push('/diet')
   }
 
   return (
     <div>
       <h1>Rdieta</h1>
       <div>
-        <form
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-          onSubmit={handleSubmit(handleBenedictEquation)}
-        >
-          <span>
-            <label>Peso:</label>
-            <input
-              type="number"
-              min="0.00"
-              max="500.0"
-              step="0.1"
-              value="66.6"
-              placeholder="Peso em kg"
-              {...register('weight')}
-            />
-          </span>
-          <span>
-            <label>Altura:</label>
-            <input
-              type="number"
-              min="0.00"
-              max="500.0"
-              step="0.1"
-              value="170"
-              placeholder="Altura em cm"
-              {...register('height')}
-            />
-          </span>
-          <span>
-            <label>Peso:</label>
-            <input
-              type="number"
-              min="1"
-              max="135"
-              step="1"
-              value="27"
-              placeholder="Idade"
-              {...register('age')}
-            />
-          </span>
-          <span>
-            <label>Gênero:</label>
-            <select defaultValue="male" {...register('gender')}>
-              <option value="" disabled>
-                Selecione uma opção
-              </option>
-              <option value="male" selected>
-                Masculino
-              </option>
-              <option value="female">Feminino</option>
-            </select>
-          </span>
-          <input type="submit" />
-        </form>
+        <BMRForm />
         <div>
           <h2>
-            Sua Taxa de Metabolismo Basal é de aproximadamente:{' '}
-            <strong>{bmr} kcal</strong>
+            Sua Taxa de Metabolismo Basal é de aproximadamente: {personData.bmr}{' '}
+            kcal
           </h2>
-          <button type="button" onClick={() => setBmr(0)}>
-            Recarcular Basal
-          </button>
         </div>
       </div>
       <hr />
