@@ -9,6 +9,8 @@
     "lint-fix": "eslint pages --ext .ts,.tsx --fix"
   },
   "dependencies": {
+    "@rdev-ignite-ui/react": "^2.2.0",
+    "@rdev-ignite-ui/tokens": "^3.1.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
