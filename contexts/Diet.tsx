@@ -3,6 +3,7 @@ import { Diet } from '../@types/diet'
 
 interface DietContextType {
   dietData: Diet
+  mealFraction: number
   createDietType: (newDietData: {
     type: 'cutting' | 'bulking'
     dietKcal: number
@@ -12,6 +13,7 @@ interface DietContextType {
     ptn: number
     lip: number
   }) => void
+  changeMealFraction: (fraction: number) => void
 }
 
 export const DietContext = createContext({} as DietContextType)
@@ -22,6 +24,7 @@ interface DietContextProviderProps {
 
 export function DietContextProvider({ children }: DietContextProviderProps) {
   const [dietData, setDietData] = useState({} as Diet)
+  const [mealFraction, setMealFraction] = useState(1)
 
   function createDietType(newDietData: {
     type: 'cutting' | 'bulking'
@@ -54,9 +57,19 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
     })
   }
 
+  function changeMealFraction(fraction: number) {
+    setMealFraction(fraction)
+  }
+
   return (
     <DietContext.Provider
-      value={{ dietData, createDietType, createDietKcalMeta }}
+      value={{
+        dietData,
+        mealFraction,
+        createDietType,
+        createDietKcalMeta,
+        changeMealFraction,
+      }}
     >
       {children}
     </DietContext.Provider>

@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { DietForm } from '../components/forms/DietForm'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
+import { FractionSelector } from '../components/FractionSelector'
 import { DietContext } from '../contexts/Diet'
 import { PersonContext } from '../contexts/Person'
 
@@ -39,7 +40,6 @@ export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
   const { dietData } = useContext(DietContext)
 
-  const [mealFraction, setMealFraction] = useState(1)
   const [mealCategory, setMealCategory] = useState('')
   const [meal, setMeal] = useState([] as MealProps[])
   const [checkedFood, setCheckedFood] = useState([] as Food[])
@@ -54,10 +54,6 @@ export default function Diet({ foods, categories }: DietProps) {
   } as Food)
 
   const { register, handleSubmit, reset } = useForm()
-
-  function handleMealFractionChange(e: any) {
-    setMealFraction(Number(e.target.value))
-  }
 
   function handleLastCheckedFood(e: any, newFood: Food) {
     if (e.target.checked) {
@@ -124,10 +120,6 @@ export default function Diet({ foods, categories }: DietProps) {
     setMeal([...meal, newMeal])
   }
 
-  useEffect(() => {
-    console.log(mealFraction)
-  }, [mealFraction])
-
   return (
     <div>
       <h1>Dieta</h1>
@@ -168,38 +160,8 @@ export default function Diet({ foods, categories }: DietProps) {
         )}
       </div>
       <hr />
-      <div>
-        Divisão das refeições:{' '}
-        <select onChange={handleMealFractionChange}>
-          <option disabled selected value="">
-            Selecione um valor
-          </option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-        </select>
-        <h2>Seu número de refeições é de: {mealFraction}</h2>
-        <h2>Estimativa de Kcal por refeição</h2>
-        {dietData.metaKcal && (
-          <ul>
-            <li>
-              Carboidrato:{' '}
-              <strong>{dietData.metaKcal.cho / mealFraction}</strong>g
-            </li>
-            <li>
-              Proteína: <strong>{dietData.metaKcal.ptn / mealFraction}</strong>g
-            </li>
-            <li>
-              Gordura: <strong>{dietData.metaKcal.lip / mealFraction}</strong>g
-            </li>
-          </ul>
-        )}
-      </div>
+      <FractionSelector />
+
       <hr />
       <div>
         <h2>Monte a sua refeição</h2>
