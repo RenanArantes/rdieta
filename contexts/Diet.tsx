@@ -7,6 +7,11 @@ interface DietContextType {
     type: 'cutting' | 'bulking'
     dietKcal: number
   }) => void
+  createDietKcalMeta: (newDietMetaKcalData: {
+    cho: number
+    ptn: number
+    lip: number
+  }) => void
 }
 
 export const DietContext = createContext({} as DietContextType)
@@ -26,6 +31,23 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
       return {
         dietType: newDietData,
         fractioning: state.fractioning,
+        metaKcal: state.metaKcal,
+        strategy: state.strategy,
+        meal: state.meal,
+      }
+    })
+  }
+
+  function createDietKcalMeta(newDietMetaKcalData: {
+    cho: number
+    ptn: number
+    lip: number
+  }) {
+    setDietData((state) => {
+      return {
+        dietType: state.dietType,
+        fractioning: state.fractioning,
+        metaKcal: newDietMetaKcalData,
         strategy: state.strategy,
         meal: state.meal,
       }
@@ -33,7 +55,9 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
   }
 
   return (
-    <DietContext.Provider value={{ dietData, createDietType }}>
+    <DietContext.Provider
+      value={{ dietData, createDietType, createDietKcalMeta }}
+    >
       {children}
     </DietContext.Provider>
   )

@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next/types'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { DietForm } from '../components/forms/DietForm'
+import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
 import { DietContext } from '../contexts/Diet'
 import { PersonContext } from '../contexts/Person'
 
@@ -22,10 +23,6 @@ interface MacroNutrients {
   lip: number
 }
 
-interface NutritionalStrategyType {
-  nutritionalStrategy: 'corporalWeight' | 'percentualMacros'
-}
-
 interface DietProps {
   foods: Food[]
   categories: string[]
@@ -42,11 +39,6 @@ export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
   const { dietData } = useContext(DietContext)
 
-  const [metaDietKcal, setMetaDietKcal] = useState({
-    cho: 0,
-    lip: 0,
-    ptn: 0,
-  } as MacroNutrients)
   const [mealFraction, setMealFraction] = useState(1)
   const [mealCategory, setMealCategory] = useState('')
   const [meal, setMeal] = useState([] as MealProps[])
@@ -62,25 +54,6 @@ export default function Diet({ foods, categories }: DietProps) {
   } as Food)
 
   const { register, handleSubmit, reset } = useForm()
-
-  function handleNutritionalStrategy({
-    nutritionalStrategy,
-  }: NutritionalStrategyType) {
-    console.log('nutritional strategy')
-    console.log(nutritionalStrategy)
-
-    if (nutritionalStrategy === 'percentualMacros') {
-      setMetaDietKcal((state) => {
-        return {
-          cho: (dietKcal * 0.4) / 4, // 40% de caloria * 4 valor kcal da caloria,
-          ptn: (dietKcal * 0.4) / 4, // 40% de proteina * 4 valor kcal da proteina,
-          lip: (dietKcal * 0.2) / 9, // 20% de gordura * 9 valor kcal da gordura,
-        }
-      })
-    }
-
-    reset()
-  }
 
   function handleMealFractionChange(e: any) {
     setMealFraction(Number(e.target.value))
@@ -175,40 +148,24 @@ export default function Diet({ foods, categories }: DietProps) {
       </div>
       <hr />
       <div>
-        <form
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-          onSubmit={handleSubmit(handleNutritionalStrategy)}
-        >
-          <span>
-            <label>Estratégia nutricional: </label>
-            <select defaultValue="" {...register('nutritionalStrategy')}>
-              <option value="" disabled>
-                Selecione uma opção
-              </option>
-              <option value="percentualMacros">
-                CHO:40% - PTN:40% - LIP:20%
-              </option>
-              <option value="corporalWeight">CHO:4g - PTN:2g - LIP:1g</option>
-            </select>
-          </span>
-          {'  '}
-          <input type="submit" />
-        </form>
-        <h2>Sua meta de macros nutrientes é de:</h2>
-        <ul>
-          <li>
-            Carboidrato: <strong>{metaDietKcal.cho}</strong>g
-          </li>
-          <li>
-            Proteína: <strong>{metaDietKcal.ptn}</strong>g
-          </li>
-          <li>
-            Gordura: <strong>{metaDietKcal.lip}</strong>g
-          </li>
-        </ul>
+        <NutritionalStrategyForm />
+
+        {dietData.metaKcal && (
+          <>
+            <h2>Sua meta de macros nutrientes é de:</h2>
+            <ul>
+              <li>
+                Carboidrato: <strong>{dietData.metaKcal.cho}</strong>g
+              </li>
+              <li>
+                Proteína: <strong>{dietData.metaKcal.ptn}</strong>g
+              </li>
+              <li>
+                Gordura: <strong>{dietData.metaKcal.lip}</strong>g
+              </li>
+            </ul>
+          </>
+        )}
       </div>
       <hr />
       <div>
@@ -228,17 +185,20 @@ export default function Diet({ foods, categories }: DietProps) {
         </select>
         <h2>Seu número de refeições é de: {mealFraction}</h2>
         <h2>Estimativa de Kcal por refeição</h2>
-        <ul>
-          <li>
-            Carboidrato: <strong>{metaDietKcal.cho / mealFraction}</strong>g
-          </li>
-          <li>
-            Proteína: <strong>{metaDietKcal.ptn / mealFraction}</strong>g
-          </li>
-          <li>
-            Gordura: <strong>{metaDietKcal.lip / mealFraction}</strong>g
-          </li>
-        </ul>
+        {dietData.metaKcal && (
+          <ul>
+            <li>
+              Carboidrato:{' '}
+              <strong>{dietData.metaKcal.cho / mealFraction}</strong>g
+            </li>
+            <li>
+              Proteína: <strong>{dietData.metaKcal.ptn / mealFraction}</strong>g
+            </li>
+            <li>
+              Gordura: <strong>{dietData.metaKcal.lip / mealFraction}</strong>g
+            </li>
+          </ul>
+        )}
       </div>
       <hr />
       <div>
