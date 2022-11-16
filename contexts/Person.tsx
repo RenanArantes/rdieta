@@ -1,11 +1,15 @@
 import { createContext, ReactNode, useState } from 'react'
-import { PersonDataType } from '../@types/person'
+import { ActivityKcal, PersonDataType } from '../@types/person'
 
 interface PersonContextType {
   personData: PersonDataType
   createPersonData: (personData: PersonDataType) => void
   changeBmr: (newBmr: number) => void
   changeGender: (newGender: 'male' | 'female') => void
+  changeKcalSpenders: (
+    kcalSpenderMetrics: ActivityKcal,
+    totalCaloricSpendingValue: number,
+  ) => void
 }
 
 export const PersonContext = createContext({} as PersonContextType)
@@ -45,9 +49,29 @@ export function PersonContextProvider({
     })
   }
 
+  function changeKcalSpenders(
+    kcalSpenderMetrics: ActivityKcal,
+    totalCaloricSpendingValue: number,
+  ) {
+    setPersonData((state) => {
+      return {
+        bmr: state.bmr,
+        gender: state.gender,
+        kcalSpender: kcalSpenderMetrics,
+        totalCaloricSpending: totalCaloricSpendingValue,
+      }
+    })
+  }
+
   return (
     <PersonContext.Provider
-      value={{ personData, createPersonData, changeBmr, changeGender }}
+      value={{
+        personData,
+        createPersonData,
+        changeBmr,
+        changeGender,
+        changeKcalSpenders,
+      }}
     >
       {children}
     </PersonContext.Provider>

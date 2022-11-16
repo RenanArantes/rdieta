@@ -109,7 +109,7 @@ export function BMRForm() {
       </span>
       <span>
         <label>Gênero:</label>
-        <select {...register('gender')}>
+        <select defaultValue="" {...register('gender')}>
           <option value="" disabled>
             Selecione uma opção
           </option>
