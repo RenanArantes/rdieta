@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next/types'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { DietForm } from '../components/forms/DietForm'
+import { MealForm } from '../components/forms/MealForm'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
 import { FractionSelector } from '../components/FractionSelector'
 import { DietContext } from '../contexts/Diet'
@@ -42,6 +43,7 @@ export default function Diet({ foods, categories }: DietProps) {
 
   const [mealCategory, setMealCategory] = useState('')
   const [meal, setMeal] = useState([] as MealProps[])
+  const [foodInGrams, setFoodInGrams] = useState(100)
   const [checkedFood, setCheckedFood] = useState([] as Food[])
   const [lastCheckedFood, setLastCheckedFood] = useState({
     id: 0,
@@ -165,6 +167,7 @@ export default function Diet({ foods, categories }: DietProps) {
       <hr />
       <div>
         <h2>Monte a sua refeição</h2>
+        <MealForm />
         <div style={{ display: 'flex', margin: '0 auto' }}>
           {/* <ul>
             {[...Array(mealFraction)].map((value, index) => (
@@ -221,6 +224,16 @@ export default function Diet({ foods, categories }: DietProps) {
               {...register('mealName')}
               required
             />
+            <br />
+            <input
+              type="number"
+              min="0"
+              max="1000"
+              step="1"
+              placeholder="Valor em gramas do alimento"
+              onChange={(e) => setFoodInGrams(Number(e.target.value))}
+            />
+            <br />
             <select
               onChange={() => {
                 setMealCategory(event?.target.value)
@@ -240,7 +253,7 @@ export default function Diet({ foods, categories }: DietProps) {
                     <li key={food.id}>
                       {food.description}
                       {' - '}
-                      {food.energy_kcal}
+                      {food.energy_kcal * (foodInGrams * 0.01)}
                       <input
                         type="checkbox"
                         value={food.description}
