@@ -97,7 +97,7 @@ export function BMRForm() {
         />
       </span>
       <span>
-        <label>Peso:</label>
+        <label>Idade:</label>
         <input
           type="number"
           min="1"
