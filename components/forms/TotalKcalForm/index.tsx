@@ -29,10 +29,9 @@ export function TotalKcalForm() {
     changeKcalSpenders,
   } = useContext(PersonContext)
 
-  const { register, handleSubmit, reset, resetField } =
-    useForm<TotalKcalFormData>({
-      resolver: zodResolver(totalKcalZodValidationSchema),
-    })
+  const { register, handleSubmit, reset } = useForm<TotalKcalFormData>({
+    resolver: zodResolver(totalKcalZodValidationSchema),
+  })
 
   function createDailyActivityValue(
     dailyActivityString: 'sedentary' | 'moderate' | 'high',

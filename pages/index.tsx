@@ -17,19 +17,25 @@ export default function Home() {
       <div>
         <BMRForm />
         <div>
-          <h2>
-            Sua Taxa de Metabolismo Basal é de aproximadamente: {bmr} kcal
-          </h2>
+          {bmr && (
+            <h2>
+              Sua Taxa de Metabolismo Basal é de aproximadamente: {bmr} kcal
+            </h2>
+          )}
         </div>
       </div>
       <hr />
       <div>
         <TotalKcalForm />
-        <h2>Gasto Calórico total: {totalCaloricSpending}</h2>
-        <button type="button" onClick={() => push('/diet')}>
-          Ir para Dieta
-        </button>
+        <div>
+          {totalCaloricSpending && (
+            <h2>Gasto Calórico total: {totalCaloricSpending}</h2>
+          )}
+        </div>
       </div>
+      <button type="button" onClick={() => push('/diet')}>
+        Ir para Dieta
+      </button>
     </div>
   )
 }
