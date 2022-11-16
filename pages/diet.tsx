@@ -2,6 +2,8 @@ import axios from 'axios'
 import { GetServerSideProps } from 'next/types'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { DietForm } from '../components/forms/DietForm'
+import { DietContext } from '../contexts/Diet'
 import { PersonContext } from '../contexts/Person'
 
 interface Food {
@@ -18,11 +20,6 @@ interface MacroNutrients {
   cho: number
   ptn: number
   lip: number
-}
-
-interface DietType {
-  dietType: 'cutting' | 'bulking'
-  dietIntensity: 'low' | 'medium' | 'high'
 }
 
 interface NutritionalStrategyType {
@@ -43,7 +40,8 @@ interface MealProps {
 
 export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
-  const [dietKcal, setDietKcal] = useState(0)
+  const { dietData } = useContext(DietContext)
+
   const [metaDietKcal, setMetaDietKcal] = useState({
     cho: 0,
     lip: 0,
@@ -64,35 +62,6 @@ export default function Diet({ foods, categories }: DietProps) {
   } as Food)
 
   const { register, handleSubmit, reset } = useForm()
-  function handleDiet(data: DietType) {
-    const { dietIntensity, dietType } = data
-
-    console.log(`Tipo: ${dietType} | Intensidade: ${dietIntensity}`)
-
-    reset()
-
-    if (dietType === 'cutting') {
-      switch (dietIntensity) {
-        case 'low':
-          return setDietKcal((state) => personData.totalCaloricSpending * 0.8)
-        case 'medium':
-          return setDietKcal((state) => personData.totalCaloricSpending * 0.7)
-        case 'high':
-          return setDietKcal((state) => personData.totalCaloricSpending * 0.5)
-      }
-    }
-
-    if (dietType === 'bulking') {
-      switch (dietIntensity) {
-        case 'low':
-          return setDietKcal((state) => personData.totalCaloricSpending * 1.2)
-        case 'medium':
-          return setDietKcal((state) => personData.totalCaloricSpending * 1.5)
-        case 'high':
-          return setDietKcal((state) => personData.totalCaloricSpending * 2)
-      }
-    }
-  }
 
   function handleNutritionalStrategy({
     nutritionalStrategy,
@@ -191,40 +160,18 @@ export default function Diet({ foods, categories }: DietProps) {
       <h1>Dieta</h1>
       <hr />
       <div>
-        <h2>Gasto calórico Total: {personData.totalCaloricSpending}</h2>
+        {personData.totalCaloricSpending && (
+          <h2>Gasto calórico Total: {personData.totalCaloricSpending}</h2>
+        )}
       </div>
       <div>
-        <form
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-          onSubmit={handleSubmit(handleDiet)}
-        >
-          <span>
-            <label>Tipo da Dieta: </label>
-            <select defaultValue="" {...register('dietType')}>
-              <option value="" disabled>
-                Selecione uma opção
-              </option>
-              <option value="cutting">Perda de gordura</option>
-              <option value="bulkinng">Ganho de massa</option>
-            </select>
-          </span>
-          <span>
-            <label>Intensidade da dieta: </label>
-            <select defaultValue="" {...register('dietIntensity')}>
-              <option value="" disabled>
-                Selecione uma opção
-              </option>
-              <option value="low">Baixa</option>
-              <option value="medium">Média</option>
-              <option value="high">Alta</option>
-            </select>
-          </span>
-          <input type="submit" />
-        </form>
-        <h2>O gasto calórico da sua dieta é de: {dietKcal}</h2>
+        <DietForm />
+
+        {dietData.dietType && (
+          <h2>
+            O gasto calórico da sua dieta é de: {dietData.dietType.dietKcal}
+          </h2>
+        )}
       </div>
       <hr />
       <div>
