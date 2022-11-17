@@ -1,58 +1,82 @@
 import { useState } from 'react'
+import { MealFormModal } from './MealFormModal'
 
-export function MealForm() {
+interface Food {
+  id: number
+  description: string
+  category: string
+  energy_kcal: number
+  protein_g: number
+  lipid_g: number
+  carbohydrate_g: number
+}
+
+interface MealFormProps {
+  mealFraction: number
+  foods: Food[]
+  categories: string[]
+}
+
+export function MealForm({ mealFraction, foods, categories }: MealFormProps) {
   const [isDisplayed, setIsDisplayed] = useState('none')
   const [isOpen, setIsOpen] = useState(false)
 
+  const [mealName, setMealName] = useState('')
+
   function handleDisplayModal() {
-    isOpen ? setIsDisplayed('block') : setIsDisplayed('none')
+    isOpen ? setIsDisplayed('none') : setIsDisplayed('block')
 
     setIsOpen(!isOpen)
   }
 
   return (
-    <div>
+    <div
+      style={{
+        border: '2px solid red',
+      }}
+    >
       <h1>Meal Form</h1>
-      <button type="button" onClick={handleDisplayModal}>
-        Mostrar Modal
-      </button>
+      {[...Array(mealFraction)].map((value, index) => {
+        return (
+          <div
+            style={{
+              border: '3px solid purple',
+            }}
+            key={index}
+          >
+            <div>
+              <label>Nome da Refeição</label>{' '}
+              <input
+                type="text"
+                value={mealName}
+                onChange={(e) => setMealName(e.target.value)}
+              />
+            </div>
+            <button type="button" onClick={handleDisplayModal}>
+              Adicionar Alimentos
+            </button>
+          </div>
+        )
+      })}
       <div
         style={{
-          display: isDisplayed /* Hidden by default */,
-          position: 'fixed' /* Stay in place */,
-          zIndex: 1 /* Sit on top */,
+          display: isDisplayed,
+          position: 'fixed',
+          zIndex: 1,
           left: 0,
           top: 0,
-          width: '100%' /* Full width */,
-          height: '100%' /* Full height */,
-          overflow: 'auto' /* Enable scroll if needed */,
-          backgroundColor: 'rgba(0, 0, 0, 0.4)' /* Black w/ opacity */,
+          width: '100%',
+          height: '100%',
+          overflow: 'auto',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
         }}
       >
-        <div
-          style={{
-            backgroundColor: '#fefefe',
-            margin: 'auto',
-            marginTop: '20%',
-            padding: '20px',
-            border: '0px solid #888',
-            width: '80%',
-          }}
-        >
-          <span
-            style={{
-              color: 'black',
-              float: 'right',
-              fontSize: '28px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-            }}
-            onClick={handleDisplayModal}
-          >
-            &times;
-          </span>
-          <p>Info do modal</p>
-        </div>
+        <MealFormModal
+          handleDisplayModal={handleDisplayModal}
+          foods={foods}
+          categories={categories}
+          mealName={mealName}
+        />
       </div>
     </div>
   )

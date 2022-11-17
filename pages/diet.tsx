@@ -39,7 +39,7 @@ interface MealProps {
 
 export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
-  const { dietData } = useContext(DietContext)
+  const { dietData, mealFraction } = useContext(DietContext)
 
   const [mealCategory, setMealCategory] = useState('')
   const [meal, setMeal] = useState([] as MealProps[])
@@ -167,7 +167,11 @@ export default function Diet({ foods, categories }: DietProps) {
       <hr />
       <div>
         <h2>Monte a sua refeição</h2>
-        <MealForm />
+        <MealForm
+          mealFraction={mealFraction}
+          foods={foods}
+          categories={categories}
+        />
         <div style={{ display: 'flex', margin: '0 auto' }}>
           {/* <ul>
             {[...Array(mealFraction)].map((value, index) => (
@@ -225,14 +229,7 @@ export default function Diet({ foods, categories }: DietProps) {
               required
             />
             <br />
-            <input
-              type="number"
-              min="0"
-              max="1000"
-              step="1"
-              placeholder="Valor em gramas do alimento"
-              onChange={(e) => setFoodInGrams(Number(e.target.value))}
-            />
+
             <br />
             <select
               onChange={() => {
@@ -374,12 +371,18 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const categories = [] as string[]
 
-  const fetchedFoods = response.data.map((food) => {
+  const fetchedFoods = response.data.map<Food>((food) => {
     if (categories.indexOf(food.category) === -1) {
       categories.push(food.category)
     }
 
-    return food
+    return {
+      ...food,
+      energy_kcal: Math.round(food.energy_kcal * 100) / 100,
+      carbohydrate_g: Math.round(food.carbohydrate_g * 100) / 100,
+      protein_g: Math.round(food.protein_g * 100) / 100,
+      lipid_g: Math.round(food.lipid_g * 100) / 100,
+    }
   })
 
   return {

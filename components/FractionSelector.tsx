@@ -11,8 +11,8 @@ export function FractionSelector() {
   return (
     <div>
       Quantas refeições serão feitas por dia:{' '}
-      <select onChange={handleMealFractionChange}>
-        <option disabled selected value="">
+      <select defaultValue="" onChange={handleMealFractionChange}>
+        <option disabled value="">
           Selecione um valor
         </option>
         <option value="1">1</option>
