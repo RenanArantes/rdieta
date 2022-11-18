@@ -29,7 +29,6 @@ interface FoodOnMeal extends Food {
 interface MealFormModalProps {
   foods: Food[]
   categories: string[]
-  mealName: string
   handleDisplayModal: () => void
 }
 
@@ -43,7 +42,6 @@ interface MealProps {
 export function MealFormModal({
   foods,
   categories,
-  mealName,
   handleDisplayModal,
 }: MealFormModalProps) {
   const [mealCategory, setMealCategory] = useState('')
@@ -51,12 +49,19 @@ export function MealFormModal({
   const [checkedFoods, setCheckedFoods] = useState([] as Food[])
   const [foodsOnMeal, setFoodsOnMeal] = useState([] as FoodOnMeal[])
   const [selectedFood, setSelectedFood] = useState({} as Food)
+  const [macrosOnFoodSelected, setMacrosOnFoodSelected] = useState({} as Food)
+  const [totalMacrosOnMeal, setTotalMacrosOnMeal] = useState({
+    cho: 0,
+    ptn: 0,
+    lip: 0,
+  } as MacroNutrients)
 
   const [goalFoodWeight, setGoalFoodWeight] = useState(0)
   const [metaMacro, setMetaMacro] = useState(0)
   const [selectedMetaMacro, setSelectedMetaMacro] = useState(
     '' as 'cho' | 'ptn' | 'lip',
   )
+  const [mealName, setMealName] = useState('')
 
   const [meal, setMeal] = useState([] as MealProps[])
 
@@ -64,14 +69,22 @@ export function MealFormModal({
     setMealCategory(categories[0])
   }, [])
 
-  function findMacroValue(foodMacro: number) {
+  function findWeightOfSelectedFood(foodMacro: number) {
     const weightGoal =
       metaMacro === 0 ? foodMacro : (100 * metaMacro) / foodMacro
 
     return weightGoal
   }
 
-  function handleMetaMacroChange(macroType: 'cho' | 'ptn' | 'lip') {
+  function findMacrosOfSelectedFood() {
+    const choGoal = (selectedFood.carbohydrate_g / 100) * goalFoodWeight
+    const ptnGoal = (selectedFood.protein_g / 100) * goalFoodWeight
+    const lipGoal = (selectedFood.lipid_g / 100) * goalFoodWeight
+
+    return { cho: choGoal, ptn: ptnGoal, lip: lipGoal }
+  }
+
+  function handleMetaMacroChange(macroType: any) {
     console.log('macro type')
     console.log(macroType)
 
@@ -87,14 +100,12 @@ export function MealFormModal({
       macroValue = selectedFood.lipid_g
     }
 
-    const weightGoal = findMacroValue(macroValue)
+    const weightGoal = findWeightOfSelectedFood(macroValue)
 
     setGoalFoodWeight(weightGoal)
   }
 
   function handleAddFoodOnMeal(newFood: Food) {
-    console.log(foodsOnMeal)
-
     const foodToAddOnMeal: FoodOnMeal = {
       ...newFood,
       goals: {
@@ -104,12 +115,26 @@ export function MealFormModal({
       },
     }
 
+    console.log(foodToAddOnMeal)
+
     setFoodsOnMeal((state) => [...state, foodToAddOnMeal])
+
+    const macrosValuesOfSeletedFood = findMacrosOfSelectedFood()
+
+    setTotalMacrosOnMeal((state) => {
+      return {
+        cho: state.cho + macrosValuesOfSeletedFood.cho,
+        ptn: state.ptn + macrosValuesOfSeletedFood.ptn,
+        lip: state.lip + macrosValuesOfSeletedFood.lip,
+      }
+    })
 
     const updatedCheckedFoods = checkedFoods.filter(
       (food) => food.id !== newFood.id,
     )
     const emptyFood = {} as Food
+
+    setGoalFoodWeight(0)
 
     setSelectedFood((state) => emptyFood)
     setCheckedFoods(updatedCheckedFoods)
@@ -138,6 +163,28 @@ export function MealFormModal({
     setMetaMacro(Number(e.target.value))
   }
 
+  function handleMealCreation(e: MouseEvent) {
+    const { cho, lip, ptn } = totalMacrosOnMeal
+
+    let totalKcalOnMeal = cho * 4 + ptn * 4 + lip * 9
+
+    const newMeal = {
+      name: mealName,
+      foods: foodsOnMeal,
+      macroNutrients: totalMacrosOnMeal,
+      totalKcal: totalKcalOnMeal,
+    } as MealProps
+
+    setMeal((state) => {
+      return [...state, newMeal]
+    })
+
+    setMealName('' as string)
+    setFoodsOnMeal([] as FoodOnMeal[])
+    setTotalMacrosOnMeal({} as MacroNutrients)
+    totalKcalOnMeal = 0
+  }
+
   return (
     <div
       style={{
@@ -163,16 +210,12 @@ export function MealFormModal({
       </span>
       <div>
         <span>
-          <label>Valor do macro</label>
+          <label>Nome da Refeição</label>{' '}
           <input
-            type="number"
-            min="0"
-            max="1000"
-            step="1"
-            defaultValue={metaMacro}
-            onChange={handleMetaMacroValue}
+            type="text"
+            value={mealName}
+            onChange={(e) => setMealName(e.target.value)}
           />
-          <label>g de Macro Nutriente</label>
         </span>
         <div
           style={{
@@ -213,15 +256,13 @@ export function MealFormModal({
                         {food.description}
                         {' : '}
                         <span>
-                          {'[ '}Cho: <strong>{food.carbohydrate_g}</strong>{' '}
-                          {' ]'}-{' '}
+                          Cho <strong>{food.carbohydrate_g}</strong> -{' '}
                         </span>
                         <span>
-                          {'[ '}Ptn: <strong>{food.protein_g}</strong> {' ]'}-{' '}
+                          Ptn <strong>{food.protein_g}</strong> -{' '}
                         </span>
                         <span>
-                          {'[ '}Lip: <strong>{food.lipid_g}</strong>
-                          {' ]'}
+                          Lip <strong>{food.lipid_g}</strong>
                         </span>
                       </li>
                     )
@@ -240,15 +281,13 @@ export function MealFormModal({
                         {food.description}
                         {' : '}
                         <span>
-                          {'[ '}Cho: <strong>{food.carbohydrate_g}</strong>{' '}
-                          {' ]'}-{' '}
+                          Cho <strong>{food.carbohydrate_g}</strong> -{' '}
                         </span>
                         <span>
-                          {'[ '}Ptn: <strong>{food.protein_g}</strong> {' ]'}-{' '}
+                          Ptn <strong>{food.protein_g}</strong> -{' '}
                         </span>
                         <span>
-                          {'[ '}Lip: <strong>{food.lipid_g}</strong>
-                          {' ]'}
+                          Lip <strong>{food.lipid_g}</strong>
                         </span>
                       </li>
                     )
@@ -306,15 +345,44 @@ export function MealFormModal({
             </div>
 
             <div>
-              <h3>Alimentos na refeição: {mealName}</h3>
+              <p>
+                Alimentos na refeição: <strong>{mealName}</strong>
+              </p>
               {foodsOnMeal.length > 0 ? (
-                <ul>
-                  {foodsOnMeal.map((food) => (
-                    <li key={food.id}>
-                      {food.description} | {food.goals.weight}g
-                    </li>
-                  ))}
-                </ul>
+                <div>
+                  <ul>
+                    {foodsOnMeal.map((food) => (
+                      <li key={food.id}>
+                        {food.description} | {food.goals.weight}g
+                      </li>
+                    ))}
+                  </ul>
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>Carboidratos</td>
+                        <td>Proteína</td>
+                        <td>Gordura</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{totalMacrosOnMeal.cho}</td>
+                        <td>{totalMacrosOnMeal.ptn}</td>
+                        <td>{totalMacrosOnMeal.lip}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td>
+                          <button onClick={handleMealCreation}>
+                            Criar Refeição
+                          </button>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
               ) : (
                 <p style={{ color: 'red' }}>
                   <strong>0</strong> comidas selecionadas

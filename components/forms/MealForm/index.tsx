@@ -21,8 +21,6 @@ export function MealForm({ mealFraction, foods, categories }: MealFormProps) {
   const [isDisplayed, setIsDisplayed] = useState('none')
   const [isOpen, setIsOpen] = useState(false)
 
-  const [mealName, setMealName] = useState('')
-
   function handleDisplayModal() {
     isOpen ? setIsDisplayed('none') : setIsDisplayed('block')
 
@@ -44,16 +42,11 @@ export function MealForm({ mealFraction, foods, categories }: MealFormProps) {
             }}
             key={index}
           >
-            <div>
-              <label>Nome da Refeição</label>{' '}
-              <input
-                type="text"
-                value={mealName}
-                onChange={(e) => setMealName(e.target.value)}
-              />
-            </div>
+            <label>
+              Criar refeição <strong>{index + 1}</strong>{' '}
+            </label>
             <button type="button" onClick={handleDisplayModal}>
-              Adicionar Alimentos
+              +
             </button>
           </div>
         )
@@ -75,7 +68,6 @@ export function MealForm({ mealFraction, foods, categories }: MealFormProps) {
           handleDisplayModal={handleDisplayModal}
           foods={foods}
           categories={categories}
-          mealName={mealName}
         />
       </div>
     </div>
