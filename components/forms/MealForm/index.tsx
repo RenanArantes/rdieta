@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { DietContext } from '../../../contexts/Diet'
 import { MealFormModal } from './MealFormModal'
 
 interface Food {
@@ -12,12 +13,13 @@ interface Food {
 }
 
 interface MealFormProps {
-  mealFraction: number
   foods: Food[]
   categories: string[]
 }
 
-export function MealForm({ mealFraction, foods, categories }: MealFormProps) {
+export function MealForm({ foods, categories }: MealFormProps) {
+  const { mealFraction } = useContext(DietContext)
+
   const [isDisplayed, setIsDisplayed] = useState('none')
   const [isOpen, setIsOpen] = useState(false)
 
@@ -46,7 +48,7 @@ export function MealForm({ mealFraction, foods, categories }: MealFormProps) {
               Criar refeição <strong>{index + 1}</strong>{' '}
             </label>
             <button type="button" onClick={handleDisplayModal}>
-              +
+              <strong>+</strong>
             </button>
           </div>
         )

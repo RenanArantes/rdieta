@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { GetServerSideProps } from 'next/types'
-import { useContext, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useContext } from 'react'
 import { DietForm } from '../components/forms/DietForm'
 import { MealForm } from '../components/forms/MealForm'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
 import { FractionSelector } from '../components/FractionSelector'
 import { DietContext } from '../contexts/Diet'
+import { MealContext } from '../contexts/Meal'
 import { PersonContext } from '../contexts/Person'
 
 interface Food {
@@ -19,108 +19,15 @@ interface Food {
   carbohydrate_g: number
 }
 
-interface MacroNutrients {
-  cho: number
-  ptn: number
-  lip: number
-}
-
 interface DietProps {
   foods: Food[]
   categories: string[]
 }
 
-interface MealProps {
-  name: string
-  foods: Food[]
-  macroNutrients: MacroNutrients
-  totalKcal: number
-}
-
 export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
-  const { dietData, mealFraction } = useContext(DietContext)
-
-  const [mealCategory, setMealCategory] = useState('')
-  const [meal, setMeal] = useState([] as MealProps[])
-  const [foodInGrams, setFoodInGrams] = useState(100)
-  const [checkedFood, setCheckedFood] = useState([] as Food[])
-  const [lastCheckedFood, setLastCheckedFood] = useState({
-    id: 0,
-    category: 'nenhum',
-    description: 'vazio',
-    energy_kcal: 0,
-    carbohydrate_g: 0,
-    lipid_g: 0,
-    protein_g: 0,
-  } as Food)
-
-  const { register, handleSubmit, reset } = useForm()
-
-  function handleLastCheckedFood(e: any, newFood: Food) {
-    if (e.target.checked) {
-      console.log('------checked------')
-
-      setCheckedFood((state) => [...state, newFood])
-      setLastCheckedFood((state) => newFood)
-    } else {
-      console.log('------unchecked------')
-
-      const updatedCheckedFood = checkedFood.filter(
-        (food) => food.id !== newFood.id,
-      )
-
-      setCheckedFood(updatedCheckedFood)
-
-      setLastCheckedFood((state) => {
-        return {
-          id: 0,
-          category: 'nenhum',
-          description: 'vazio',
-          energy_kcal: 0,
-          carbohydrate_g: 0,
-          lipid_g: 0,
-          protein_g: 0,
-        }
-      })
-    }
-  }
-
-  function handleCreateNewMeal(data: {
-    mealName: string
-    foodsListOnMeal: []
-  }) {
-    console.log(data)
-    const { mealName } = data
-
-    console.log(mealName)
-    console.log(checkedFood)
-
-    let totalKcal = 0
-    let totalCho = 0
-    let totalPtn = 0
-    let totalLip = 0
-
-    checkedFood.forEach((food) => {
-      totalKcal += food.energy_kcal
-      totalCho += food.carbohydrate_g
-      totalPtn += food.protein_g
-      totalLip += food.lipid_g
-    })
-
-    const newMeal: MealProps = {
-      name: mealName,
-      foods: checkedFood,
-      macroNutrients: {
-        cho: totalCho,
-        ptn: totalPtn,
-        lip: totalLip,
-      },
-      totalKcal,
-    }
-
-    setMeal([...meal, newMeal])
-  }
+  const { dietData } = useContext(DietContext)
+  const { meals } = useContext(MealContext)
 
   return (
     <div>
@@ -167,11 +74,19 @@ export default function Diet({ foods, categories }: DietProps) {
       <hr />
       <div>
         <h2>Monte a sua refeição</h2>
-        <MealForm
-          mealFraction={mealFraction}
-          foods={foods}
-          categories={categories}
-        />
+        <MealForm foods={foods} categories={categories} />
+      </div>
+      <hr />
+      <div>
+        {meals &&
+          meals.map((meal) => {
+            return (
+              <ul key={meal.name}>
+                <li>{meal.name}</li>
+                <li>{meal.totalKcal}</li>
+              </ul>
+            )
+          })}
       </div>
     </div>
   )

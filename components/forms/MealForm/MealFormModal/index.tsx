@@ -1,4 +1,12 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import Food from '../../../../@types/food'
+import { MealContext } from '../../../../contexts/Meal'
 
 interface MacroNutrients {
   cho: number
@@ -11,17 +19,6 @@ interface GoalsValues {
   macroValue: number
   macroType: 'cho' | 'ptn' | 'lip'
 }
-
-interface Food {
-  id: number
-  description: string
-  category: string
-  energy_kcal: number
-  protein_g: number
-  lipid_g: number
-  carbohydrate_g: number
-}
-
 interface FoodOnMeal extends Food {
   goals: GoalsValues
 }
@@ -32,18 +29,13 @@ interface MealFormModalProps {
   handleDisplayModal: () => void
 }
 
-interface MealProps {
-  name: string
-  foods: Food[]
-  macroNutrients: MacroNutrients
-  totalKcal: number
-}
-
 export function MealFormModal({
   foods,
   categories,
   handleDisplayModal,
 }: MealFormModalProps) {
+  const { createMeal, testFunction } = useContext(MealContext)
+
   const [mealCategory, setMealCategory] = useState('')
 
   const [checkedFoods, setCheckedFoods] = useState([] as Food[])
@@ -62,8 +54,6 @@ export function MealFormModal({
     '' as 'cho' | 'ptn' | 'lip',
   )
   const [mealName, setMealName] = useState('')
-
-  const [meal, setMeal] = useState([] as MealProps[])
 
   useEffect(() => {
     setMealCategory(categories[0])
@@ -163,26 +153,20 @@ export function MealFormModal({
     setMetaMacro(Number(e.target.value))
   }
 
-  function handleMealCreation(e: MouseEvent) {
-    const { cho, lip, ptn } = totalMacrosOnMeal
-
-    let totalKcalOnMeal = cho * 4 + ptn * 4 + lip * 9
-
-    const newMeal = {
-      name: mealName,
+  function handleMealCreation() {
+    const newMealData = {
+      newName: mealName,
       foods: foodsOnMeal,
-      macroNutrients: totalMacrosOnMeal,
-      totalKcal: totalKcalOnMeal,
-    } as MealProps
+      totalMacros: totalMacrosOnMeal,
+    }
 
-    setMeal((state) => {
-      return [...state, newMeal]
-    })
+    createMeal(newMealData)
 
     setMealName('' as string)
     setFoodsOnMeal([] as FoodOnMeal[])
     setTotalMacrosOnMeal({} as MacroNutrients)
-    totalKcalOnMeal = 0
+
+    handleDisplayModal()
   }
 
   return (
@@ -375,7 +359,7 @@ export function MealFormModal({
                     <tfoot>
                       <tr>
                         <td>
-                          <button onClick={handleMealCreation}>
+                          <button onClick={() => handleMealCreation()}>
                             Criar Refeição
                           </button>
                         </td>
