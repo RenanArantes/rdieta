@@ -81,10 +81,21 @@ export default function Diet({ foods, categories }: DietProps) {
         {meals &&
           meals.map((meal) => {
             return (
-              <ul key={meal.name}>
-                <li>{meal.name}</li>
-                <li>{meal.totalKcal}</li>
-              </ul>
+              <div key={meal.name}>
+                <p>Refeição: {meal.name}</p>
+                {meal.foods.map((food) => {
+                  return (
+                    <ul key={food.id}>
+                      <li>{food.description}</li>
+                      <li>Quantidade: {food.goals.weight}g</li>
+                      <li>CHO: {food.carbohydrate_g}</li>
+                      <li>PTN: {food.protein_g}</li>
+                      <li>LIP: {food.lipid_g}</li>
+                    </ul>
+                  )
+                })}
+                <p>Total Kcal: {meal.totalKcal}</p>
+              </div>
             )
           })}
       </div>

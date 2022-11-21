@@ -1,10 +1,5 @@
-import {
-  ChangeEvent,
-  MouseEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { useForm, Controller } from 'react-hook-form'
 import Food from '../../../../@types/food'
 import { MealContext } from '../../../../contexts/Meal'
 
@@ -34,14 +29,21 @@ export function MealFormModal({
   categories,
   handleDisplayModal,
 }: MealFormModalProps) {
-  const { createMeal, testFunction } = useContext(MealContext)
+  const { createMeal } = useContext(MealContext)
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    resetField,
+    formState: { errors },
+  } = useForm()
 
   const [mealCategory, setMealCategory] = useState('')
 
   const [checkedFoods, setCheckedFoods] = useState([] as Food[])
   const [foodsOnMeal, setFoodsOnMeal] = useState([] as FoodOnMeal[])
   const [selectedFood, setSelectedFood] = useState({} as Food)
-  const [macrosOnFoodSelected, setMacrosOnFoodSelected] = useState({} as Food)
   const [totalMacrosOnMeal, setTotalMacrosOnMeal] = useState({
     cho: 0,
     ptn: 0,
@@ -49,7 +51,7 @@ export function MealFormModal({
   } as MacroNutrients)
 
   const [goalFoodWeight, setGoalFoodWeight] = useState(0)
-  const [metaMacro, setMetaMacro] = useState(0)
+  const [metaMacroValue, setMetaMacroValue] = useState(0)
   const [selectedMetaMacro, setSelectedMetaMacro] = useState(
     '' as 'cho' | 'ptn' | 'lip',
   )
@@ -57,11 +59,19 @@ export function MealFormModal({
 
   useEffect(() => {
     setMealCategory(categories[0])
-  }, [])
+
+    const testfoods = foods.forEach((food) => {
+      checkedFoods.forEach((checkedFood) => {
+        if (checkedFood.id === food.id) {
+          console.log(food.description)
+        }
+      })
+    })
+  }, [checkedFoods])
 
   function findWeightOfSelectedFood(foodMacro: number) {
     const weightGoal =
-      metaMacro === 0 ? foodMacro : (100 * metaMacro) / foodMacro
+      metaMacroValue === 0 ? foodMacro : (100 * metaMacroValue) / foodMacro
 
     return weightGoal
   }
@@ -78,7 +88,7 @@ export function MealFormModal({
     console.log('macro type')
     console.log(macroType)
 
-    setMetaMacro(macroType)
+    setMetaMacroValue(macroType)
 
     let macroValue = 0
 
@@ -100,7 +110,7 @@ export function MealFormModal({
       ...newFood,
       goals: {
         macroType: selectedMetaMacro,
-        macroValue: metaMacro,
+        macroValue: metaMacroValue,
         weight: goalFoodWeight,
       },
     }
@@ -150,7 +160,13 @@ export function MealFormModal({
   }
 
   function handleMetaMacroValue(e: ChangeEvent<HTMLInputElement>) {
-    setMetaMacro(Number(e.target.value))
+    setMetaMacroValue(Number(e.target.value))
+  }
+
+  function handleSelectedMetaMacro(e: ChangeEvent<HTMLSelectElement>) {
+    const selectedMetaMacro = e.target.value as 'cho' | 'ptn' | 'lip'
+
+    setSelectedMetaMacro(selectedMetaMacro)
   }
 
   function handleMealCreation() {
@@ -168,6 +184,17 @@ export function MealFormModal({
 
     handleDisplayModal()
   }
+
+  function handleFormTest(data: any) {
+    console.log(data)
+    console.log(metaMacroValue)
+    console.log(selectedMetaMacro)
+
+    reset()
+  }
+
+  console.log('errors')
+  console.log(errors)
 
   return (
     <div
@@ -192,13 +219,18 @@ export function MealFormModal({
       >
         &times;
       </span>
-      <div>
+      <form onSubmit={handleSubmit(handleFormTest)}>
         <span>
           <label>Nome da Refeição</label>{' '}
           <input
             type="text"
-            value={mealName}
-            onChange={(e) => setMealName(e.target.value)}
+            autoComplete="off"
+            {...register('mealName', {
+              value: '',
+              max: 255,
+              min: 3,
+              required: true,
+            })}
           />
         </span>
         <div
@@ -219,68 +251,34 @@ export function MealFormModal({
             <p>
               <strong>Valor em 100g de macros do alimento: </strong>
             </p>
-            <ul>
-              {foods
-                .filter((food) => food.category === mealCategory)
-                .map((food) => {
-                  const verifiedCheckedFoods = checkedFoods.filter(
-                    (foodChecked) => foodChecked.id === food.id,
-                  )
-                  if (verifiedCheckedFoods.length === 0) {
-                    return (
-                      <li key={food.id} style={{ listStyle: 'none' }}>
-                        <input
-                          type="checkbox"
-                          value={food.description}
-                          onChange={(e) => {
-                            handleCheckedFoods(e, food)
-                          }}
-                        />
-                        {'  '}
-                        {food.description}
-                        {' : '}
-                        <span>
-                          Cho <strong>{food.carbohydrate_g}</strong> -{' '}
-                        </span>
-                        <span>
-                          Ptn <strong>{food.protein_g}</strong> -{' '}
-                        </span>
-                        <span>
-                          Lip <strong>{food.lipid_g}</strong>
-                        </span>
-                      </li>
-                    )
-                  } else {
-                    return (
-                      <li key={food.id} style={{ listStyle: 'none' }}>
-                        <input
-                          type="checkbox"
-                          value={food.description}
-                          checked
-                          onChange={(e) => {
-                            handleCheckedFoods(e, food)
-                          }}
-                        />
-                        {'  '}
-                        {food.description}
-                        {' : '}
-                        <span>
-                          Cho <strong>{food.carbohydrate_g}</strong> -{' '}
-                        </span>
-                        <span>
-                          Ptn <strong>{food.protein_g}</strong> -{' '}
-                        </span>
-                        <span>
-                          Lip <strong>{food.lipid_g}</strong>
-                        </span>
-                      </li>
-                    )
-                  }
-                })}
-            </ul>
+            {checkedFoods.length === 0
+              ? foods
+                  .filter((food) => food.category === mealCategory)
+                  .map((food) => (
+                    <div key={food.id}>
+                      <input
+                        type="checkbox"
+                        value={food.id}
+                        onChange={(e) => handleCheckedFoods(e, food)}
+                      />
+                      {food.description}
+                    </div>
+                  ))
+              : checkedFoods
+                  .filter((food) => food.category === mealCategory)
+                  .map((food) => (
+                    <div key={food.id}>
+                      <input
+                        type="checkbox"
+                        value={food.id}
+                        onChange={(e) => handleCheckedFoods(e, food)}
+                      />
+                      {food.description}
+                    </div>
+                  ))}
           </span>
           <span>
-            <div>
+            <div style={{ padding: 25, marginLeft: 25 }}>
               {Object.entries(selectedFood).length > 0 ? (
                 <span>
                   <p>
@@ -292,18 +290,19 @@ export function MealFormModal({
                       Para alcançar{' '}
                       <input
                         type="number"
-                        min="0"
+                        min="0.1"
                         max="1000"
                         step="1"
-                        defaultValue={metaMacro}
-                        onChange={handleMetaMacroValue}
-                        style={{ width: '40px' }}
+                        name="metaMacroValue"
                         title="Defina aqui a quantidade do macronutriente que deseja alcançar"
+                        onChange={(e) => handleMetaMacroValue(e)}
+                        style={{ width: '40px' }}
                       />
                       g de{' '}
                       <select
-                        defaultValue=""
-                        onChange={(e) => handleMetaMacroChange(e.target.value)}
+                        name="metaMacroType"
+                        value=""
+                        onChange={(e) => handleSelectedMetaMacro(e)}
                       >
                         <option value="" disabled>
                           Selecione um Macro
@@ -362,6 +361,7 @@ export function MealFormModal({
                           <button onClick={() => handleMealCreation()}>
                             Criar Refeição
                           </button>
+                          <button type="submit">Criar Teste</button>
                         </td>
                       </tr>
                     </tfoot>
@@ -375,7 +375,7 @@ export function MealFormModal({
             </div>
           </span>
         </div>
-      </div>
+      </form>
     </div>
   )
 }
