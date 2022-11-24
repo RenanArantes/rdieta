@@ -1,16 +1,7 @@
 import { useContext, useState } from 'react'
+import Food from '../../../@types/food'
 import { DietContext } from '../../../contexts/Diet'
 import { MealFormModal } from './MealFormModal'
-
-interface Food {
-  id: number
-  description: string
-  category: string
-  energy_kcal: number
-  protein_g: number
-  lipid_g: number
-  carbohydrate_g: number
-}
 
 interface MealFormProps {
   foods: Food[]
@@ -62,13 +53,13 @@ export function MealForm({ foods, categories }: MealFormProps) {
           top: 0,
           width: '100%',
           height: '100%',
-          overflow: 'auto',
+          overflow: 'hidden',
           backgroundColor: 'rgba(0, 0, 0, 0.4)',
         }}
       >
         <MealFormModal
           handleDisplayModal={handleDisplayModal}
-          foods={foods}
+          foodList={foods}
           categories={categories}
         />
       </div>

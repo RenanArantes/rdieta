@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { GetServerSideProps } from 'next/types'
 import { useContext } from 'react'
+import Food from '../@types/food'
 import { DietForm } from '../components/forms/DietForm'
 import { MealForm } from '../components/forms/MealForm'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
@@ -8,16 +9,6 @@ import { FractionSelector } from '../components/FractionSelector'
 import { DietContext } from '../contexts/Diet'
 import { MealContext } from '../contexts/Meal'
 import { PersonContext } from '../contexts/Person'
-
-interface Food {
-  id: number
-  description: string
-  category: string
-  energy_kcal: number
-  protein_g: number
-  lipid_g: number
-  carbohydrate_g: number
-}
 
 interface DietProps {
   foods: Food[]
@@ -82,7 +73,9 @@ export default function Diet({ foods, categories }: DietProps) {
           meals.map((meal) => {
             return (
               <div key={meal.name}>
-                <p>Refeição: {meal.name}</p>
+                <p>
+                  Refeição: <strong>{meal.name}</strong>
+                </p>
                 {meal.foods.map((food) => {
                   return (
                     <ul key={food.id}>
