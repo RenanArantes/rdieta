@@ -71,22 +71,53 @@ export default function Diet({ foods, categories }: DietProps) {
       <div>
         {meals.map((meal) => {
           return (
-            <div key={meal.name}>
-              <p>
-                Refeição: <strong>{meal.name}</strong>
-              </p>
-              {meal.foods.map((food) => {
-                return (
-                  <ul key={food.id}>
-                    <li>{food.description}</li>
-                    <li>Quantidade: {food.goals.weight}g</li>
-                    <li>CHO: {food.carbohydrate_g}</li>
-                    <li>PTN: {food.protein_g}</li>
-                    <li>LIP: {food.lipid_g}</li>
+            <div
+              key={meal.name}
+              style={{
+                border: '2px solid yellow',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div style={{ width: '100%' }}>
+                <p>
+                  Refeição: <strong>{meal.name}</strong>
+                </p>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  padding: 10,
+                }}
+              >
+                <div>
+                  <p>Alimentos na refeição {meal.foods.length}</p>
+                  {meal.foods.map((food) => {
+                    return (
+                      <>
+                        <h3>{food.description}</h3>
+                        <ul key={food.id}>
+                          <li>Quantidade: {food.goals.weight}g</li>
+                          <li>CHO: {food.carbohydrate_g}</li>
+                          <li>PTN: {food.protein_g}</li>
+                          <li>LIP: {food.lipid_g}</li>
+                        </ul>
+                      </>
+                    )
+                  })}
+                  <p></p>
+                </div>
+                <div>
+                  <p>Macros da refeição</p>
+                  <ul>
+                    <li>CHO: {meal.macroNutrients.cho}</li>
+                    <li>PTN: {meal.macroNutrients.ptn}</li>
+                    <li>LIP: {meal.macroNutrients.lip}</li>
+                    <li>Total Kcal: {meal.totalKcal}</li>
                   </ul>
-                )
-              })}
-              <p>Total Kcal: {meal.totalKcal}</p>
+                </div>
+              </div>
             </div>
           )
         })}

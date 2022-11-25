@@ -205,6 +205,7 @@ export function MealFormModal({
       lip: 0,
     } as MacroNutrients)
     setFoods(foodList)
+    setMealCategory(categories[0])
 
     handleDisplayModal()
 
