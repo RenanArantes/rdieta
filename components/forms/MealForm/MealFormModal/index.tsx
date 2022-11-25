@@ -122,8 +122,13 @@ export function MealFormModal({
   }
 
   function handleAddFoodOnMeal(newFood: Food) {
+    const macrosValuesOfSeletedFood = findMacrosOfSelectedFood()
+
     const foodToAddOnMeal: FoodOnMeal = {
       ...newFood,
+      carbohydrate_g: macrosValuesOfSeletedFood.cho,
+      protein_g: macrosValuesOfSeletedFood.ptn,
+      lipid_g: macrosValuesOfSeletedFood.lip,
       goals: {
         macroType: selectedMetaMacro,
         macroValue: metaMacroValue,
@@ -141,8 +146,6 @@ export function MealFormModal({
     )
 
     setFoods(updatedFoodsToList)
-
-    const macrosValuesOfSeletedFood = findMacrosOfSelectedFood()
 
     setTotalMacrosOnMeal((state) => {
       return {
@@ -195,7 +198,11 @@ export function MealFormModal({
 
     setMealName('' as string)
     setFoodsOnMeal([] as FoodOnMeal[])
-    setTotalMacrosOnMeal({} as MacroNutrients)
+    setTotalMacrosOnMeal({
+      cho: 0,
+      ptn: 0,
+      lip: 0,
+    } as MacroNutrients)
     setFoods(foodList)
 
     handleDisplayModal()
