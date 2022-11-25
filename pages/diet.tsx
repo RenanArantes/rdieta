@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { GetServerSideProps } from 'next/types'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
 import { DietForm } from '../components/forms/DietForm'
 import { MealForm } from '../components/forms/MealForm'
@@ -15,10 +16,50 @@ interface DietProps {
   categories: string[]
 }
 
+interface TotalMealMacrosProps extends MacroNutrients {
+  kcal: number
+}
+
 export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
   const { dietData } = useContext(DietContext)
   const { meals } = useContext(MealContext)
+
+  const [totalMealsMacros, setTotalMealsMacros] = useState({
+    cho: 0,
+    ptn: 0,
+    lip: 0,
+    kcal: 0,
+  } as TotalMealMacrosProps)
+
+  useEffect(() => {
+    const sumOfTotalMealsMacros = meals.reduce(
+      (
+        total = {
+          cho: 0,
+          ptn: 0,
+          lip: 0,
+          kcal: 0,
+        },
+        meal,
+      ) => {
+        return {
+          cho: total.cho + meal.macroNutrients.cho,
+          ptn: total.ptn + meal.macroNutrients.ptn,
+          lip: total.lip + meal.macroNutrients.lip,
+          kcal: total.kcal + meal.totalKcal,
+        }
+      },
+      {
+        cho: 0,
+        ptn: 0,
+        lip: 0,
+        kcal: 0,
+      },
+    )
+
+    setTotalMealsMacros(sumOfTotalMealsMacros)
+  }, [meals])
 
   return (
     <div>
@@ -80,9 +121,7 @@ export default function Diet({ foods, categories }: DietProps) {
               }}
             >
               <div style={{ width: '100%' }}>
-                <p>
-                  Refeição: <strong>{meal.name}</strong>
-                </p>
+                <h3>Refeição: {meal.name.toLocaleUpperCase()}</h3>
               </div>
               <div
                 style={{
@@ -96,7 +135,7 @@ export default function Diet({ foods, categories }: DietProps) {
                   {meal.foods.map((food) => {
                     return (
                       <>
-                        <h3>{food.description}</h3>
+                        <h4>{food.description}</h4>
                         <ul key={food.id}>
                           <li>Quantidade: {food.goals.weight}g</li>
                           <li>CHO: {food.carbohydrate_g}</li>
@@ -121,6 +160,13 @@ export default function Diet({ foods, categories }: DietProps) {
             </div>
           )
         })}
+        <p>Valores totais de todas as refeições</p>
+        <ul>
+          <li>CHO: {totalMealsMacros.cho}</li>
+          <li>PTN: {totalMealsMacros.ptn}</li>
+          <li>LIP: {totalMealsMacros.lip}</li>
+          <li>Total Kcal: {totalMealsMacros.kcal}</li>
+        </ul>
       </div>
     </div>
   )
