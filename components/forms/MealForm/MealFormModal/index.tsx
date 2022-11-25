@@ -196,6 +196,7 @@ export function MealFormModal({
 
     createMeal(newMealData)
 
+    setGoalFoodWeight(0)
     setMealName('' as string)
     setFoodsOnMeal([] as FoodOnMeal[])
     setTotalMacrosOnMeal({
