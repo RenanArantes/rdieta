@@ -5,6 +5,7 @@ import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
 import { DietForm } from '../components/forms/DietForm'
 import { MealForm } from '../components/forms/MealForm'
+import { MealUpdateForm } from '../components/forms/MealUpdateForm'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
 import { FractionSelector } from '../components/FractionSelector'
 import { DietContext } from '../contexts/Diet'
@@ -23,7 +24,7 @@ interface TotalMealMacrosProps extends MacroNutrients {
 export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
   const { dietData } = useContext(DietContext)
-  const { meals, deleteMeal } = useContext(MealContext)
+  const { meals, deleteMeal, updateMeal } = useContext(MealContext)
 
   const [totalMealsMacros, setTotalMealsMacros] = useState({
     cho: 0,
@@ -129,6 +130,11 @@ export default function Diet({ foods, categories }: DietProps) {
               >
                 <h3>Refeição: {meal.name.toLocaleUpperCase()}</h3>
                 <div>
+                  <MealUpdateForm
+                    categories={categories}
+                    foods={foods}
+                    mealToEdit={meal}
+                  />
                   <button type="button" onClick={() => deleteMeal(meal.id)}>
                     Excluir
                   </button>

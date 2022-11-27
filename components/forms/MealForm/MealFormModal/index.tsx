@@ -18,16 +18,26 @@ interface FoodOnMeal extends Food {
   goals: GoalsValues
 }
 
+interface Meal {
+  id: number
+  name: string
+  foods: FoodOnMeal[]
+  macroNutrients: MacroNutrients
+  totalKcal: number
+}
+
 interface MealFormModalProps {
   foodList: Food[]
   categories: string[]
   handleDisplayModal: () => void
+  mealToEdit?: Meal
 }
 
 export function MealFormModal({
   foodList,
   categories,
   handleDisplayModal,
+  mealToEdit,
 }: MealFormModalProps) {
   const { createMeal } = useContext(MealContext)
 
@@ -63,6 +73,11 @@ export function MealFormModal({
     console.log('setou food list')
     setFoods(foodList)
   }, [])
+
+  useEffect(() => {
+    console.log('mealToEdit')
+    console.log(mealToEdit?.name)
+  }, [mealToEdit])
 
   useEffect(() => {
     console.log('macro type')

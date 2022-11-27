@@ -28,6 +28,7 @@ interface MealContextType {
     totalMacros: MacroNutrients
   }) => void
   deleteMeal: (mealId: number) => void
+  updateMeal: (meal: Meal) => void
 }
 
 export const MealContext = createContext({} as MealContextType)
@@ -73,8 +74,12 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
     setMeals(updatedMeals)
   }
 
+  function updateMeal(meal: Meal) {
+    alert(meal.name)
+  }
+
   return (
-    <MealContext.Provider value={{ meals, createMeal, deleteMeal }}>
+    <MealContext.Provider value={{ meals, createMeal, deleteMeal, updateMeal }}>
       {children}
     </MealContext.Provider>
   )
