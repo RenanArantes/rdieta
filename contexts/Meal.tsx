@@ -13,6 +13,7 @@ interface FoodOnMeal extends Food {
 }
 
 interface Meal {
+  id: number
   name: string
   foods: FoodOnMeal[]
   macroNutrients: MacroNutrients
@@ -26,6 +27,7 @@ interface MealContextType {
     foods: FoodOnMeal[]
     totalMacros: MacroNutrients
   }) => void
+  deleteMeal: (mealId: number) => void
 }
 
 export const MealContext = createContext({} as MealContextType)
@@ -48,7 +50,10 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
 
     const totalKcalOnMeal = cho * 4 + ptn * 4 + lip * 9
 
+    const momentOfMealCreation = new Date()
+
     const newMeal = {
+      id: Date.parse(String(momentOfMealCreation)),
       name: newName,
       foods,
       macroNutrients: totalMacros,
@@ -62,8 +67,14 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
     console.log(meals)
   }
 
+  function deleteMeal(mealId: number) {
+    const updatedMeals = meals.filter((meal) => meal.id !== mealId)
+
+    setMeals(updatedMeals)
+  }
+
   return (
-    <MealContext.Provider value={{ meals, createMeal }}>
+    <MealContext.Provider value={{ meals, createMeal, deleteMeal }}>
       {children}
     </MealContext.Provider>
   )

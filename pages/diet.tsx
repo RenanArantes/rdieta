@@ -23,7 +23,7 @@ interface TotalMealMacrosProps extends MacroNutrients {
 export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
   const { dietData } = useContext(DietContext)
-  const { meals } = useContext(MealContext)
+  const { meals, deleteMeal } = useContext(MealContext)
 
   const [totalMealsMacros, setTotalMealsMacros] = useState({
     cho: 0,
@@ -120,8 +120,19 @@ export default function Diet({ foods, categories }: DietProps) {
                 flexDirection: 'column',
               }}
             >
-              <div style={{ width: '100%' }}>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
                 <h3>Refeição: {meal.name.toLocaleUpperCase()}</h3>
+                <div>
+                  <button type="button" onClick={() => deleteMeal(meal.id)}>
+                    Excluir
+                  </button>
+                </div>
               </div>
               <div
                 style={{
@@ -160,13 +171,17 @@ export default function Diet({ foods, categories }: DietProps) {
             </div>
           )
         })}
-        <p>Valores totais de todas as refeições</p>
-        <ul>
-          <li>CHO: {totalMealsMacros.cho}</li>
-          <li>PTN: {totalMealsMacros.ptn}</li>
-          <li>LIP: {totalMealsMacros.lip}</li>
-          <li>Total Kcal: {totalMealsMacros.kcal}</li>
-        </ul>
+        {totalMealsMacros.kcal > 0 && (
+          <>
+            <p>Valores totais de todas as refeições</p>
+            <ul>
+              <li>CHO: {totalMealsMacros.cho}</li>
+              <li>PTN: {totalMealsMacros.ptn}</li>
+              <li>LIP: {totalMealsMacros.lip}</li>
+              <li>Total Kcal: {totalMealsMacros.kcal}</li>
+            </ul>
+          </>
+        )}
       </div>
     </div>
   )
