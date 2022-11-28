@@ -156,6 +156,22 @@ export function MealFormModal({
     }
   }
 
+  function handleRemoveFoodOfMeal(foodOnMeal: Food) {
+    const updatedFoodsOnMeal = foodsOnMeal.filter(
+      (food) => food.id !== foodOnMeal.id,
+    )
+
+    setTotalMacrosOnMeal((state) => {
+      return {
+        cho: state.cho - foodOnMeal.carbohydrate_g,
+        ptn: state.ptn - foodOnMeal.protein_g,
+        lip: state.lip - foodOnMeal.lipid_g,
+      }
+    })
+
+    setFoodsOnMeal(updatedFoodsOnMeal)
+  }
+
   function handleAddFoodOnMeal(newFood: Food) {
     const macrosValuesOfSeletedFood = findMacrosOfSelectedFood()
 
@@ -398,10 +414,20 @@ export function MealFormModal({
               <p>Alimentos da refeição</p>
               {foodsOnMeal.length > 0 ? (
                 <div>
-                  <ul>
+                  <ul style={{ border: '2px solid blue' }}>
                     {foodsOnMeal.map((food) => (
                       <li key={food.id}>
-                        {food.description} | {food.goals.weight}g
+                        <span>
+                          {food.description} | {food.goals.weight}g
+                        </span>
+                        <span style={{ marginLeft: 20 }}>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFoodOfMeal(food)}
+                          >
+                            Remover
+                          </button>
+                        </span>
                       </li>
                     ))}
                   </ul>
