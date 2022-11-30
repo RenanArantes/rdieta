@@ -83,6 +83,9 @@ export function MealFormModal({
       (food) => !foodsOfMealToEdit?.includes(food.id),
     )
 
+    console.log('updatedFoods.length')
+    console.log(updatedFoods.length)
+
     if (updatedFoods.length > 0) {
       setFoods(updatedFoods)
     }
@@ -92,25 +95,6 @@ export function MealFormModal({
     console.log('mealToEdit')
     console.log(mealToEdit?.name)
   }, [mealToEdit])
-
-  useEffect(() => {
-    console.log('macro type')
-    console.log(selectedMetaMacro)
-
-    let macroValue = 0
-
-    if (selectedMetaMacro === 'cho') {
-      macroValue = selectedFood.carbohydrate_g
-    } else if (selectedMetaMacro === 'ptn') {
-      macroValue = selectedFood.protein_g
-    } else if (selectedMetaMacro === 'lip') {
-      macroValue = selectedFood.lipid_g
-    }
-
-    const weightGoal = findWeightOfSelectedFood(macroValue)
-
-    setGoalFoodWeight(weightGoal)
-  }, [selectedMetaMacro])
 
   function findWeightOfSelectedFood(foodMacro: number) {
     const weightGoal =
@@ -170,6 +154,12 @@ export function MealFormModal({
     })
 
     setFoodsOnMeal(updatedFoodsOnMeal)
+
+    const updatedFoodList = foods
+
+    updatedFoodList.splice(foodOnMeal.id - foodsOnMeal.length, 0, foodOnMeal)
+
+    setFoods((state) => updatedFoodList)
   }
 
   function handleAddFoodOnMeal(newFood: Food) {
@@ -217,11 +207,15 @@ export function MealFormModal({
     console.log('updatedCheckedFoods')
     console.log(updatedCheckedFoods)
 
-    setGoalFoodWeight(0)
     setSelectedFood((state) => emptyFood)
     setCheckedFoods(updatedCheckedFoods)
+    setSelectedMetaMacro('' as 'cho' | 'ptn' | 'lip')
+    setGoalFoodWeight((state) => 0)
 
     console.log(updatedCheckedFoods.length)
+
+    console.log('goalFoodWeight')
+    console.log(goalFoodWeight)
   }
 
   function handleCategoryChange(e: ChangeEvent<HTMLSelectElement>) {
@@ -236,6 +230,23 @@ export function MealFormModal({
     const selectedMetaMacro = e.target.value as 'cho' | 'ptn' | 'lip'
 
     setSelectedMetaMacro(selectedMetaMacro)
+
+    console.log('macro type')
+    console.log(selectedMetaMacro)
+
+    let macroValue = 0
+
+    if (selectedMetaMacro === 'cho') {
+      macroValue = selectedFood.carbohydrate_g
+    } else if (selectedMetaMacro === 'ptn') {
+      macroValue = selectedFood.protein_g
+    } else if (selectedMetaMacro === 'lip') {
+      macroValue = selectedFood.lipid_g
+    }
+
+    const weightGoal = findWeightOfSelectedFood(macroValue)
+
+    setGoalFoodWeight(weightGoal)
   }
 
   function handleMealCreation(data: { mealName: string }) {

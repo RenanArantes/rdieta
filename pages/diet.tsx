@@ -114,7 +114,7 @@ export default function Diet({ foods, categories }: DietProps) {
         {meals.map((meal) => {
           return (
             <div
-              key={meal.name}
+              key={meal.id}
               style={{
                 border: '2px solid yellow',
                 display: 'flex',
@@ -151,7 +151,7 @@ export default function Diet({ foods, categories }: DietProps) {
                   <p>Alimentos na refeição {meal.foods.length}</p>
                   {meal.foods.map((food) => {
                     return (
-                      <>
+                      <div key={food.id}>
                         <h4>{food.description}</h4>
                         <ul key={food.id}>
                           <li>Quantidade: {food.goals.weight}g</li>
@@ -159,7 +159,7 @@ export default function Diet({ foods, categories }: DietProps) {
                           <li>PTN: {food.protein_g}</li>
                           <li>LIP: {food.lipid_g}</li>
                         </ul>
-                      </>
+                      </div>
                     )
                   })}
                   <p></p>

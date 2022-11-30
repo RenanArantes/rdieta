@@ -1,7 +1,6 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import Food from '../../../@types/food'
-import { DietContext } from '../../../contexts/Diet'
-import { MealFormModal } from '../MealForm/MealFormModal'
+import { MealUpdateFormModal } from './MealUpdateFormModal'
 
 interface MealUpdateFormProps {
   foods: Food[]
@@ -45,7 +44,7 @@ export function MealUpdateForm({
           backgroundColor: 'rgba(0, 0, 0, 0.4)',
         }}
       >
-        <MealFormModal
+        <MealUpdateFormModal
           handleDisplayModal={handleDisplayModal}
           foodList={foods}
           categories={categories}

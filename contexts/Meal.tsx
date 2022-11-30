@@ -28,7 +28,7 @@ interface MealContextType {
     totalMacros: MacroNutrients
   }) => void
   deleteMeal: (mealId: number) => void
-  updateMeal: (meal: Meal) => void
+  updateMeal: (mealToEdit: Meal) => void
 }
 
 export const MealContext = createContext({} as MealContextType)
@@ -74,8 +74,34 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
     setMeals(updatedMeals)
   }
 
-  function updateMeal(meal: Meal) {
-    alert(meal.name)
+  function updateMeal(mealToEdit: Meal) {
+    const findedMeal = meals.find((meal) => meal.id === mealToEdit.id)
+
+    if (findedMeal) {
+      console.log('findedMeal.name')
+      console.log(findedMeal.name)
+
+      const updatedMeals = meals.map((meal) => {
+        if (meal.id === findedMeal.id) {
+          return {
+            id: mealToEdit.id,
+            name: mealToEdit.name,
+            foods: mealToEdit.foods,
+            macroNutrients: mealToEdit.macroNutrients,
+            totalKcal: mealToEdit.totalKcal,
+          } as Meal
+        }
+
+        return meal
+      })
+
+      setMeals(updatedMeals)
+    } else {
+      alert('Meal not found')
+    }
+
+    console.log('meals')
+    console.log(meals)
   }
 
   return (
