@@ -97,10 +97,14 @@ export function MealFormModal({
   }, [mealToEdit])
 
   function findWeightOfSelectedFood(foodMacro: number) {
-    const weightGoal =
-      metaMacroValue === 0 ? foodMacro : (100 * metaMacroValue) / foodMacro
+    if (foodMacro === 0) {
+      return 0
+    } else {
+      const weightGoal =
+        metaMacroValue === 0 ? foodMacro : (100 * metaMacroValue) / foodMacro
 
-    return weightGoal
+      return weightGoal
+    }
   }
 
   function removeFoodOnMealOfFoods(foodToRemove: Food) {

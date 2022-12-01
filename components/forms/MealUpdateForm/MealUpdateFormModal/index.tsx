@@ -92,10 +92,14 @@ export function MealUpdateFormModal({
   }, [])
 
   function findWeightOfSelectedFood(foodMacro: number) {
-    const weightGoal =
-      metaMacroValue === 0 ? foodMacro : (100 * metaMacroValue) / foodMacro
+    if (foodMacro === 0) {
+      return 0
+    } else {
+      const weightGoal =
+        metaMacroValue === 0 ? foodMacro : (100 * metaMacroValue) / foodMacro
 
-    return weightGoal
+      return weightGoal
+    }
   }
 
   function removeFoodOnMealOfFoods(foodToRemove: Food) {
@@ -228,7 +232,7 @@ export function MealUpdateFormModal({
 
     let macroValue = 0
 
-    console.log(selectedMetaMacro)
+    console.log(selectedMetaMacro + ' = ' + metaMacroValue)
 
     if (selectedMetaMacro === ('cho' || 'ptn' || 'lip')) {
       if (selectedMetaMacro === 'cho') {
