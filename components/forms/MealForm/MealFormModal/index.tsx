@@ -18,26 +18,16 @@ interface FoodOnMeal extends Food {
   goals: GoalsValues
 }
 
-interface Meal {
-  id: number
-  name: string
-  foods: FoodOnMeal[]
-  macroNutrients: MacroNutrients
-  totalKcal: number
-}
-
 interface MealFormModalProps {
   foodList: Food[]
   categories: string[]
   handleDisplayModal: () => void
-  mealToEdit?: Meal
 }
 
 export function MealFormModal({
   foodList,
   categories,
   handleDisplayModal,
-  mealToEdit,
 }: MealFormModalProps) {
   const { createMeal } = useContext(MealContext)
 
@@ -53,48 +43,25 @@ export function MealFormModal({
   const [mealCategory, setMealCategory] = useState('')
 
   const [checkedFoods, setCheckedFoods] = useState([] as Food[])
-  const [foodsOnMeal, setFoodsOnMeal] = useState(
-    mealToEdit?.foods || ([] as FoodOnMeal[]),
-  )
+  const [foodsOnMeal, setFoodsOnMeal] = useState([] as FoodOnMeal[])
   const [selectedFood, setSelectedFood] = useState({} as Food)
-  const [totalMacrosOnMeal, setTotalMacrosOnMeal] = useState(
-    mealToEdit?.macroNutrients ||
-      ({
-        cho: 0,
-        ptn: 0,
-        lip: 0,
-      } as MacroNutrients),
-  )
+  const [totalMacrosOnMeal, setTotalMacrosOnMeal] = useState({
+    cho: 0,
+    ptn: 0,
+    lip: 0,
+  } as MacroNutrients)
 
   const [goalFoodWeight, setGoalFoodWeight] = useState(0)
   const [metaMacroValue, setMetaMacroValue] = useState(0)
   const [selectedMetaMacro, setSelectedMetaMacro] = useState(
     '' as 'cho' | 'ptn' | 'lip',
   )
-  const [mealName, setMealName] = useState(mealToEdit?.name || '')
+  const [mealName, setMealName] = useState('')
 
   useEffect(() => {
     setMealCategory(categories[0])
     setFoods(foodList)
-
-    const foodsOfMealToEdit = mealToEdit?.foods.map((food) => food.id)
-
-    const updatedFoods = foods.filter(
-      (food) => !foodsOfMealToEdit?.includes(food.id),
-    )
-
-    console.log('updatedFoods.length')
-    console.log(updatedFoods.length)
-
-    if (updatedFoods.length > 0) {
-      setFoods(updatedFoods)
-    }
   }, [])
-
-  useEffect(() => {
-    console.log('mealToEdit')
-    console.log(mealToEdit?.name)
-  }, [mealToEdit])
 
   function findWeightOfSelectedFood(foodMacro: number) {
     if (foodMacro === 0) {
@@ -126,12 +93,6 @@ export function MealFormModal({
   function handleCheckedFoods(e: any, newFood: Food) {
     setGoalFoodWeight(0)
     setSelectedMetaMacro('' as 'cho' | 'ptn' | 'lip')
-
-    if (mealToEdit?.foods.find((food) => food.id === newFood.id)) {
-      const updatedFoods = foods.filter((food) => food.id !== newFood.id)
-
-      setFoods(updatedFoods)
-    }
 
     if (e.target.checked) {
       setSelectedFood((state) => newFood)
