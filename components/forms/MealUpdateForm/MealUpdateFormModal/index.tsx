@@ -57,9 +57,11 @@ export function MealUpdateFormModal({
   const [checkedFoods, setCheckedFoods] = useState([] as Food[])
   const [foodsOnMeal, setFoodsOnMeal] = useState(mealToEdit.foods)
   const [selectedFood, setSelectedFood] = useState({} as Food)
-  const [totalMacrosOnMeal, setTotalMacrosOnMeal] = useState(
-    mealToEdit.macroNutrients,
-  )
+  const [totalMacrosOnMeal, setTotalMacrosOnMeal] = useState({
+    cho: 0,
+    ptn: 0,
+    lip: 0,
+  } as MacroNutrients)
 
   const [goalFoodWeight, setGoalFoodWeight] = useState(0)
   const [metaMacroValue, setMetaMacroValue] = useState(0)
@@ -85,6 +87,8 @@ export function MealUpdateFormModal({
     console.log(updatedFoods.length)
 
     setFoods(updatedFoods)
+    setMealName(mealEdited.name)
+    setTotalMacrosOnMeal(mealEdited.macroNutrients)
   }, [])
 
   function findWeightOfSelectedFood(foodMacro: number) {
@@ -252,11 +256,10 @@ export function MealUpdateFormModal({
     console.log(foodsOnMeal)
 
     updateMeal({
+      ...mealEdited,
       name: mealName,
-      foods: mealEdited.foods,
-      id: mealEdited.id,
-      macroNutrients: mealEdited.macroNutrients,
-      totalKcal: mealEdited.totalKcal,
+      foods: foodsOnMeal,
+      macroNutrients: totalMacrosOnMeal,
     })
 
     setGoalFoodWeight(0)

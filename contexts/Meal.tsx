@@ -83,12 +83,16 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
 
       const updatedMeals = meals.map((meal) => {
         if (meal.id === findedMeal.id) {
+          const { cho, lip, ptn } = mealToEdit.macroNutrients
+
+          const totalKcalOnMeal = cho * 4 + ptn * 4 + lip * 9
+
           return {
             id: mealToEdit.id,
             name: mealToEdit.name,
             foods: mealToEdit.foods,
             macroNutrients: mealToEdit.macroNutrients,
-            totalKcal: mealToEdit.totalKcal,
+            totalKcal: totalKcalOnMeal,
           } as Meal
         }
 
