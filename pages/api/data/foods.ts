@@ -42458,8 +42458,7 @@ export const foods = [
     "glycine_g": "",
     "proline_g": "",
     "serine_g": ""
-  },
-  ,{
+  },{
     "id": 1000,
     "description": "Albumina, Growth, Saborizada",
     "category": "Ovos e derivados",

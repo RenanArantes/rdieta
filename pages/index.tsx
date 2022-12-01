@@ -13,7 +13,6 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Rdieta</h1>
       <div>
         <BMRForm />
         <div>
