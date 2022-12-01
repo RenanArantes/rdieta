@@ -1,6 +1,6 @@
+/* eslint-disable */
 import type Food from '../../../@types/food'
 
-/* eslint-disable */
 export const foods = [
   {
     "id": 1,
@@ -42388,8 +42388,9 @@ export const foods = [
     "glycine_g": "",
     "proline_g": "",
     "serine_g": ""
-  },{
-    "id": 999,
+  },
+  {
+    "id": 598,
     "description": "Whey, Growth, Saborizado",
     "category": "Leite e derivados",
     "humidity_percents": 0.0,
@@ -42458,8 +42459,9 @@ export const foods = [
     "glycine_g": "",
     "proline_g": "",
     "serine_g": ""
-  },{
-    "id": 1000,
+  },
+  {
+    "id": 599,
     "description": "Albumina, Growth, Saborizada",
     "category": "Ovos e derivados",
     "humidity_percents": 0.0,
@@ -42530,5 +42532,3 @@ export const foods = [
     "serine_g": ""
   },
 ] as Food[]
-
-/* eslint-enable */
