@@ -21,29 +21,14 @@ export function MealForm({ foods, categories }: MealFormProps) {
   }
 
   return (
-    <div
-      style={{
-        border: '2px solid red',
-      }}
-    >
+    <div>
       <h1>Meal Form</h1>
-      {[...Array(mealFraction)].map((value, index) => {
-        return (
-          <div
-            style={{
-              border: '3px solid purple',
-            }}
-            key={index}
-          >
-            <label>
-              Criar refeição <strong>{index + 1}</strong>{' '}
-            </label>
-            <button type="button" onClick={handleDisplayModal}>
-              <strong>+</strong>
-            </button>
-          </div>
-        )
-      })}
+      <div>
+        <label>Adicionar refeição</label>
+        <button type="button" onClick={handleDisplayModal}>
+          <strong>+</strong>
+        </button>
+      </div>
       <div
         style={{
           display: isDisplayed,

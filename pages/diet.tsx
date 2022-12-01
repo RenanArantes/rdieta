@@ -148,7 +148,7 @@ export default function Diet({ foods, categories }: DietProps) {
                 }}
               >
                 <div>
-                  <p>Alimentos na refeição {meal.foods.length}</p>
+                  <span>Alimentos da refeição</span>
                   {meal.foods.map((food) => {
                     return (
                       <div key={food.id}>
@@ -165,6 +165,9 @@ export default function Diet({ foods, categories }: DietProps) {
                   <p></p>
                 </div>
                 <div>
+                  <p>
+                    Quantidade de alimentos na refeição: {meal.foods.length}
+                  </p>
                   <p>Macros da refeição</p>
                   <ul>
                     <li>CHO: {meal.macroNutrients.cho}</li>
@@ -177,17 +180,50 @@ export default function Diet({ foods, categories }: DietProps) {
             </div>
           )
         })}
-        {totalMealsMacros.kcal > 0 && (
-          <>
-            <p>Valores totais de todas as refeições</p>
-            <ul>
-              <li>CHO: {totalMealsMacros.cho}</li>
-              <li>PTN: {totalMealsMacros.ptn}</li>
-              <li>LIP: {totalMealsMacros.lip}</li>
-              <li>Total Kcal: {totalMealsMacros.kcal}</li>
-            </ul>
-          </>
-        )}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '0 30px',
+          }}
+        >
+          {totalMealsMacros.kcal > 0 && (
+            <div>
+              <p>Valores totais de todas as refeições</p>
+              <ul>
+                <li>CHO: {totalMealsMacros.cho}</li>
+                <li>PTN: {totalMealsMacros.ptn}</li>
+                <li>LIP: {totalMealsMacros.lip}</li>
+                <li>Total Kcal: {totalMealsMacros.kcal}</li>
+              </ul>
+            </div>
+          )}
+          {dietData.metaKcal && (
+            <div>
+              <h2>Sua meta de macros nutrientes é de:</h2>
+              <ul>
+                <li>
+                  Carboidrato: <strong>{dietData.metaKcal.cho}</strong>g
+                </li>
+                <li>
+                  Proteína: <strong>{dietData.metaKcal.ptn}</strong>g
+                </li>
+                <li>
+                  Gordura: <strong>{dietData.metaKcal.lip}</strong>g
+                </li>
+                <li>
+                  TotalKcal:{' '}
+                  <strong>
+                    {dietData.metaKcal.cho * 4 +
+                      dietData.metaKcal.ptn * 4 +
+                      dietData.metaKcal.lip * 9}
+                  </strong>
+                  g
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
