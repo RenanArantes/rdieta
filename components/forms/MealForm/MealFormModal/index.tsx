@@ -120,6 +120,9 @@ export function MealFormModal({
   function setMetaWeightGoal(macroType: string) {}
 
   function handleCheckedFoods(e: any, newFood: Food) {
+    setGoalFoodWeight(0)
+    setSelectedMetaMacro('' as 'cho' | 'ptn' | 'lip')
+
     if (mealToEdit?.foods.find((food) => food.id === newFood.id)) {
       const updatedFoods = foods.filter((food) => food.id !== newFood.id)
 
@@ -224,6 +227,24 @@ export function MealFormModal({
 
   function handleMetaMacroValue(e: ChangeEvent<HTMLInputElement>) {
     setMetaMacroValue(Number(e.target.value))
+
+    let macroValue = 0
+
+    console.log(selectedMetaMacro)
+
+    if (selectedMetaMacro === ('cho' || 'ptn' || 'lip')) {
+      if (selectedMetaMacro === 'cho') {
+        macroValue = selectedFood.carbohydrate_g
+      } else if (selectedMetaMacro === 'ptn') {
+        macroValue = selectedFood.protein_g
+      } else if (selectedMetaMacro === 'lip') {
+        macroValue = selectedFood.lipid_g
+      }
+
+      const weightGoal = findWeightOfSelectedFood(macroValue)
+
+      setGoalFoodWeight(weightGoal)
+    }
   }
 
   function handleSelectedMetaMacro(e: ChangeEvent<HTMLSelectElement>) {
