@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 import { ActivityKcal, PersonDataType } from '../@types/person'
 
 interface PersonContextType {
@@ -22,6 +22,20 @@ export function PersonContextProvider({
   children,
 }: PersonContextProviderProps) {
   const [personData, setPersonData] = useState({} as PersonDataType)
+
+  useEffect(() => {
+    const existsPersonData = localStorage.getItem('@rdiet:person')
+
+    if (existsPersonData !== null) {
+      setPersonData(JSON.parse(existsPersonData))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (Object.entries(personData).length > 0) {
+      localStorage.setItem('@rdiet:person', JSON.stringify(personData))
+    }
+  }, [personData])
 
   function createPersonData(personData: PersonDataType) {
     setPersonData(personData)

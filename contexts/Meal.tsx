@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
 
@@ -39,6 +39,20 @@ interface MealContextProviderProps {
 
 export function MealContextProvider({ children }: MealContextProviderProps) {
   const [meals, setMeals] = useState([] as Meal[])
+
+  useEffect(() => {
+    const existsMealsData = localStorage.getItem('@rdiet:meals')
+
+    if (existsMealsData !== null) {
+      setMeals(JSON.parse(existsMealsData))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (Object.entries(meals).length > 0) {
+      localStorage.setItem('@rdiet:meals', JSON.stringify(meals))
+    }
+  }, [meals])
 
   function createMeal(newMealData: {
     newName: string

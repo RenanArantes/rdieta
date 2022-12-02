@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 import { Diet } from '../@types/diet'
 
 interface DietContextType {
@@ -25,6 +25,20 @@ interface DietContextProviderProps {
 export function DietContextProvider({ children }: DietContextProviderProps) {
   const [dietData, setDietData] = useState({} as Diet)
   const [mealFraction, setMealFraction] = useState(1)
+
+  useEffect(() => {
+    const existsDietData = localStorage.getItem('@rdiet:diet')
+
+    if (existsDietData !== null) {
+      setDietData(JSON.parse(existsDietData))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (Object.entries(dietData).length > 0) {
+      localStorage.setItem('@rdiet:diet', JSON.stringify(dietData))
+    }
+  }, [dietData])
 
   function createDietType(newDietData: {
     type: 'cutting' | 'bulking'
