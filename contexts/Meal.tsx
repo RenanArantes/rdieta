@@ -41,7 +41,7 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
   const [meals, setMeals] = useState([] as Meal[])
 
   useEffect(() => {
-    const existsMealsData = localStorage.getItem('@rdiet:meals')
+    const existsMealsData = localStorage.getItem('@rdieta:meals')
 
     if (existsMealsData !== null) {
       setMeals(JSON.parse(existsMealsData))
@@ -50,7 +50,7 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
 
   useEffect(() => {
     if (Object.entries(meals).length > 0) {
-      localStorage.setItem('@rdiet:meals', JSON.stringify(meals))
+      localStorage.setItem('@rdieta:meals', JSON.stringify(meals))
     }
   }, [meals])
 

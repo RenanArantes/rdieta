@@ -27,7 +27,7 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
   const [mealFraction, setMealFraction] = useState(1)
 
   useEffect(() => {
-    const existsDietData = localStorage.getItem('@rdiet:diet')
+    const existsDietData = localStorage.getItem('@rdieta:diet')
 
     if (existsDietData !== null) {
       setDietData(JSON.parse(existsDietData))
@@ -36,7 +36,7 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
 
   useEffect(() => {
     if (Object.entries(dietData).length > 0) {
-      localStorage.setItem('@rdiet:diet', JSON.stringify(dietData))
+      localStorage.setItem('@rdieta:diet', JSON.stringify(dietData))
     }
   }, [dietData])
 

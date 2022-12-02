@@ -24,7 +24,7 @@ export function PersonContextProvider({
   const [personData, setPersonData] = useState({} as PersonDataType)
 
   useEffect(() => {
-    const existsPersonData = localStorage.getItem('@rdiet:person')
+    const existsPersonData = localStorage.getItem('@rdieta:person')
 
     if (existsPersonData !== null) {
       setPersonData(JSON.parse(existsPersonData))
@@ -33,7 +33,7 @@ export function PersonContextProvider({
 
   useEffect(() => {
     if (Object.entries(personData).length > 0) {
-      localStorage.setItem('@rdiet:person', JSON.stringify(personData))
+      localStorage.setItem('@rdieta:person', JSON.stringify(personData))
     }
   }, [personData])
 
