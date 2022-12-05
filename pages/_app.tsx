@@ -13,8 +13,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <div
             style={{
               display: 'block',
-              // alignItems: 'flex-start',
-              // justifyContent: 'center',
             }}
           >
             <Header />
