@@ -1,6 +1,6 @@
 interface BottomMultiStepProps {
   step: number
-  currentStep: number
+  currentStep?: number
 }
 
 export function BottomMultiStep({
