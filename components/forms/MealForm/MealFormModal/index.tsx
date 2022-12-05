@@ -188,6 +188,9 @@ export function MealFormModal({
 
   function handleCategoryChange(e: ChangeEvent<HTMLSelectElement>) {
     setMealCategory(e.target.value)
+
+    setSelectedFood({} as Food)
+    setCheckedFoods([] as Food[])
   }
 
   function handleMetaMacroValue(e: ChangeEvent<HTMLInputElement>) {
