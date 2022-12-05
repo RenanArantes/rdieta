@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app'
+import { BottomMultiStep } from '../components/BottomMultiStep'
 import { Header } from '../components/Header'
 import { DietContextProvider } from '../contexts/Diet'
 import { MealContextProvider } from '../contexts/Meal'
@@ -9,8 +10,17 @@ export default function App({ Component, pageProps }: AppProps) {
     <PersonContextProvider>
       <DietContextProvider>
         <MealContextProvider>
-          <Header />
-          <Component {...pageProps} />
+          <div
+            style={{
+              display: 'block',
+              // alignItems: 'flex-start',
+              // justifyContent: 'center',
+            }}
+          >
+            <Header />
+            <Component {...pageProps} />
+            <BottomMultiStep step={5} />
+          </div>
         </MealContextProvider>
       </DietContextProvider>
     </PersonContextProvider>
