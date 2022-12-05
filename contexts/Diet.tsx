@@ -1,5 +1,12 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { Diet } from '../@types/diet'
+import { StepContext } from './Step'
 
 interface DietContextType {
   dietData: Diet
@@ -25,6 +32,8 @@ interface DietContextProviderProps {
 export function DietContextProvider({ children }: DietContextProviderProps) {
   const [dietData, setDietData] = useState({} as Diet)
   const [mealFraction, setMealFraction] = useState(1)
+
+  const { increaseCurrentStep } = useContext(StepContext)
 
   useEffect(() => {
     const existsDietData = localStorage.getItem('@rdieta:diet')
@@ -53,6 +62,8 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
         meal: state.meal,
       }
     })
+
+    increaseCurrentStep()
   }
 
   function createDietKcalMeta(newDietMetaKcalData: {
@@ -69,6 +80,8 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
         meal: state.meal,
       }
     })
+
+    increaseCurrentStep()
   }
 
   function changeMealFraction(fraction: number) {

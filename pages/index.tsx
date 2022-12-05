@@ -3,11 +3,14 @@ import { useRouter } from 'next/router'
 import { PersonContext } from '../contexts/Person'
 import { BMRForm } from '../components/forms/BMRForm'
 import { TotalKcalForm } from '../components/forms/TotalKcalForm'
+import { StepContext } from '../contexts/Step'
+import { BottomMultiStep } from '../components/BottomMultiStep'
 
 export default function Home() {
   const {
     personData: { bmr, totalCaloricSpending },
   } = useContext(PersonContext)
+  const { step, currentStep } = useContext(StepContext)
 
   const { push } = useRouter()
 
@@ -35,6 +38,7 @@ export default function Home() {
       <button type="button" onClick={() => push('/diet')}>
         Ir para Dieta
       </button>
+      <BottomMultiStep step={step} currentStep={currentStep} />
     </div>
   )
 }

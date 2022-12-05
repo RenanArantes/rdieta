@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next/types'
 import { useContext, useEffect, useState } from 'react'
 import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
+import { BottomMultiStep } from '../components/BottomMultiStep'
 import { DietForm } from '../components/forms/DietForm'
 import { MealForm } from '../components/forms/MealForm'
 import { MealUpdateForm } from '../components/forms/MealUpdateForm'
@@ -11,6 +12,7 @@ import { FractionSelector } from '../components/FractionSelector'
 import { DietContext } from '../contexts/Diet'
 import { MealContext } from '../contexts/Meal'
 import { PersonContext } from '../contexts/Person'
+import { StepContext } from '../contexts/Step'
 
 interface DietProps {
   foods: Food[]
@@ -24,7 +26,8 @@ interface TotalMealMacrosProps extends MacroNutrients {
 export default function Diet({ foods, categories }: DietProps) {
   const { personData } = useContext(PersonContext)
   const { dietData } = useContext(DietContext)
-  const { meals, deleteMeal, updateMeal } = useContext(MealContext)
+  const { meals, deleteMeal } = useContext(MealContext)
+  const { step, currentStep } = useContext(StepContext)
 
   const [totalMealsMacros, setTotalMealsMacros] = useState({
     cho: 0,
@@ -223,6 +226,7 @@ export default function Diet({ foods, categories }: DietProps) {
           )}
         </div>
       </div>
+      <BottomMultiStep step={step} currentStep={currentStep} />
     </div>
   )
 }

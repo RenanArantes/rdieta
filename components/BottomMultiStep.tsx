@@ -1,12 +1,9 @@
 interface BottomMultiStepProps {
   step: number
-  currentStep?: number
+  currentStep: number
 }
 
-export function BottomMultiStep({
-  step,
-  currentStep = 1,
-}: BottomMultiStepProps) {
+export function BottomMultiStep({ step, currentStep }: BottomMultiStepProps) {
   return (
     <div
       style={{
@@ -16,7 +13,9 @@ export function BottomMultiStep({
         height: 35,
       }}
     >
-      <span>Multi-step passo x de y</span>
+      <span>
+        Multi-step passo {currentStep} de {step}
+      </span>
       <div
         style={{
           display: 'grid',
@@ -32,7 +31,8 @@ export function BottomMultiStep({
               style={{
                 height: '1.5px',
                 borderRadius: '1px',
-                backgroundColor: currentStep >= step ? 'blue' : 'red',
+                backgroundColor:
+                  currentStep && currentStep >= step ? 'blue' : 'red',
                 marginRight: 20,
                 marginLeft: 10,
               }}

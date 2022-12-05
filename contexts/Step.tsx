@@ -1,11 +1,11 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import { createContext, ReactNode, useState } from 'react'
 
 interface StepContextType {
   step: number
   currentStep: number
-  increaseStep: () => void
-  decreaseStep: () => void
-  resetSteps: () => void
+  increaseCurrentStep: () => void
+  decreaseCurrentStep: () => void
+  resetCurrentStep: () => void
 }
 
 export const StepContext = createContext({} as StepContextType)
@@ -14,33 +14,31 @@ interface StepContextProviderProps {
   children: ReactNode
 }
 
-export function StepContextProvidder({ children }: StepContextProviderProps) {
-  const [step, setStep] = useState(0)
-  const [currentStep, setCurrentStep] = useState(step)
+export function StepContextProvider({ children }: StepContextProviderProps) {
+  const [step, setStep] = useState(5)
+  const [currentStep, setCurrentStep] = useState(0)
 
-  function handleCurrentStep() {
-    setCurrentStep(step)
+  function increaseCurrentStep() {
+    setCurrentStep((state) => state + 1)
   }
 
-  useEffect(() => {
-    handleCurrentStep()
-  }, [step])
-
-  function increaseStep() {
-    setStep((state) => state + 1)
+  function decreaseCurrentStep() {
+    setCurrentStep((state) => state - 1)
   }
 
-  function decreaseStep() {
-    setStep((state) => state - 1)
-  }
-
-  function resetSteps() {
-    setStep(0)
+  function resetCurrentStep() {
+    setCurrentStep(0)
   }
 
   return (
     <StepContext.Provider
-      value={{ step, currentStep, increaseStep, decreaseStep, resetSteps }}
+      value={{
+        step,
+        currentStep,
+        increaseCurrentStep,
+        decreaseCurrentStep,
+        resetCurrentStep,
+      }}
     >
       {children}
     </StepContext.Provider>

@@ -1,5 +1,12 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { ActivityKcal, PersonDataType } from '../@types/person'
+import { StepContext } from './Step'
 
 interface PersonContextType {
   personData: PersonDataType
@@ -22,6 +29,7 @@ export function PersonContextProvider({
   children,
 }: PersonContextProviderProps) {
   const [personData, setPersonData] = useState({} as PersonDataType)
+  const { increaseCurrentStep } = useContext(StepContext)
 
   useEffect(() => {
     const existsPersonData = localStorage.getItem('@rdieta:person')
@@ -50,6 +58,8 @@ export function PersonContextProvider({
         totalCaloricSpending: state.totalCaloricSpending,
       }
     })
+
+    increaseCurrentStep()
   }
 
   function changeGender(newGender: 'male' | 'female') {
@@ -75,6 +85,8 @@ export function PersonContextProvider({
         totalCaloricSpending: totalCaloricSpendingValue,
       }
     })
+
+    increaseCurrentStep()
   }
 
   return (
