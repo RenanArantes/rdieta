@@ -8,7 +8,7 @@ export function Header() {
   return (
     <HeaderContainer>
       <LogoContainer>
-        <Image src={logo.src} alt="Logo Rdeita" width={30} height={30} />
+        <Image src={logo.src} alt="Logo Rdeita" width={40} height={40} />
         <span>Rdieta</span>
       </LogoContainer>
 
