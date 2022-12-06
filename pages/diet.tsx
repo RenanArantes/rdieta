@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
 import { BottomMultiStep } from '../components/BottomMultiStep'
+import { Button } from '../components/Button'
 import { DietForm } from '../components/forms/DietForm'
 import { MealForm } from '../components/forms/MealForm'
 import { MealUpdateForm } from '../components/forms/MealUpdateForm'
@@ -136,9 +137,9 @@ export default function Diet({ foods, categories }: DietProps) {
                     foods={foods}
                     mealToEdit={meal}
                   />
-                  <button type="button" onClick={() => deleteMeal(meal.id)}>
+                  <Button type="button" onClick={() => deleteMeal(meal.id)}>
                     Excluir
-                  </button>
+                  </Button>
                 </div>
               </div>
               <div

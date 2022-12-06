@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Food from '../../../@types/food'
+import { Button } from '../../Button'
 import { MealUpdateFormModal } from './MealUpdateFormModal'
 
 interface MealUpdateFormProps {
@@ -24,13 +25,13 @@ export function MealUpdateForm({
 
   return (
     <>
-      <button
+      <Button
         onClick={() => {
           handleDisplayModal()
         }}
       >
         Modal
-      </button>
+      </Button>
       <div
         style={{
           display: isDisplayed,
