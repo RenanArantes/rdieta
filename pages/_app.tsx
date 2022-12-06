@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'styled-components'
-import { Header } from '../components/Header'
+import { Header } from '../components/Header/index'
+import { Layout } from '../components/layouts/defaultLayout'
 import { DietContextProvider } from '../contexts/Diet'
 import { MealContextProvider } from '../contexts/Meal'
 import { PersonContextProvider } from '../contexts/Person'
@@ -15,14 +16,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <PersonContextProvider>
           <DietContextProvider>
             <MealContextProvider>
-              <div
-                style={{
-                  display: 'block',
-                }}
-              >
+              <Layout>
                 <Header />
                 <Component {...pageProps} />
-              </div>
+              </Layout>
               <GlobalStyle />
             </MealContextProvider>
           </DietContextProvider>
