@@ -1,5 +1,5 @@
 export const defaultTheme = {
-  blue: {
+  blueColors: {
     900: '#17212a',
     700: '#32495d',
     400: '#4e7190',
@@ -14,5 +14,11 @@ export const defaultTheme = {
     info: '#038c7c',
     success: '#4ad948',
     warning: '#f29f05',
+  },
+  fonts: {
+    default: '#eaeaea',
+    title: '#8ba0a4',
+    danger: '#d74a49',
+    dark: '#1b4552',
   },
 }

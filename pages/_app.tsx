@@ -5,6 +5,7 @@ import { DietContextProvider } from '../contexts/Diet'
 import { MealContextProvider } from '../contexts/Meal'
 import { PersonContextProvider } from '../contexts/Person'
 import { StepContextProvider } from '../contexts/Step'
+import { GlobalStyle } from '../styles/global'
 import { defaultTheme } from '../styles/themes/default'
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -22,6 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Header />
                 <Component {...pageProps} />
               </div>
+              <GlobalStyle />
             </MealContextProvider>
           </DietContextProvider>
         </PersonContextProvider>
