@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import Food from '../../../../@types/food'
 import { MealContext } from '../../../../contexts/Meal'
 import { Button } from '../../../Button'
+import { Input } from '../../../Input'
 
 interface MacroNutrients {
   cho: number
@@ -337,7 +338,7 @@ export function MealUpdateFormModal({
       </span>
       <span>
         <label>Nome da Refeição</label>{' '}
-        <input
+        <Input
           type="text"
           autoComplete="off"
           value={mealName}
@@ -367,7 +368,7 @@ export function MealUpdateFormModal({
                 .filter((food) => food.category === mealCategory)
                 .map((food) => (
                   <div key={food.id}>
-                    <input
+                    <Input
                       type="checkbox"
                       value={food.id}
                       onChange={(e) => handleCheckedFoods(e, food)}
@@ -379,7 +380,7 @@ export function MealUpdateFormModal({
                 .filter((food) => food.category === mealCategory)
                 .map((food) => (
                   <div key={food.id}>
-                    <input
+                    <Input
                       type="checkbox"
                       value={food.id}
                       checked
@@ -407,7 +408,7 @@ export function MealUpdateFormModal({
                 <ul>
                   <span>
                     Para alcançar{' '}
-                    <input
+                    <Input
                       type="number"
                       min="0.1"
                       max="1000"

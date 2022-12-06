@@ -4,6 +4,7 @@ import { PersonContext } from '../../../contexts/Person'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { Button } from '../../Button'
+import { Input } from '../../Input'
 
 interface BenedictEquation {
   weight: number
@@ -77,7 +78,7 @@ export function BMRForm() {
     >
       <span>
         <label>Peso:</label>
-        <input
+        <Input
           type="number"
           min="0.00"
           max="500.0"
@@ -88,7 +89,7 @@ export function BMRForm() {
       </span>
       <span>
         <label>Altura:</label>
-        <input
+        <Input
           type="number"
           min="0.00"
           max="500.0"
@@ -99,7 +100,7 @@ export function BMRForm() {
       </span>
       <span>
         <label>Idade:</label>
-        <input
+        <Input
           type="number"
           min="1"
           max="135"
