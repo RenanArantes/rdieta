@@ -37,5 +37,6 @@ export const LogoContainer = styled.div`
 
   span {
     margin-left: 5px;
+    font-weight: 700;
   }
 `
