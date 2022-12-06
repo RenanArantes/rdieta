@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { PersonContext } from '../../../contexts/Person'
 import { DietContext } from '../../../contexts/Diet'
+import { Button } from '../../Button'
 
 interface DietType {
   dietType: 'cutting' | 'bulking'
@@ -90,7 +91,7 @@ export function DietForm() {
           <option value="high">Alta</option>
         </select>
       </span>
-      <input type="submit" />
+      <Button type="submit">Enviar</Button>
     </form>
   )
 }

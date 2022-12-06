@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { DietContext } from '../../../contexts/Diet'
+import { Button } from '../../Button'
 
 interface NutritionalStrategyType {
   nutritionalStrategy: 'corporalWeight' | 'percentualMacros'
@@ -59,7 +60,7 @@ export function NutritionalStrategyForm() {
         </select>
       </span>
       {'  '}
-      <input type="submit" />
+      <Button type="submit">Enviar</Button>
     </form>
   )
 }

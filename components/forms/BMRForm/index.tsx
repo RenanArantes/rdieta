@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { PersonContext } from '../../../contexts/Person'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
+import { Button } from '../../Button'
 
 interface BenedictEquation {
   weight: number
@@ -117,7 +118,7 @@ export function BMRForm() {
           <option value="female">Feminino</option>
         </select>
       </span>
-      <input type="submit" />
+      <Button type="submit">Enviar</Button>
     </form>
   )
 }

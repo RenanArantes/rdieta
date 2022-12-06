@@ -5,6 +5,7 @@ import { BMRForm } from '../components/forms/BMRForm'
 import { TotalKcalForm } from '../components/forms/TotalKcalForm'
 import { StepContext } from '../contexts/Step'
 import { BottomMultiStep } from '../components/BottomMultiStep'
+import { Button } from '../components/Button'
 
 export default function Home() {
   const {
@@ -35,9 +36,9 @@ export default function Home() {
           )}
         </div>
       </div>
-      <button type="button" onClick={() => push('/diet')}>
+      <Button type="button" onClick={() => push('/diet')}>
         Ir para Dieta
-      </button>
+      </Button>
       <BottomMultiStep step={step} currentStep={currentStep} />
     </div>
   )

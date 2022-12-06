@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import Food from '../../../@types/food'
 import { DietContext } from '../../../contexts/Diet'
+import { Button } from '../../Button'
 import { MealFormModal } from './MealFormModal'
 
 interface MealFormProps {
@@ -25,9 +26,9 @@ export function MealForm({ foods, categories }: MealFormProps) {
       <h1>Meal Form</h1>
       <div>
         <label>Adicionar refeição</label>
-        <button type="button" onClick={handleDisplayModal}>
+        <Button type="button" onClick={handleDisplayModal}>
           <strong>+</strong>
-        </button>
+        </Button>
       </div>
       <div
         style={{

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { PersonContext } from '../../../contexts/Person'
+import { Button } from '../../Button'
 
 interface TotalKcal {
   dailyActivity: 'sedentary' | 'moderate' | 'high'
@@ -142,7 +143,7 @@ export function TotalKcalForm() {
           <option value="advanced">Avançado</option>
         </select>
       </span>
-      <input type="submit" />
+      <Button type="submit">Enviar</Button>
     </form>
   )
 }

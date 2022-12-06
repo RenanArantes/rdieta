@@ -2,6 +2,7 @@ import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import Food from '../../../../@types/food'
 import { MealContext } from '../../../../contexts/Meal'
+import { Button } from '../../../Button'
 
 interface MacroNutrients {
   cho: number
@@ -396,12 +397,12 @@ export function MealFormModal({
                       </select>{' '}
                       serão necessários <strong>{goalFoodWeight}</strong>g do
                       alimento.
-                      <button
+                      <Button
                         type="button"
                         onClick={() => handleAddFoodOnMeal(selectedFood)}
                       >
                         Adicionar na refeição
-                      </button>
+                      </Button>
                     </span>
                   </ul>
                 </span>
@@ -421,12 +422,12 @@ export function MealFormModal({
                           {food.description} | {food.goals.weight}g
                         </span>
                         <span style={{ marginLeft: 20 }}>
-                          <button
+                          <Button
                             type="button"
                             onClick={() => handleRemoveFoodOfMeal(food)}
                           >
                             Remover
-                          </button>
+                          </Button>
                         </span>
                       </li>
                     ))}
@@ -451,7 +452,7 @@ export function MealFormModal({
                       </li>
                     </ul>
                     <div>
-                      <button type="submit">Criar Refeição</button>
+                      <Button type="submit">Criar Refeição</Button>
                     </div>
                   </div>
                 </div>
