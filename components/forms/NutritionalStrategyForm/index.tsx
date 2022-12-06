@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { DietContext } from '../../../contexts/Diet'
 import { Button } from '../../Button'
+import { Select } from '../../Select'
 
 interface NutritionalStrategyType {
   nutritionalStrategy: 'corporalWeight' | 'percentualMacros'
@@ -51,13 +52,13 @@ export function NutritionalStrategyForm() {
     >
       <span>
         <label>Estratégia nutricional: </label>
-        <select defaultValue="" {...register('nutritionalStrategy')}>
+        <Select defaultValue="" {...register('nutritionalStrategy')}>
           <option value="" disabled>
             Selecione uma opção
           </option>
           <option value="percentualMacros">CHO:40% - PTN:40% - LIP:20%</option>
           <option value="corporalWeight">CHO:4g - PTN:2g - LIP:1g</option>
-        </select>
+        </Select>
       </span>
       {'  '}
       <Button type="submit">Enviar</Button>

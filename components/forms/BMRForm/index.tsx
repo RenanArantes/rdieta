@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { Button } from '../../Button'
 import { Input } from '../../Input'
+import { Select } from '../../Select'
 
 interface BenedictEquation {
   weight: number
@@ -111,13 +112,13 @@ export function BMRForm() {
       </span>
       <span>
         <label>Gênero:</label>
-        <select defaultValue="" {...register('gender')}>
+        <Select defaultValue="" {...register('gender')}>
           <option value="" disabled>
             Selecione uma opção
           </option>
           <option value="male">Masculino</option>
           <option value="female">Feminino</option>
-        </select>
+        </Select>
       </span>
       <Button type="submit">Enviar</Button>
     </form>

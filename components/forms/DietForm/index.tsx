@@ -5,6 +5,7 @@ import * as zod from 'zod'
 import { PersonContext } from '../../../contexts/Person'
 import { DietContext } from '../../../contexts/Diet'
 import { Button } from '../../Button'
+import { Select } from '../../Select'
 
 interface DietType {
   dietType: 'cutting' | 'bulking'
@@ -72,24 +73,24 @@ export function DietForm() {
     >
       <span>
         <label>Tipo da Dieta: </label>
-        <select defaultValue="" {...register('dietType')}>
+        <Select defaultValue="" {...register('dietType')}>
           <option value="" disabled>
             Selecione uma opção
           </option>
           <option value="cutting">Perda de gordura</option>
           <option value="bulkinng">Ganho de massa</option>
-        </select>
+        </Select>
       </span>
       <span>
         <label>Intensidade da dieta: </label>
-        <select defaultValue="" {...register('dietIntensity')}>
+        <Select defaultValue="" {...register('dietIntensity')}>
           <option value="" disabled>
             Selecione uma opção
           </option>
           <option value="low">Baixa</option>
           <option value="medium">Média</option>
           <option value="high">Alta</option>
-        </select>
+        </Select>
       </span>
       <Button type="submit">Enviar</Button>
     </form>

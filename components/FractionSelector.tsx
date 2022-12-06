@@ -1,5 +1,6 @@
 import { ChangeEvent, useContext } from 'react'
 import { DietContext } from '../contexts/Diet'
+import { Select } from './Select'
 
 export function FractionSelector() {
   const { dietData, mealFraction, changeMealFraction } = useContext(DietContext)
@@ -11,7 +12,7 @@ export function FractionSelector() {
   return (
     <div>
       Quantas refeições serão feitas por dia:{' '}
-      <select defaultValue="" onChange={handleMealFractionChange}>
+      <Select defaultValue="" onChange={handleMealFractionChange}>
         <option disabled value="">
           Selecione um valor
         </option>
@@ -23,7 +24,7 @@ export function FractionSelector() {
         <option value="6">6</option>
         <option value="7">7</option>
         <option value="8">8</option>
-      </select>
+      </Select>
       {dietData.metaKcal && (
         <>
           {' '}

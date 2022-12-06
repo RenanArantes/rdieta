@@ -4,6 +4,7 @@ import Food from '../../../../@types/food'
 import { MealContext } from '../../../../contexts/Meal'
 import { Button } from '../../../Button'
 import { Input } from '../../../Input'
+import { Select } from '../../../Select'
 
 interface MacroNutrients {
   cho: number
@@ -352,14 +353,14 @@ export function MealUpdateFormModal({
         }}
       >
         <span>
-          <select onChange={handleCategoryChange} value={mealCategory}>
+          <Select onChange={handleCategoryChange} value={mealCategory}>
             {categories &&
               categories.map((category) => (
                 <option key={category} value={category}>
                   {category}
                 </option>
               ))}
-          </select>
+          </Select>
           <p>
             <strong>Valor em 100g de macros do alimento: </strong>
           </p>
@@ -420,7 +421,7 @@ export function MealUpdateFormModal({
                       style={{ width: '40px' }}
                     />
                     g de{' '}
-                    <select
+                    <Select
                       name="metaMacroType"
                       defaultValue=""
                       onChange={(e) => handleSelectedMetaMacro(e)}
@@ -432,7 +433,7 @@ export function MealUpdateFormModal({
                       <option value="cho">Carboidrato</option>
                       <option value="ptn">Proteína</option>
                       <option value="lip">Gordura</option>
-                    </select>{' '}
+                    </Select>{' '}
                     serão necessários <strong>{goalFoodWeight}</strong>g do
                     alimento.
                     <Button

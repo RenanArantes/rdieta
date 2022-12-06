@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { PersonContext } from '../../../contexts/Person'
 import { Button } from '../../Button'
+import { Select } from '../../Select'
 
 interface TotalKcal {
   dailyActivity: 'sedentary' | 'moderate' | 'high'
@@ -111,29 +112,29 @@ export function TotalKcalForm() {
     >
       <span>
         <label>Atividade Diária: </label>
-        <select defaultValue="" {...register('dailyActivity')}>
+        <Select defaultValue="" {...register('dailyActivity')}>
           <option value="" disabled>
             Selecione uma opção
           </option>
           <option value="sedentary">Sedentário</option>
           <option value="moderate">Moderado</option>
           <option value="high">Alto</option>
-        </select>
+        </Select>
       </span>
       <span>
         <label>Intensidade do cardio: </label>
-        <select defaultValue="" {...register('cardioIntensity')}>
+        <Select defaultValue="" {...register('cardioIntensity')}>
           <option value="" disabled>
             Selecione uma opção
           </option>
           <option value="low">Baixa</option>
           <option value="medium">Média</option>
           <option value="high">Alta</option>
-        </select>
+        </Select>
       </span>
       <span>
         <label>Intensidade do treino: </label>
-        <select defaultValue="" {...register('workoutIntensity')}>
+        <Select defaultValue="" {...register('workoutIntensity')}>
           <option value="" disabled>
             Selecione uma opção
           </option>
@@ -141,7 +142,7 @@ export function TotalKcalForm() {
           <option value="beginner">Iniciante</option>
           <option value="intermediary">Intermediário</option>
           <option value="advanced">Avançado</option>
-        </select>
+        </Select>
       </span>
       <Button type="submit">Enviar</Button>
     </form>
