@@ -2,7 +2,9 @@ import { useContext, useState } from 'react'
 import Food from '../../../@types/food'
 import { DietContext } from '../../../contexts/Diet'
 import { Button } from '../../Button'
+import { Title } from '../../Title'
 import { MealFormModal } from './MealFormModal'
+import { MealModalContainer } from './styles'
 
 interface MealFormProps {
   foods: Food[]
@@ -23,24 +25,16 @@ export function MealForm({ foods, categories }: MealFormProps) {
 
   return (
     <div>
-      <h1>Meal Form</h1>
+      <Title>Meal Form</Title>
       <div>
         <label>Adicionar refeição</label>
         <Button type="button" onClick={handleDisplayModal}>
           <strong>+</strong>
         </Button>
       </div>
-      <div
+      <MealModalContainer
         style={{
           display: isDisplayed,
-          position: 'fixed',
-          zIndex: 1,
-          left: 0,
-          top: 0,
-          width: '100%',
-          height: '100%',
-          overflow: 'hidden',
-          backgroundColor: 'rgba(0, 0, 0, 0.4)',
         }}
       >
         <MealFormModal
@@ -48,7 +42,7 @@ export function MealForm({ foods, categories }: MealFormProps) {
           foodList={foods}
           categories={categories}
         />
-      </div>
+      </MealModalContainer>
     </div>
   )
 }

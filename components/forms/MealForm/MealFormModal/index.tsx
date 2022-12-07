@@ -1,10 +1,14 @@
+import { X } from 'phosphor-react'
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import Food from '../../../../@types/food'
 import { MealContext } from '../../../../contexts/Meal'
 import { Button } from '../../../Button'
 import { Input } from '../../../Input'
+import { List } from '../../../List'
 import { Select } from '../../../Select'
+import { Subtitle } from '../../../Subtitle'
+import { CloseIconContainer, ContentContainer, FormContainer } from './styles'
 
 interface MacroNutrients {
   cho: number
@@ -271,33 +275,13 @@ export function MealFormModal({
   }
 
   return (
-    <div
-      style={{
-        backgroundColor: '#fefefe',
-        margin: 'auto',
-        marginTop: '50px',
-        padding: '20px',
-        border: '0px solid #888',
-        width: '80%',
-        height: '85%',
-        overflow: 'auto',
-      }}
-    >
-      <span
-        style={{
-          color: 'black',
-          float: 'right',
-          fontSize: '28px',
-          fontWeight: 'bold',
-          cursor: 'pointer',
-        }}
-        onClick={handleDisplayModal}
-      >
-        &times;
-      </span>
+    <FormContainer>
+      <CloseIconContainer onClick={handleDisplayModal}>
+        <X weight="bold" />
+      </CloseIconContainer>
       <form onSubmit={handleSubmit(handleMealCreation)}>
         <span>
-          <label>Nome da Refeição</label>{' '}
+          <label>Nome da Refeição :</label>
           <Input
             type="text"
             autoComplete="off"
@@ -309,12 +293,7 @@ export function MealFormModal({
             })}
           />
         </span>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
+        <ContentContainer>
           <span>
             <Select onChange={handleCategoryChange}>
               {categories &&
@@ -324,9 +303,7 @@ export function MealFormModal({
                   </option>
                 ))}
             </Select>
-            <p>
-              <strong>Valor em 100g de macros do alimento: </strong>
-            </p>
+            <Subtitle>Valores em 100g do alimento:</Subtitle>
             {checkedFoods.length === 0
               ? foods
                   .filter((food) => food.category === mealCategory)
@@ -351,13 +328,15 @@ export function MealFormModal({
                         onChange={(e) => handleCheckedFoods(e, food)}
                       />
                       {food.description}
-                      <ul>
-                        {/* First word of the selected food */}
-                        <h3>Macros de {food.description.split(',')[0]}</h3>
+                      <List>
+                        <Subtitle>
+                          Macros de {/* First word of the selected food */}
+                          <strong>{food.description.split(',')[0]}</strong>
+                        </Subtitle>
                         <li>CHO: {food.carbohydrate_g}</li>
                         <li>PTN: {food.protein_g}</li>
                         <li>LIP: {food.lipid_g}</li>
-                      </ul>
+                      </List>
                     </div>
                   ))}
           </span>
@@ -465,8 +444,8 @@ export function MealFormModal({
               )}
             </div>
           </span>
-        </div>
+        </ContentContainer>
       </form>
-    </div>
+    </FormContainer>
   )
 }
