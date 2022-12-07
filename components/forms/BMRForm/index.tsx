@@ -110,12 +110,7 @@ export function BMRForm() {
         </span>
         <span>
           <label>Gênero :</label>
-          <Select
-            defaultValue=""
-            {...register('gender')}
-            onMouseEnter={(e) => console.log(e.target.value)}
-            onChange={(e) => console.log(e.target.value)}
-          >
+          <Select defaultValue="" {...register('gender')}>
             <option value="" disabled>
               Selecione uma opção
             </option>
