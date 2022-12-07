@@ -5,21 +5,21 @@ export const FormContainer = styled.div`
   margin: 0 auto;
   width: 50%;
 
+  padding: 6px;
+
+  background-color: transparent;
+  border: 2px solid ${(props) => props.theme.blueColors[400]};
+  border-radius: 6px;
+
   form {
     display: flex;
     flex-direction: column;
     margin: 20px 0px;
   }
 
-  @media (max-width: 400px) {
-    width: 100%;
+  input {
+    min-width: 70%;
   }
-
-  padding: 6px;
-
-  background-color: transparent;
-  border: 2px solid ${(props) => props.theme.blueColors[400]};
-  border-radius: 6px;
 
   span {
     margin: 5px 10%;
@@ -27,10 +27,6 @@ export const FormContainer = styled.div`
     label {
       margin-right: 3px;
     }
-  }
-
-  input {
-    width: 50%;
   }
 
   button {
@@ -60,6 +56,19 @@ export const FormContainer = styled.div`
   }
 
   select {
-    width: 50%;
+    min-width: 50%;
+  }
+
+  @media (max-width: 500px) {
+    width: 100%;
+
+    span {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input {
+      width: 100%;
+    }
   }
 `

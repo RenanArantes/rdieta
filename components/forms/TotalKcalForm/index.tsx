@@ -5,6 +5,8 @@ import * as zod from 'zod'
 import { PersonContext } from '../../../contexts/Person'
 import { Button } from '../../Button'
 import { Select } from '../../Select'
+import { FormContainer } from './styles'
+import { Title } from '../../Title'
 
 interface TotalKcal {
   dailyActivity: 'sedentary' | 'moderate' | 'high'
@@ -103,48 +105,45 @@ export function TotalKcalForm() {
   }
 
   return (
-    <form
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      onSubmit={handleSubmit(handleTotalKcal)}
-    >
-      <span>
-        <label>Atividade Diária: </label>
-        <Select defaultValue="" {...register('dailyActivity')}>
-          <option value="" disabled>
-            Selecione uma opção
-          </option>
-          <option value="sedentary">Sedentário</option>
-          <option value="moderate">Moderado</option>
-          <option value="high">Alto</option>
-        </Select>
-      </span>
-      <span>
-        <label>Intensidade do cardio: </label>
-        <Select defaultValue="" {...register('cardioIntensity')}>
-          <option value="" disabled>
-            Selecione uma opção
-          </option>
-          <option value="low">Baixa</option>
-          <option value="medium">Média</option>
-          <option value="high">Alta</option>
-        </Select>
-      </span>
-      <span>
-        <label>Intensidade do treino: </label>
-        <Select defaultValue="" {...register('workoutIntensity')}>
-          <option value="" disabled>
-            Selecione uma opção
-          </option>
-          <option value="adptation">Adaptação</option>
-          <option value="beginner">Iniciante</option>
-          <option value="intermediary">Intermediário</option>
-          <option value="advanced">Avançado</option>
-        </Select>
-      </span>
-      <Button type="submit">Enviar</Button>
-    </form>
+    <FormContainer>
+      <Title>Gasto Calórico Total</Title>
+      <form onSubmit={handleSubmit(handleTotalKcal)}>
+        <span>
+          <label>Atividade Diária :</label>
+          <Select defaultValue="" {...register('dailyActivity')}>
+            <option value="" disabled>
+              Selecione uma opção
+            </option>
+            <option value="sedentary">Sedentário</option>
+            <option value="moderate">Moderado</option>
+            <option value="high">Alto</option>
+          </Select>
+        </span>
+        <span>
+          <label>Intensidade do cardio : </label>
+          <Select defaultValue="" {...register('cardioIntensity')}>
+            <option value="" disabled>
+              Selecione uma opção
+            </option>
+            <option value="low">Baixa</option>
+            <option value="medium">Média</option>
+            <option value="high">Alta</option>
+          </Select>
+        </span>
+        <span>
+          <label>Intensidade do treino : </label>
+          <Select defaultValue="" {...register('workoutIntensity')}>
+            <option value="" disabled>
+              Selecione uma opção
+            </option>
+            <option value="adptation">Adaptação</option>
+            <option value="beginner">Iniciante</option>
+            <option value="intermediary">Intermediário</option>
+            <option value="advanced">Avançado</option>
+          </Select>
+        </span>
+        <Button type="submit">Enviar</Button>
+      </form>
+    </FormContainer>
   )
 }

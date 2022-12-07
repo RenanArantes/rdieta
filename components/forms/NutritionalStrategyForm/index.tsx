@@ -5,6 +5,8 @@ import * as zod from 'zod'
 import { DietContext } from '../../../contexts/Diet'
 import { Button } from '../../Button'
 import { Select } from '../../Select'
+import { FormContainer } from './styles'
+import { Title } from '../../Title'
 
 interface NutritionalStrategyType {
   nutritionalStrategy: 'corporalWeight' | 'percentualMacros'
@@ -43,25 +45,23 @@ export function NutritionalStrategyForm() {
   }
 
   return (
-    <form
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      onSubmit={handleSubmit(handleNutritionalStrategy)}
-    >
-      <span>
-        <label>Estratégia nutricional: </label>
-        <Select defaultValue="" {...register('nutritionalStrategy')}>
-          <option value="" disabled>
-            Selecione uma opção
-          </option>
-          <option value="percentualMacros">CHO:40% - PTN:40% - LIP:20%</option>
-          <option value="corporalWeight">CHO:4g - PTN:2g - LIP:1g</option>
-        </Select>
-      </span>
-      {'  '}
-      <Button type="submit">Enviar</Button>
-    </form>
+    <FormContainer>
+      <Title>Estratégia Nutricional</Title>
+      <form onSubmit={handleSubmit(handleNutritionalStrategy)}>
+        <span>
+          <label>Estratégia nutricional :</label>
+          <Select defaultValue="" {...register('nutritionalStrategy')}>
+            <option value="" disabled>
+              Selecione uma opção
+            </option>
+            <option value="percentualMacros">
+              CHO:40% - PTN:40% - LIP:20%
+            </option>
+            <option value="corporalWeight">CHO:4g - PTN:2g - LIP:1g</option>
+          </Select>
+        </span>
+        <Button type="submit">Enviar</Button>
+      </form>
+    </FormContainer>
   )
 }

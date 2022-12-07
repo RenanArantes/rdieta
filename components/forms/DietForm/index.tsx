@@ -6,6 +6,8 @@ import { PersonContext } from '../../../contexts/Person'
 import { DietContext } from '../../../contexts/Diet'
 import { Button } from '../../Button'
 import { Select } from '../../Select'
+import { FormContainer } from './styles'
+import { Title } from '../../Title'
 
 interface DietType {
   dietType: 'cutting' | 'bulking'
@@ -64,35 +66,32 @@ export function DietForm() {
   }
 
   return (
-    <form
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      onSubmit={handleSubmit(handleDiet)}
-    >
-      <span>
-        <label>Tipo da Dieta: </label>
-        <Select defaultValue="" {...register('dietType')}>
-          <option value="" disabled>
-            Selecione uma opção
-          </option>
-          <option value="cutting">Perda de gordura</option>
-          <option value="bulkinng">Ganho de massa</option>
-        </Select>
-      </span>
-      <span>
-        <label>Intensidade da dieta: </label>
-        <Select defaultValue="" {...register('dietIntensity')}>
-          <option value="" disabled>
-            Selecione uma opção
-          </option>
-          <option value="low">Baixa</option>
-          <option value="medium">Média</option>
-          <option value="high">Alta</option>
-        </Select>
-      </span>
-      <Button type="submit">Enviar</Button>
-    </form>
+    <FormContainer>
+      <Title>Tipo da Dieta</Title>
+      <form onSubmit={handleSubmit(handleDiet)}>
+        <span>
+          <label>Tipo da Dieta :</label>
+          <Select defaultValue="" {...register('dietType')}>
+            <option value="" disabled>
+              Selecione uma opção
+            </option>
+            <option value="cutting">Perda de gordura</option>
+            <option value="bulkinng">Ganho de massa</option>
+          </Select>
+        </span>
+        <span>
+          <label>Intensidade da dieta :</label>
+          <Select defaultValue="" {...register('dietIntensity')}>
+            <option value="" disabled>
+              Selecione uma opção
+            </option>
+            <option value="low">Baixa</option>
+            <option value="medium">Média</option>
+            <option value="high">Alta</option>
+          </Select>
+        </span>
+        <Button type="submit">Enviar</Button>
+      </form>
+    </FormContainer>
   )
 }
