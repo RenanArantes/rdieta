@@ -6,6 +6,8 @@ import * as zod from 'zod'
 import { Button } from '../../Button'
 import { Input } from '../../Input'
 import { Select } from '../../Select'
+import { FormContainer } from './styles'
+import { Title } from '../../Title'
 
 interface BenedictEquation {
   weight: number
@@ -70,57 +72,59 @@ export function BMRForm() {
   }
 
   return (
-    <form
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      onSubmit={handleSubmit(handleBenedictEquation)}
-    >
-      <span>
-        <label>Peso:</label>
-        <Input
-          type="number"
-          min="0.00"
-          max="500.0"
-          step="0.1"
-          placeholder="Peso em kg"
-          {...register('weight', { valueAsNumber: true })}
-        />
-      </span>
-      <span>
-        <label>Altura:</label>
-        <Input
-          type="number"
-          min="0.00"
-          max="500.0"
-          step="0.1"
-          placeholder="Altura em cm"
-          {...register('height', { valueAsNumber: true })}
-        />
-      </span>
-      <span>
-        <label>Idade:</label>
-        <Input
-          type="number"
-          min="1"
-          max="135"
-          step="1"
-          placeholder="Idade"
-          {...register('age', { valueAsNumber: true })}
-        />
-      </span>
-      <span>
-        <label>Gênero:</label>
-        <Select defaultValue="" {...register('gender')}>
-          <option value="" disabled>
-            Selecione uma opção
-          </option>
-          <option value="male">Masculino</option>
-          <option value="female">Feminino</option>
-        </Select>
-      </span>
-      <Button type="submit">Enviar</Button>
-    </form>
+    <FormContainer onSubmit={handleSubmit(handleBenedictEquation)}>
+      <Title>Taxa de Metabolismo Basal</Title>
+      <form>
+        <span>
+          <label>Peso :</label>
+          <Input
+            type="number"
+            min="0.00"
+            max="500.0"
+            step="0.1"
+            placeholder="Peso em kg"
+            {...register('weight', { valueAsNumber: true })}
+          />
+        </span>
+        <span>
+          <label>Altura :</label>
+          <Input
+            type="number"
+            min="0.00"
+            max="500.0"
+            step="0.1"
+            placeholder="Altura em cm"
+            {...register('height', { valueAsNumber: true })}
+          />
+        </span>
+        <span>
+          <label>Idade :</label>
+          <Input
+            type="number"
+            min="1"
+            max="135"
+            step="1"
+            placeholder="Idade"
+            {...register('age', { valueAsNumber: true })}
+          />
+        </span>
+        <span>
+          <label>Gênero :</label>
+          <Select
+            defaultValue=""
+            {...register('gender')}
+            onMouseEnter={(e) => console.log(e.target.value)}
+            onChange={(e) => console.log(e.target.value)}
+          >
+            <option value="" disabled>
+              Selecione uma opção
+            </option>
+            <option value="male">Masculino</option>
+            <option value="female">Feminino</option>
+          </Select>
+        </span>
+        <Button type="submit">Enviar</Button>
+      </form>
+    </FormContainer>
   )
 }
