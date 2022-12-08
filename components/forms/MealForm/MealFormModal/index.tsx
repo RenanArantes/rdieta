@@ -8,7 +8,14 @@ import { Input } from '../../../Input'
 import { List } from '../../../List'
 import { Select } from '../../../Select'
 import { Subtitle } from '../../../Subtitle'
-import { CloseIconContainer, ContentContainer, FormContainer } from './styles'
+import {
+  CheckBox,
+  CheckBoxContainer,
+  CloseIconContainer,
+  ContentContainer,
+  FormContainer,
+  Text,
+} from './styles'
 
 interface MacroNutrients {
   cho: number
@@ -309,25 +316,31 @@ export function MealFormModal({
                   .filter((food) => food.category === mealCategory)
                   .map((food) => (
                     <div key={food.id}>
-                      <Input
-                        type="checkbox"
-                        value={food.id}
-                        onChange={(e) => handleCheckedFoods(e, food)}
-                      />
-                      {food.description}
+                      <CheckBoxContainer>
+                        <Input
+                          type="checkbox"
+                          value={food.id}
+                          onChange={(e) => handleCheckedFoods(e, food)}
+                        />
+                        <CheckBox></CheckBox>
+                        <Text>{food.description}</Text>
+                      </CheckBoxContainer>
                     </div>
                   ))
               : checkedFoods
                   .filter((food) => food.category === mealCategory)
                   .map((food) => (
                     <div key={food.id}>
-                      <Input
-                        type="checkbox"
-                        value={food.id}
-                        checked
-                        onChange={(e) => handleCheckedFoods(e, food)}
-                      />
-                      {food.description}
+                      <CheckBoxContainer>
+                        <Input
+                          type="checkbox"
+                          value={food.id}
+                          checked
+                          onChange={(e) => handleCheckedFoods(e, food)}
+                        />
+                        <CheckBox></CheckBox>
+                        <Text>{food.description}</Text>
+                      </CheckBoxContainer>
                       <List>
                         <Subtitle>
                           Macros de {/* First word of the selected food */}
