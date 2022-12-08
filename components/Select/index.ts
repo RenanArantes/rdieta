@@ -7,9 +7,9 @@ export const Select = styled.select`
   color: ${(props) => props.theme.blueColors[300]};
   padding: 0.5rem;
 
-  font-size: 0.9rem;
+  font-size: 1.2rem;
 
   option {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 `

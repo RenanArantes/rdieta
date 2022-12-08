@@ -16,31 +16,11 @@ export const FormContainer = styled.div`
   border: 2px solid ${(props) => props.theme.blueColors[400]};
   border-radius: 6px;
 
-  form {
-    display: flex;
-    flex-direction: column;
-    margin: 20px 0px;
-  }
-
-  span {
-    margin: 5px 10%;
-
-    label {
-      margin-right: 3px;
-    }
-  }
-
-  button {
-    margin: 0 auto;
-    margin-top: 10px;
-    width: 80%;
-  }
-
   input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
     cursor: pointer;
     display: block;
-    width: 8px;
+    width: 20px;
     color: '#333';
     text-align: center;
     position: relative;
@@ -57,20 +37,35 @@ export const FormContainer = styled.div`
   }
 
   select {
-    min-width: 50%;
+    max-width: 320px;
+
+    margin-bottom: 20px;
   }
 
-  @media (max-width: 500px) {
-    width: 90%;
+  @media (max-width: 1240px) {
+    min-width: 85%;
+  }
 
+  @media (max-width: 720px) {
     span {
       display: flex;
       flex-direction: column;
     }
+  }
+`
 
-    input {
-      width: 100%;
-    }
+export const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin: 20px;
+
+  svg:hover {
+    transition: 300ms;
+
+    color: ${(props) => props.theme.fonts.title};
   }
 `
 
@@ -80,6 +75,18 @@ export const CloseIconContainer = styled.span`
   font-size: 28px;
   cursor: pointer;
 `
+
+export const MealInputContainer = styled.div`
+  display: flex;
+  margin-left: 20px;
+
+  align-items: center;
+
+  input[type='text'] {
+    font-size: 18px;
+  }
+`
+
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -92,17 +99,38 @@ export const ContentContainer = styled.div`
     visibility: hidden;
   }
 `
+export const FoodListContainer = styled.div`
+  margin: 20px;
+  width: 100%;
+
+  @media (max-width: 1390px) {
+    margin: 20px 0px;
+  }
+`
+
+export const SelectedFoodContainer = styled.div`
+  margin: 20px;
+  width: 100%;
+
+  @media (max-width: 1390px) {
+    margin: 20px 0px;
+  }
+
+  input[type='number'] {
+    min-width: 80px;
+  }
+`
+
 export const CheckBoxContainer = styled.label`
   display: block;
   position: relative;
   padding-left: 5px;
-  margin-bottom: 15px;
+  margin: 7px;
   cursor: pointer;
   font-size: 20px;
 
   &:hover {
-    background-color: ${(props) => props.theme.blueColors[400]};
-    border-radius: 6px;
+    box-shadow: 0px 2px 0px 0px ${(props) => props.theme.blueColors[200]};
 
     span {
       background-color: ${(props) => props.theme.blueColors[400]};
@@ -114,9 +142,9 @@ export const CheckBoxContainer = styled.label`
     transition: 300ms;
   }
 
-  input:active ~ span {
+  /* input:active ~ span {
     background-color: white;
-  }
+  } */
 
   input:checked ~ span {
     background-color: ${(props) => props.theme.blueColors[300]};
@@ -160,6 +188,6 @@ export const CheckBox = styled.span`
   }
 `
 
-export const Text = styled.label`
+export const TextFood = styled.label`
   margin-left: 6px;
 `

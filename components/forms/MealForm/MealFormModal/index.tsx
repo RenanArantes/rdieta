@@ -1,4 +1,4 @@
-import { X } from 'phosphor-react'
+import { Warning, X } from 'phosphor-react'
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import Food from '../../../../@types/food'
@@ -8,13 +8,19 @@ import { Input } from '../../../Input'
 import { List } from '../../../List'
 import { Select } from '../../../Select'
 import { Subtitle } from '../../../Subtitle'
+import { Title } from '../../../Title'
 import {
   CheckBox,
   CheckBoxContainer,
   CloseIconContainer,
   ContentContainer,
+  FoodListContainer,
   FormContainer,
+  HeaderContainer,
+  MealInputContainer,
+  SelectedFoodContainer,
   Text,
+  TextFood,
 } from './styles'
 
 interface MacroNutrients {
@@ -283,12 +289,13 @@ export function MealFormModal({
 
   return (
     <FormContainer>
-      <CloseIconContainer onClick={handleDisplayModal}>
-        <X weight="bold" />
-      </CloseIconContainer>
+      <HeaderContainer>
+        <Title>Monte sua Refeição</Title>
+        <X weight="bold" size={24} onClick={handleDisplayModal} />
+      </HeaderContainer>
       <form onSubmit={handleSubmit(handleMealCreation)}>
-        <span>
-          <label>Nome da Refeição :</label>
+        <MealInputContainer>
+          <Subtitle>Nome :</Subtitle>
           <Input
             type="text"
             autoComplete="off"
@@ -299,9 +306,9 @@ export function MealFormModal({
               required: true,
             })}
           />
-        </span>
+        </MealInputContainer>
         <ContentContainer>
-          <span>
+          <FoodListContainer>
             <Select onChange={handleCategoryChange}>
               {categories &&
                 categories.map((category) => (
@@ -315,23 +322,21 @@ export function MealFormModal({
               ? foods
                   .filter((food) => food.category === mealCategory)
                   .map((food) => (
-                    <div key={food.id}>
-                      <CheckBoxContainer>
-                        <Input
-                          type="checkbox"
-                          value={food.id}
-                          onChange={(e) => handleCheckedFoods(e, food)}
-                        />
-                        <CheckBox></CheckBox>
-                        <Text>{food.description}</Text>
-                      </CheckBoxContainer>
-                    </div>
+                    <CheckBoxContainer key={food.id}>
+                      <Input
+                        type="checkbox"
+                        value={food.id}
+                        onChange={(e) => handleCheckedFoods(e, food)}
+                      />
+                      <CheckBox></CheckBox>
+                      <TextFood>{food.description}</TextFood>
+                    </CheckBoxContainer>
                   ))
               : checkedFoods
                   .filter((food) => food.category === mealCategory)
                   .map((food) => (
                     <div key={food.id}>
-                      <CheckBoxContainer>
+                      <CheckBoxContainer key={food.id}>
                         <Input
                           type="checkbox"
                           value={food.id}
@@ -339,7 +344,7 @@ export function MealFormModal({
                           onChange={(e) => handleCheckedFoods(e, food)}
                         />
                         <CheckBox></CheckBox>
-                        <Text>{food.description}</Text>
+                        <TextFood>{food.description}</TextFood>
                       </CheckBoxContainer>
                       <List>
                         <Subtitle>
@@ -352,18 +357,50 @@ export function MealFormModal({
                       </List>
                     </div>
                   ))}
-          </span>
-          <span>
+          </FoodListContainer>
+          <SelectedFoodContainer>
             <div style={{ padding: 25, marginLeft: 25 }}>
               {Object.entries(selectedFood).length > 0 ? (
                 <span>
-                  <p>
+                  <Subtitle>
                     Comida Selecionada:{' '}
                     <strong>{selectedFood.description}</strong>
-                  </p>
+                  </Subtitle>
                   <ul>
+                    <Subtitle>Defina a quantidade de macros da comida</Subtitle>
+                    <div>
+                      <label>Macronutriente :</label>
+                      <Select
+                        name="metaMacroType"
+                        defaultValue=""
+                        onChange={(e) => handleSelectedMetaMacro(e)}
+                        required
+                      >
+                        <option value="" disabled>
+                          Selecione um Macro
+                        </option>
+                        <option value="cho">Carboidrato</option>
+                        <option value="ptn">Proteína</option>
+                        <option value="lip">Gordura</option>
+                      </Select>
+                    </div>
+                    <div>
+                      <label>Quantidade em Gramas :</label>
+                      <Input
+                        type="number"
+                        min="0.1"
+                        max="1000"
+                        step="1"
+                        name="metaMacroValue"
+                        title="Defina aqui a quantidade do macronutriente que deseja alcançar"
+                        onChange={(e) => handleMetaMacroValue(e)}
+                        required
+                        style={{ width: '40px' }}
+                      />
+                      g
+                    </div>
                     <span>
-                      Para alcançar{' '}
+                      {/* Para alcançar{' '}
                       <Input
                         type="number"
                         min="0.1"
@@ -390,7 +427,7 @@ export function MealFormModal({
                         <option value="lip">Gordura</option>
                       </Select>{' '}
                       serão necessários <strong>{goalFoodWeight}</strong>g do
-                      alimento.
+                      alimento. */}
                       <Button
                         type="button"
                         onClick={() => handleAddFoodOnMeal(selectedFood)}
@@ -401,12 +438,15 @@ export function MealFormModal({
                   </ul>
                 </span>
               ) : (
-                <p>Nenhuma comida selecionada</p>
+                <Subtitle>
+                  <Warning color="yellow" size={32} />
+                  Selecione uma selecionada
+                </Subtitle>
               )}
             </div>
 
             <div>
-              <p>Alimentos da refeição</p>
+              <Subtitle>Alimentos da refeição: </Subtitle>
               {foodsOnMeal.length > 0 ? (
                 <div>
                   <ul style={{ border: '2px solid blue' }}>
@@ -456,7 +496,7 @@ export function MealFormModal({
                 </p>
               )}
             </div>
-          </span>
+          </SelectedFoodContainer>
         </ContentContainer>
       </form>
     </FormContainer>
