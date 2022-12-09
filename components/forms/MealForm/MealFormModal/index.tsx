@@ -12,15 +12,16 @@ import { Title } from '../../../Title'
 import {
   CheckBox,
   CheckBoxContainer,
-  CloseIconContainer,
   ContentContainer,
   FoodListContainer,
+  FoodsOnMealContainer,
+  FoodsOnMealList,
   FormContainer,
   HeaderContainer,
   MealInputContainer,
   SelectedFoodContainer,
-  Text,
   TextFood,
+  WarningToSelectFoodContainer,
 } from './styles'
 
 interface MacroNutrients {
@@ -359,14 +360,14 @@ export function MealFormModal({
                   ))}
           </FoodListContainer>
           <SelectedFoodContainer>
-            <div style={{ padding: 25, marginLeft: 25 }}>
+            <div>
               {Object.entries(selectedFood).length > 0 ? (
                 <span>
                   <Subtitle>
                     Comida Selecionada:{' '}
                     <strong>{selectedFood.description}</strong>
                   </Subtitle>
-                  <ul>
+                  <span>
                     <Subtitle>Defina a quantidade de macros da comida</Subtitle>
                     <div>
                       <label>Macronutriente :</label>
@@ -390,112 +391,93 @@ export function MealFormModal({
                         type="number"
                         min="0.1"
                         max="1000"
-                        step="1"
+                        step="0.1"
                         name="metaMacroValue"
                         title="Defina aqui a quantidade do macronutriente que deseja alcançar"
                         onChange={(e) => handleMetaMacroValue(e)}
                         required
                         style={{ width: '40px' }}
                       />
-                      g
                     </div>
-                    <span>
-                      {/* Para alcançar{' '}
-                      <Input
-                        type="number"
-                        min="0.1"
-                        max="1000"
-                        step="1"
-                        name="metaMacroValue"
-                        title="Defina aqui a quantidade do macronutriente que deseja alcançar"
-                        onChange={(e) => handleMetaMacroValue(e)}
-                        required
-                        style={{ width: '40px' }}
-                      />
-                      g de{' '}
-                      <Select
-                        name="metaMacroType"
-                        defaultValue=""
-                        onChange={(e) => handleSelectedMetaMacro(e)}
-                        required
-                      >
-                        <option value="" disabled>
-                          Selecione um Macro
-                        </option>
-                        <option value="cho">Carboidrato</option>
-                        <option value="ptn">Proteína</option>
-                        <option value="lip">Gordura</option>
-                      </Select>{' '}
-                      serão necessários <strong>{goalFoodWeight}</strong>g do
-                      alimento. */}
+                    <div>
+                      <label>
+                        Quantidade do alimento:{' '}
+                        <strong>
+                          {goalFoodWeight} {' g'}
+                        </strong>
+                      </label>
+                    </div>
+                    <div>
                       <Button
                         type="button"
                         onClick={() => handleAddFoodOnMeal(selectedFood)}
                       >
-                        Adicionar na refeição
+                        Adicionar
                       </Button>
-                    </span>
-                  </ul>
+                    </div>
+                  </span>
                 </span>
               ) : (
-                <Subtitle>
-                  <Warning color="yellow" size={32} />
-                  Selecione uma selecionada
-                </Subtitle>
+                <WarningToSelectFoodContainer>
+                  <Warning size={42} />
+                  <Title>Selecione um alimento</Title>
+                </WarningToSelectFoodContainer>
               )}
             </div>
 
-            <div>
-              <Subtitle>Alimentos da refeição: </Subtitle>
+            <FoodsOnMealContainer>
+              <Title>Alimentos da refeição: </Title>
               {foodsOnMeal.length > 0 ? (
                 <div>
-                  <ul style={{ border: '2px solid blue' }}>
-                    {foodsOnMeal.map((food) => (
-                      <li key={food.id}>
-                        <span>
-                          {food.description} | {food.goals.weight}g
-                        </span>
-                        <span style={{ marginLeft: 20 }}>
-                          <Button
-                            type="button"
-                            onClick={() => handleRemoveFoodOfMeal(food)}
-                          >
-                            Remover
-                          </Button>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div>
-                    <ul
-                      style={{
-                        listStyle: 'none',
-                      }}
-                    >
+                  <span>
+                    <FoodsOnMealList>
+                      {foodsOnMeal.map((food) => (
+                        <li key={food.id}>
+                          <div>
+                            <Subtitle>
+                              {food.description} | {food.goals.weight}g
+                            </Subtitle>
+                            <Button
+                              type="button"
+                              onClick={() => handleRemoveFoodOfMeal(food)}
+                            >
+                              Remover
+                            </Button>
+                          </div>
+                        </li>
+                      ))}
+                    </FoodsOnMealList>
+                  </span>
+                  <span>
+                    <FoodsOnMealList>
                       <li>
-                        <strong style={{ fontSize: 20 }}>{' > '}</strong>
-                        Carboidratos: {totalMacrosOnMeal.cho}
-                      </li>
-                      <li>
-                        <strong style={{ fontSize: 20 }}>{' > '}</strong>{' '}
-                        Proteína: {totalMacrosOnMeal.ptn}
+                        <Subtitle>
+                          <strong style={{ fontSize: 20 }}>{' > '}</strong>
+                          Carboidratos: {totalMacrosOnMeal.cho}g
+                        </Subtitle>
                       </li>
                       <li>
-                        <strong style={{ fontSize: 20 }}>{' > '}</strong>{' '}
-                        Gordura: {totalMacrosOnMeal.lip}
+                        <Subtitle>
+                          <strong style={{ fontSize: 20 }}>{' > '}</strong>
+                          Proteína: {totalMacrosOnMeal.ptn}g
+                        </Subtitle>
                       </li>
-                    </ul>
+                      <li>
+                        <Subtitle>
+                          <strong style={{ fontSize: 20 }}>{' > '}</strong>
+                          Gordura: {totalMacrosOnMeal.lip}g
+                        </Subtitle>
+                      </li>
+                    </FoodsOnMealList>
                     <div>
                       <Button type="submit">Criar Refeição</Button>
                     </div>
-                  </div>
+                  </span>
                 </div>
               ) : (
-                <p style={{ color: 'red' }}>
-                  <strong>0</strong> comidas selecionadas
-                </p>
+                <Subtitle>Nenhuma comida na refeição</Subtitle>
               )}
-            </div>
+            </FoodsOnMealContainer>
           </SelectedFoodContainer>
         </ContentContainer>
       </form>

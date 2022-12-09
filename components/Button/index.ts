@@ -12,6 +12,7 @@ export const Button = styled.button`
 
   &:hover {
     transition: 0.4s;
-    background: ${(props) => props.theme.blueColors[700]};
+    background: ${(props) => props.theme.blueColors[300]};
+    color: ${(props) => props.theme.blueColors[700]};
   }
 `

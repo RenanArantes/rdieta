@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import spinner from '../../../../assets/spinner.png'
 
 export const FormContainer = styled.div`
@@ -119,6 +119,16 @@ export const SelectedFoodContainer = styled.div`
   input[type='number'] {
     min-width: 80px;
   }
+
+  div {
+    span {
+      div {
+        margin-top: 10px;
+
+        max-height: 30px;
+      }
+    }
+  }
 `
 
 export const CheckBoxContainer = styled.label`
@@ -190,4 +200,59 @@ export const CheckBox = styled.span`
 
 export const TextFood = styled.label`
   margin-left: 6px;
+`
+export const FoodsOnMealList = styled.ul`
+  list-style: none;
+
+  margin: 10px 0px;
+
+  border: 2px solid ${(props) => props.theme.blueColors[400]};
+  border-radius: 6px;
+
+  li {
+    margin: 12px 0px;
+    border: none;
+    box-shadow: 0px 1px 0px 0px rgba(133, 193, 246, 0.2);
+
+    &:hover {
+      box-shadow: 0px 1px 0px 0px rgba(133, 193, 246, 0.4);
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      @media (max-width: 720px) {
+        flex-direction: column;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  button {
+    max-height: 30px;
+  }
+`
+
+export const FoodsOnMealContainer = styled.div`
+  margin: 30px 0;
+`
+
+const warningAnimation = keyframes`
+  0% {color: #fdfca4}
+  25% {color: #fffb22}
+  50% {color: #fffa00}
+  75% {color: #fffb22}
+  100% {color: #fdfca4}
+`
+
+export const WarningToSelectFoodContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    animation: ${warningAnimation} 2s linear infinite;
+  }
 `
