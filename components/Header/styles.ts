@@ -5,7 +5,7 @@ export const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  margin: 15px 0;
+  margin: 15px 10px;
 
   nav {
     display: flex;
