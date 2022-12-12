@@ -1,6 +1,15 @@
 import styled from 'styled-components'
 
-export const MealModalContainer = styled.div`
+interface MealModalContainerProps {
+  isDisplayed: string
+}
+
+export const MealUpdateFormContainer = styled.div`
+  margin-right: 7px;
+`
+
+export const MealModalContainer = styled.div<MealModalContainerProps>`
+  display: ${(props) => props.isDisplayed};
   position: fixed;
   z-index: 1;
   left: 0;

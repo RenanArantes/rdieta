@@ -130,7 +130,11 @@ export default function Diet({ foods, categories }: DietProps) {
                 }}
               >
                 <h3>Refeição: {meal.name.toLocaleUpperCase()}</h3>
-                <div>
+                <div
+                  style={{
+                    display: 'flex',
+                  }}
+                >
                   <MealUpdateForm
                     categories={categories}
                     foods={foods}

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Food from '../../../@types/food'
 import { Button } from '../../Button'
 import { MealUpdateFormModal } from './MealUpdateFormModal'
+import { MealModalContainer, MealUpdateFormContainer } from './styles'
 
 interface MealUpdateFormProps {
   foods: Food[]
@@ -24,7 +25,7 @@ export function MealUpdateForm({
   }
 
   return (
-    <>
+    <MealUpdateFormContainer>
       <Button
         onClick={() => {
           handleDisplayModal()
@@ -32,26 +33,14 @@ export function MealUpdateForm({
       >
         Modal
       </Button>
-      <div
-        style={{
-          display: isDisplayed,
-          position: 'fixed',
-          zIndex: 1,
-          left: 0,
-          top: 0,
-          width: '100%',
-          height: '100%',
-          overflow: 'hidden',
-          backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        }}
-      >
+      <MealModalContainer isDisplayed={isDisplayed}>
         <MealUpdateFormModal
           handleDisplayModal={handleDisplayModal}
           foodList={foods}
           categories={categories}
           mealToEdit={mealToEdit}
         />
-      </div>
-    </>
+      </MealModalContainer>
+    </MealUpdateFormContainer>
   )
 }
