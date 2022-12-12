@@ -108,7 +108,6 @@ export default function Diet({ foods, categories }: DietProps) {
       <hr />
 
       <div>
-        <h2>Monte a sua refeição</h2>
         <MealForm foods={foods} categories={categories} />
       </div>
       <hr />

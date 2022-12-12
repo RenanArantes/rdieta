@@ -216,6 +216,7 @@ export const CheckBox = styled.span`
 export const TextFood = styled.label`
   margin-left: 6px;
 `
+
 export const FoodsOnMealList = styled.ul`
   list-style: none;
 
@@ -247,7 +248,7 @@ export const FoodsOnMealList = styled.ul`
   }
 
   button {
-    max-height: 30px;
+    margin-right: 6px;
   }
 `
 

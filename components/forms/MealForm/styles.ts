@@ -1,4 +1,24 @@
 import styled from 'styled-components'
+import { Button } from '../../Button'
+
+export const MealFormContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const ModalButton = styled(Button)`
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+
+  transition: 0.2s;
+
+  &:hover {
+    border: none;
+    box-shadow: 0 0 0 1px ${(props) => props.theme.white};
+  }
+`
 
 export const MealModalContainer = styled.div`
   position: fixed;

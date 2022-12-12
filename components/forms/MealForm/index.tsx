@@ -1,10 +1,11 @@
+import { Plus } from 'phosphor-react'
 import { useContext, useState } from 'react'
 import Food from '../../../@types/food'
 import { DietContext } from '../../../contexts/Diet'
 import { Button } from '../../Button'
 import { Title } from '../../Title'
 import { MealFormModal } from './MealFormModal'
-import { MealModalContainer } from './styles'
+import { MealFormContainer, MealModalContainer, ModalButton } from './styles'
 
 interface MealFormProps {
   foods: Food[]
@@ -24,14 +25,13 @@ export function MealForm({ foods, categories }: MealFormProps) {
   }
 
   return (
-    <div>
-      <Title>Meal Form</Title>
-      <div>
-        <label>Adicionar refeição</label>
-        <Button type="button" onClick={handleDisplayModal}>
-          <strong>+</strong>
-        </Button>
-      </div>
+    <MealFormContainer>
+      <Title>Monte sua refeição</Title>
+      <ModalButton type="button" onClick={handleDisplayModal}>
+        <div>
+          <Plus size={18} weight="bold" />
+        </div>
+      </ModalButton>
       <MealModalContainer
         style={{
           display: isDisplayed,
@@ -43,6 +43,6 @@ export function MealForm({ foods, categories }: MealFormProps) {
           categories={categories}
         />
       </MealModalContainer>
-    </div>
+    </MealFormContainer>
   )
 }
