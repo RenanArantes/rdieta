@@ -215,13 +215,14 @@ export function MealFormModal({
   }
 
   function handleMetaMacroValue(e: ChangeEvent<HTMLInputElement>) {
-    setMetaMacroValue(Number(e.target.value))
+    setMetaMacroValue((state) => Number(e.target.value))
 
     let macroValue = 0
 
     console.log(selectedMetaMacro)
 
-    if (selectedMetaMacro === ('cho' || 'ptn' || 'lip')) {
+    if (selectedMetaMacro) {
+      console.log('entrou')
       if (selectedMetaMacro === 'cho') {
         macroValue = selectedFood.carbohydrate_g
       } else if (selectedMetaMacro === 'ptn') {
@@ -232,7 +233,7 @@ export function MealFormModal({
 
       const weightGoal = findWeightOfSelectedFood(macroValue)
 
-      setGoalFoodWeight(weightGoal)
+      setGoalFoodWeight((state) => weightGoal)
     }
   }
 
@@ -254,9 +255,11 @@ export function MealFormModal({
       macroValue = selectedFood.lipid_g
     }
 
-    const weightGoal = findWeightOfSelectedFood(macroValue)
+    if (metaMacroValue > 0) {
+      const weightGoal = findWeightOfSelectedFood(macroValue)
 
-    setGoalFoodWeight(weightGoal)
+      setGoalFoodWeight(weightGoal)
+    }
   }
 
   function handleMealCreation(data: { mealName: string }) {
@@ -295,70 +298,73 @@ export function MealFormModal({
         <X weight="bold" size={24} onClick={handleDisplayModal} />
       </HeaderContainer>
       <form onSubmit={handleSubmit(handleMealCreation)}>
-        <MealInputContainer>
-          <Subtitle>Nome :</Subtitle>
-          <Input
-            type="text"
-            autoComplete="off"
-            {...register('mealName', {
-              value: mealName,
-              max: 255,
-              min: 3,
-              required: true,
-            })}
-          />
-        </MealInputContainer>
         <ContentContainer>
-          <FoodListContainer>
-            <Select onChange={handleCategoryChange}>
-              {categories &&
-                categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-            </Select>
-            <Subtitle>Valores em 100g do alimento:</Subtitle>
-            {checkedFoods.length === 0
-              ? foods
-                  .filter((food) => food.category === mealCategory)
-                  .map((food) => (
-                    <CheckBoxContainer key={food.id}>
-                      <Input
-                        type="checkbox"
-                        value={food.id}
-                        onChange={(e) => handleCheckedFoods(e, food)}
-                      />
-                      <CheckBox></CheckBox>
-                      <TextFood>{food.description}</TextFood>
-                    </CheckBoxContainer>
-                  ))
-              : checkedFoods
-                  .filter((food) => food.category === mealCategory)
-                  .map((food) => (
-                    <div key={food.id}>
+          <div style={{ minWidth: '50%' }}>
+            <MealInputContainer>
+              <Subtitle>Nome da refeição</Subtitle>
+              <Input
+                type="text"
+                autoComplete="off"
+                {...register('mealName', {
+                  value: mealName,
+                  max: 255,
+                  min: 3,
+                  required: true,
+                })}
+              />
+            </MealInputContainer>
+            <FoodListContainer>
+              <Subtitle>Escolha um tipo de comida</Subtitle>
+              <Select onChange={handleCategoryChange}>
+                {categories &&
+                  categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+              </Select>
+              <Subtitle>Valores em 100g do alimento:</Subtitle>
+              {checkedFoods.length === 0
+                ? foods
+                    .filter((food) => food.category === mealCategory)
+                    .map((food) => (
                       <CheckBoxContainer key={food.id}>
                         <Input
                           type="checkbox"
                           value={food.id}
-                          checked
                           onChange={(e) => handleCheckedFoods(e, food)}
                         />
                         <CheckBox></CheckBox>
                         <TextFood>{food.description}</TextFood>
                       </CheckBoxContainer>
-                      <List>
-                        <Subtitle>
-                          Macros de {/* First word of the selected food */}
-                          <strong>{food.description.split(',')[0]}</strong>
-                        </Subtitle>
-                        <li>CHO: {food.carbohydrate_g}</li>
-                        <li>PTN: {food.protein_g}</li>
-                        <li>LIP: {food.lipid_g}</li>
-                      </List>
-                    </div>
-                  ))}
-          </FoodListContainer>
+                    ))
+                : checkedFoods
+                    .filter((food) => food.category === mealCategory)
+                    .map((food) => (
+                      <div key={food.id}>
+                        <CheckBoxContainer key={food.id}>
+                          <Input
+                            type="checkbox"
+                            value={food.id}
+                            checked
+                            onChange={(e) => handleCheckedFoods(e, food)}
+                          />
+                          <CheckBox></CheckBox>
+                          <TextFood>{food.description}</TextFood>
+                        </CheckBoxContainer>
+                        <List>
+                          <Subtitle>
+                            Macros de {/* First word of the selected food */}
+                            <strong>{food.description.split(',')[0]}</strong>
+                          </Subtitle>
+                          <li>CHO: {food.carbohydrate_g}</li>
+                          <li>PTN: {food.protein_g}</li>
+                          <li>LIP: {food.lipid_g}</li>
+                        </List>
+                      </div>
+                    ))}
+            </FoodListContainer>
+          </div>
           <SelectedFoodContainer>
             <div>
               {Object.entries(selectedFood).length > 0 ? (

@@ -36,12 +36,6 @@ export const FormContainer = styled.div`
     border-radius: 28px;
   }
 
-  select {
-    max-width: 320px;
-
-    margin-bottom: 20px;
-  }
-
   @media (max-width: 1240px) {
     min-width: 85%;
   }
@@ -76,22 +70,11 @@ export const CloseIconContainer = styled.span`
   cursor: pointer;
 `
 
-export const MealInputContainer = styled.div`
-  display: flex;
-  margin-left: 20px;
-
-  align-items: center;
-
-  input[type='text'] {
-    font-size: 18px;
-  }
-`
-
 export const ContentContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  padding: 0 5px;
 
-  @media (max-width: 1390px) {
+  @media (max-width: 720px) {
     flex-direction: column;
   }
 
@@ -100,17 +83,51 @@ export const ContentContainer = styled.div`
   }
 `
 export const FoodListContainer = styled.div`
-  margin: 20px;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
 
-  @media (max-width: 1390px) {
+  min-width: 50%;
+  margin-top: 20px;
+
+  @media (max-width: 720px) {
+    width: 100%;
     margin: 20px 0px;
+  }
+
+  h2 {
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+
+  select {
+    max-width: 320px;
+
+    margin-bottom: 20px;
+  }
+`
+
+export const MealInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+
+  &:hover {
+    color: ${(props) => props.theme.white};
+  }
+
+  input[type='text'] {
+    font-size: 18px;
+    max-width: 320px;
   }
 `
 
 export const SelectedFoodContainer = styled.div`
-  margin: 20px;
-  width: 100%;
+  min-width: 50%;
+  padding: 0 5px;
 
   @media (max-width: 1390px) {
     margin: 20px 0px;
@@ -124,8 +141,6 @@ export const SelectedFoodContainer = styled.div`
     span {
       div {
         margin-top: 10px;
-
-        max-height: 30px;
       }
     }
   }
