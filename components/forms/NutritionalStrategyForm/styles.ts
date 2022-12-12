@@ -15,10 +15,17 @@ export const FormContainer = styled.div`
     flex-direction: column;
     margin: 20px 0px;
 
-    @media (max-width: 940px) {
-      span {
-        display: flex;
-        flex-direction: column;
+    span {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        display: inline-block;
+        margin-bottom: 4px;
+      }
+
+      &:hover {
+        color: ${(props) => props.theme.white};
       }
     }
   }
@@ -39,10 +46,5 @@ export const FormContainer = styled.div`
     margin: 0 auto;
     margin-top: 10px;
     width: 80%;
-  }
-
-  select {
-    min-width: 50%;
-    margin-top: 5px;
   }
 `

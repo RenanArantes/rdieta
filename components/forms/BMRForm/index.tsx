@@ -76,7 +76,7 @@ export function BMRForm() {
       <Title>Taxa de Metabolismo Basal</Title>
       <form>
         <span>
-          <label>Peso :</label>
+          <label>Peso</label>
           <Input
             type="number"
             min="0.00"
@@ -87,7 +87,7 @@ export function BMRForm() {
           />
         </span>
         <span>
-          <label>Altura :</label>
+          <label>Altura</label>
           <Input
             type="number"
             min="0.00"
@@ -98,7 +98,7 @@ export function BMRForm() {
           />
         </span>
         <span>
-          <label>Idade :</label>
+          <label>Idade</label>
           <Input
             type="number"
             min="1"
@@ -109,7 +109,7 @@ export function BMRForm() {
           />
         </span>
         <span>
-          <label>Gênero :</label>
+          <label>Gênero</label>
           <Select defaultValue="" {...register('gender')}>
             <option value="" disabled>
               Selecione uma opção

@@ -24,8 +24,16 @@ export const FormContainer = styled.div`
   span {
     margin: 5px 10%;
 
+    display: flex;
+    flex-direction: column;
+
     label {
-      margin-right: 3px;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    &:hover {
+      color: ${(props) => props.theme.white};
     }
   }
 
