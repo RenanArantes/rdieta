@@ -226,7 +226,7 @@ export const FoodsOnMealList = styled.ul`
   border-radius: 6px;
 
   li {
-    margin: 12px 0px;
+    //margin: 12px 0px;
     border: none;
     box-shadow: 0px 1px 0px 0px rgba(133, 193, 246, 0.2);
 
@@ -240,9 +240,24 @@ export const FoodsOnMealList = styled.ul`
       justify-content: space-between;
       align-items: center;
 
+      margin-top: 0;
+
       @media (max-width: 720px) {
-        flex-direction: column;
-        margin-top: 10px;
+        margin-top: 5px;
+
+        svg {
+          scale: 0.8;
+        }
+      }
+
+      svg {
+        margin-right: 5px;
+        color: ${(props) => props.theme.fonts.default};
+
+        transition: 0.3s;
+        &:hover {
+          color: ${(props) => props.theme.fonts.danger};
+        }
       }
     }
   }

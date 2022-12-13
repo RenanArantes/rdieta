@@ -1,4 +1,4 @@
-import { Warning, X } from 'phosphor-react'
+import { Trash, Warning, X } from 'phosphor-react'
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import Food from '../../../../@types/food'
@@ -443,12 +443,12 @@ export function MealFormModal({
                             <Subtitle>
                               {food.description} | {food.goals.weight}g
                             </Subtitle>
-                            <Button
+
+                            <Trash
                               type="button"
                               onClick={() => handleRemoveFoodOfMeal(food)}
-                            >
-                              Remover
-                            </Button>
+                              size={32}
+                            />
                           </div>
                         </li>
                       ))}
