@@ -67,7 +67,7 @@ export default function Diet({ foods, categories }: DietProps) {
   }, [meals])
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div>
         {personData.totalCaloricSpending && (
           <h2>Gasto calórico Total: {personData.totalCaloricSpending}</h2>
