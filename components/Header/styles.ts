@@ -35,7 +35,7 @@ export const LogoContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  span {
+  h1 {
     margin-left: 5px;
     font-weight: 700;
   }
