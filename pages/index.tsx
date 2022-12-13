@@ -5,8 +5,8 @@ import { TotalKcalForm } from '../components/forms/TotalKcalForm'
 import { StepContext } from '../contexts/Step'
 import { BottomMultiStep } from '../components/BottomMultiStep'
 import {
-  BmrContainer,
   DataContainer,
+  FormContainer,
   HomeAccordion,
   HomeContainer,
 } from '../styles/pages'
@@ -20,8 +20,8 @@ export default function Home() {
   } = useContext(PersonContext)
   const { step, currentStep } = useContext(StepContext)
 
-  const [bmrAccordion, setBmrAccordion] = useState(true)
-  const [totalKcalAccordion, setTotalKcalAccordion] = useState(true)
+  const [bmrAccordion, setBmrAccordion] = useState(false)
+  const [totalKcalAccordion, setTotalKcalAccordion] = useState(false)
 
   function handleBmrAccordion() {
     setBmrAccordion((state) => !bmrAccordion)
@@ -33,7 +33,7 @@ export default function Home() {
 
   return (
     <HomeContainer>
-      <BmrContainer>
+      <FormContainer>
         <DataContainer>
           <Title>
             Sua Taxa de Metabolismo Basal é de aproximadamente:{' '}
@@ -47,8 +47,8 @@ export default function Home() {
         <HomeAccordion show={bmrAccordion}>
           <BMRForm />
         </HomeAccordion>
-      </BmrContainer>
-      <BmrContainer>
+      </FormContainer>
+      <FormContainer>
         <DataContainer>
           <Title>
             Gasto Calórico total: <strong>{totalCaloricSpending}</strong> kcal
@@ -61,7 +61,7 @@ export default function Home() {
         <HomeAccordion show={totalKcalAccordion}>
           <TotalKcalForm />
         </HomeAccordion>
-      </BmrContainer>
+      </FormContainer>
       <BottomMultiStep step={step} currentStep={currentStep} />
     </HomeContainer>
   )

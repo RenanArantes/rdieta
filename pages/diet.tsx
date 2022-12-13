@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { GetServerSideProps } from 'next/types'
+import { Calculator } from 'phosphor-react'
 import { useContext, useEffect, useState } from 'react'
 import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
@@ -10,10 +11,15 @@ import { MealForm } from '../components/forms/MealForm'
 import { MealUpdateForm } from '../components/forms/MealUpdateForm'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
 import { FractionSelector } from '../components/FractionSelector'
+import { List } from '../components/List'
+import { Subtitle } from '../components/Subtitle'
+import { Title } from '../components/Title'
 import { DietContext } from '../contexts/Diet'
 import { MealContext } from '../contexts/Meal'
 import { PersonContext } from '../contexts/Person'
 import { StepContext } from '../contexts/Step'
+import { DataContainer, FormContainer } from '../styles/pages'
+import { DietAccordion, DietContainer } from '../styles/pages/diet'
 
 interface DietProps {
   foods: Food[]
@@ -36,6 +42,18 @@ export default function Diet({ foods, categories }: DietProps) {
     lip: 0,
     kcal: 0,
   } as TotalMealMacrosProps)
+
+  const [dietTypeAccordion, setDietTypeAccordion] = useState(false)
+  const [nutritionalStrategyAccordion, setNutritionalStrategyAccordion] =
+    useState(false)
+
+  function handleDietTypeAccordion() {
+    setDietTypeAccordion((state) => !dietTypeAccordion)
+  }
+
+  function handleNutritionalStrategyAccordion() {
+    setNutritionalStrategyAccordion((state) => !nutritionalStrategyAccordion)
+  }
 
   useEffect(() => {
     const sumOfTotalMealsMacros = meals.reduce(
@@ -67,29 +85,35 @@ export default function Diet({ foods, categories }: DietProps) {
   }, [meals])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <DietContainer>
       <div>
         {personData.totalCaloricSpending && (
-          <h2>Gasto calórico Total: {personData.totalCaloricSpending}</h2>
+          <Subtitle>
+            Gasto calórico Total:{' '}
+            <strong>{personData.totalCaloricSpending}</strong>
+          </Subtitle>
         )}
       </div>
-      <div>
-        <DietForm />
-
-        {dietData.dietType && (
-          <h2>
-            O gasto calórico da sua dieta é de: {dietData.dietType.dietKcal}
-          </h2>
-        )}
-      </div>
-      <hr />
-      <div>
-        <NutritionalStrategyForm />
-
-        {dietData.metaKcal && (
-          <>
-            <h2>Sua meta de macros nutrientes é de:</h2>
-            <ul>
+      <FormContainer>
+        <DataContainer>
+          <Title>
+            O gasto calórico da sua dieta é de:{' '}
+            <strong>{dietData.dietType.dietKcal}</strong>
+          </Title>
+          <Button onClick={() => handleDietTypeAccordion()}>
+            Recalcular
+            <Calculator size={32} />
+          </Button>
+        </DataContainer>
+        <DietAccordion show={dietTypeAccordion}>
+          <DietForm />
+        </DietAccordion>
+      </FormContainer>
+      <FormContainer>
+        <DataContainer>
+          <div>
+            <Title>Sua meta de macros nutrientes</Title>
+            <List>
               <li>
                 Carboidrato: <strong>{dietData.metaKcal.cho}</strong>g
               </li>
@@ -99,17 +123,20 @@ export default function Diet({ foods, categories }: DietProps) {
               <li>
                 Gordura: <strong>{dietData.metaKcal.lip}</strong>g
               </li>
-            </ul>
-          </>
-        )}
-      </div>
-      <hr />
-      <FractionSelector />
-      <hr />
+            </List>
+          </div>
+          <Button onClick={() => handleNutritionalStrategyAccordion()}>
+            Recalcular
+            <Calculator size={32} />
+          </Button>
+        </DataContainer>
+        <DietAccordion show={nutritionalStrategyAccordion}>
+          <NutritionalStrategyForm />
+        </DietAccordion>
+      </FormContainer>
 
-      <div>
-        <MealForm foods={foods} categories={categories} />
-      </div>
+      <MealForm foods={foods} categories={categories} />
+
       <hr />
       <div>
         {meals.map((meal) => {
@@ -231,7 +258,7 @@ export default function Diet({ foods, categories }: DietProps) {
         </div>
       </div>
       <BottomMultiStep step={step} currentStep={currentStep} />
-    </div>
+    </DietContainer>
   )
 }
 

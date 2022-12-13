@@ -18,6 +18,10 @@ export const ModalButton = styled(Button)`
     border: none;
     box-shadow: 0 0 0 1px ${(props) => props.theme.white};
   }
+
+  svg {
+    margin-top: 3px;
+  }
 `
 
 export const MealModalContainer = styled.div`
