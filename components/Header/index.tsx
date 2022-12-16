@@ -18,9 +18,9 @@ export function Header() {
           <HouseSimple size={24} />
           Home
         </Link>
-        <Link href={'/diet'} title="Dieta">
+        <Link href={'/meal'} title="Refeição">
           <ForkKnife size={24} />
-          Dieta
+          Refeição
         </Link>
       </nav>
     </HeaderContainer>
