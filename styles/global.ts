@@ -13,6 +13,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    min-height: 100vh;
+
     background: ${(props) => props.theme.blueColors[900]};
     color: ${(props) => props.theme.fonts.default}
   }

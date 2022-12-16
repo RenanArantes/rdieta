@@ -13,6 +13,7 @@ import {
 import { Title } from '../components/Title'
 import { Calculator } from 'phosphor-react'
 import { Button } from '../components/Button'
+import { Accordion } from '../components/Accordion'
 
 export default function Home() {
   const {
@@ -23,14 +24,6 @@ export default function Home() {
   const [bmrAccordion, setBmrAccordion] = useState(false)
   const [totalKcalAccordion, setTotalKcalAccordion] = useState(false)
 
-  function handleBmrAccordion() {
-    setBmrAccordion((state) => !bmrAccordion)
-  }
-
-  function handleTotalKcalAccordion() {
-    setTotalKcalAccordion((state) => !totalKcalAccordion)
-  }
-
   return (
     <HomeContainer>
       <FormContainer>
@@ -39,28 +32,28 @@ export default function Home() {
             Sua Taxa de Metabolismo Basal é de aproximadamente:{' '}
             <strong>{bmr}</strong> kcal
           </Title>
-          <Button onClick={() => handleBmrAccordion()}>
-            Recalcular
+          <Button onClick={() => setBmrAccordion(!bmrAccordion)}>
+            <label>Recalcular</label>
             <Calculator size={32} />
           </Button>
         </DataContainer>
-        <HomeAccordion show={bmrAccordion}>
+        <Accordion isDisplayed={bmrAccordion}>
           <BMRForm />
-        </HomeAccordion>
+        </Accordion>
       </FormContainer>
       <FormContainer>
         <DataContainer>
           <Title>
             Gasto Calórico total: <strong>{totalCaloricSpending}</strong> kcal
           </Title>
-          <Button onClick={() => handleTotalKcalAccordion()}>
-            Recalcular
+          <Button onClick={() => setTotalKcalAccordion(!totalKcalAccordion)}>
+            <label>Recalcular</label>
             <Calculator size={32} />
           </Button>
         </DataContainer>
-        <HomeAccordion show={totalKcalAccordion}>
+        <Accordion isDisplayed={totalKcalAccordion}>
           <TotalKcalForm />
-        </HomeAccordion>
+        </Accordion>
       </FormContainer>
       <BottomMultiStep step={step} currentStep={currentStep} />
     </HomeContainer>
