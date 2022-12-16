@@ -11,7 +11,11 @@ export const DataContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
-  align-items: center;
+  //align-items: center;
+
+  button {
+    height: 35px;
+  }
 
   @media (max-width: 550px) {
     display: flex;

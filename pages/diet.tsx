@@ -31,7 +31,6 @@ interface TotalMealMacrosProps extends MacroNutrients {
 }
 
 export default function Diet({ foods, categories }: DietProps) {
-  const { personData } = useContext(PersonContext)
   const { dietData } = useContext(DietContext)
   const { meals, deleteMeal } = useContext(MealContext)
   const { step, currentStep } = useContext(StepContext)
@@ -42,18 +41,6 @@ export default function Diet({ foods, categories }: DietProps) {
     lip: 0,
     kcal: 0,
   } as TotalMealMacrosProps)
-
-  const [dietTypeAccordion, setDietTypeAccordion] = useState(false)
-  const [nutritionalStrategyAccordion, setNutritionalStrategyAccordion] =
-    useState(false)
-
-  function handleDietTypeAccordion() {
-    setDietTypeAccordion((state) => !dietTypeAccordion)
-  }
-
-  function handleNutritionalStrategyAccordion() {
-    setNutritionalStrategyAccordion((state) => !nutritionalStrategyAccordion)
-  }
 
   useEffect(() => {
     const sumOfTotalMealsMacros = meals.reduce(
@@ -86,55 +73,6 @@ export default function Diet({ foods, categories }: DietProps) {
 
   return (
     <DietContainer>
-      <div>
-        {personData.totalCaloricSpending && (
-          <Subtitle>
-            Gasto calórico Total:{' '}
-            <strong>{personData.totalCaloricSpending}</strong>
-          </Subtitle>
-        )}
-      </div>
-      <FormContainer>
-        <DataContainer>
-          <Title>
-            O gasto calórico da sua dieta é de:{' '}
-            <strong>{dietData.dietType.dietKcal}</strong>
-          </Title>
-          <Button onClick={() => handleDietTypeAccordion()}>
-            Recalcular
-            <Calculator size={32} />
-          </Button>
-        </DataContainer>
-        <DietAccordion show={dietTypeAccordion}>
-          <DietForm />
-        </DietAccordion>
-      </FormContainer>
-      <FormContainer>
-        <DataContainer>
-          <div>
-            <Title>Sua meta de macros nutrientes</Title>
-            <List>
-              <li>
-                Carboidrato: <strong>{dietData.metaKcal.cho}</strong>g
-              </li>
-              <li>
-                Proteína: <strong>{dietData.metaKcal.ptn}</strong>g
-              </li>
-              <li>
-                Gordura: <strong>{dietData.metaKcal.lip}</strong>g
-              </li>
-            </List>
-          </div>
-          <Button onClick={() => handleNutritionalStrategyAccordion()}>
-            Recalcular
-            <Calculator size={32} />
-          </Button>
-        </DataContainer>
-        <DietAccordion show={nutritionalStrategyAccordion}>
-          <NutritionalStrategyForm />
-        </DietAccordion>
-      </FormContainer>
-
       <MealForm foods={foods} categories={categories} />
 
       <hr />
