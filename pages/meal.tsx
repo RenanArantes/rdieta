@@ -168,7 +168,7 @@ export default function Diet({ foods, categories }: DietProps) {
           )}
           {dietData.metaKcal && (
             <div>
-              <Subtitle>Sua meta de macros nutrientes é de:</Subtitle>
+              <Subtitle>Sua meta de macros nutrientes</Subtitle>
               <List>
                 <li>
                   Carboidrato: <strong>{dietData.metaKcal.cho}</strong>g

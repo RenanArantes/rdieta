@@ -92,5 +92,17 @@ export const MealInfoContainer = styled.div`
 `
 export const MacrosContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+
+  ul {
+    margin: 8px;
+    border-radius: 6px;
+    border: 2px solid ${(props) => props.theme.blueColors[700]};
+
+    &:hover {
+      transition: 0.2s;
+      background: ${(props) => props.theme.blueColors[700]};
+      color: ${(props) => props.theme.white};
+    }
+  }
 `
