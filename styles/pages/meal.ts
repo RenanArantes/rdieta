@@ -35,11 +35,23 @@ export const MealHeader = styled.div`
       scale: 0.8;
     }
   }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+
+    align-items: center;
+  }
 `
 
 export const MealFunctionsContainer = styled.div`
   display: flex;
   margin: 0 10px;
+
+  @media (max-width: 350px) {
+    align-items: center;
+    align-content: center;
+    align-self: center;
+  }
 
   button {
     height: 35px;

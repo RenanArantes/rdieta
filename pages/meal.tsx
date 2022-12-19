@@ -100,7 +100,7 @@ export default function Diet({ foods, categories }: DietProps) {
                 </MealFunctionsContainer>
               </MealHeader>
               <MealInfoContainer>
-                <div>
+                <div style={{ width: '100%' }}>
                   {meal.foods.map((food) => {
                     return (
                       <div key={food.id}>
