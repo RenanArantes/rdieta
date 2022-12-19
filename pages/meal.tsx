@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { GetServerSideProps } from 'next/types'
+import { PencilLine, Trash } from 'phosphor-react'
 import { useContext, useEffect, useState } from 'react'
 import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
@@ -7,10 +8,20 @@ import { BottomMultiStep } from '../components/BottomMultiStep'
 import { Button } from '../components/Button'
 import { MealForm } from '../components/forms/MealForm'
 import { MealUpdateForm } from '../components/forms/MealUpdateForm'
+import { List } from '../components/List'
+import { Subtitle } from '../components/Subtitle'
 import { DietContext } from '../contexts/Diet'
 import { MealContext } from '../contexts/Meal'
 import { StepContext } from '../contexts/Step'
-import { DietContainer } from '../styles/pages/meal'
+import {
+  DietContainer,
+  MacrosContainer,
+  MealContainer,
+  MealFunctionsContainer,
+  MealHeader,
+  MealInfoContainer,
+  MealListContainer,
+} from '../styles/pages/meal'
 
 interface DietProps {
   foods: Food[]
@@ -66,103 +77,99 @@ export default function Diet({ foods, categories }: DietProps) {
     <DietContainer>
       <MealForm foods={foods} categories={categories} />
 
-      <hr />
-      <div>
+      <MealContainer>
         {meals.map((meal) => {
           return (
-            <div
-              key={meal.id}
-              style={{
-                border: '2px solid yellow',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <div
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <h3>Refeição: {meal.name.toLocaleUpperCase()}</h3>
-                <div
-                  style={{
-                    display: 'flex',
-                  }}
-                >
+            <MealListContainer key={meal.id}>
+              <MealHeader>
+                <Subtitle>
+                  Refeição: <strong>{meal.name.toLocaleUpperCase()}</strong>
+                </Subtitle>
+                <MealFunctionsContainer>
                   <MealUpdateForm
                     categories={categories}
                     foods={foods}
                     mealToEdit={meal}
+                    icon={<PencilLine size={24} />}
                   />
                   <Button type="button" onClick={() => deleteMeal(meal.id)}>
-                    Excluir
+                    <Trash size={24} />
+                    <span>Excluir</span>
                   </Button>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  padding: 10,
-                }}
-              >
+                </MealFunctionsContainer>
+              </MealHeader>
+              <MealInfoContainer>
                 <div>
                   <span>Alimentos da refeição</span>
                   {meal.foods.map((food) => {
                     return (
                       <div key={food.id}>
-                        <h4>{food.description}</h4>
-                        <ul key={food.id}>
-                          <li>Quantidade: {food.goals.weight}g</li>
-                          <li>CHO: {food.carbohydrate_g}</li>
-                          <li>PTN: {food.protein_g}</li>
-                          <li>LIP: {food.lipid_g}</li>
-                        </ul>
+                        <Subtitle>{food.description}</Subtitle>
+                        <List>
+                          <li>
+                            Quantidade: <strong>{food.goals.weight}</strong>g
+                          </li>
+                          <li>
+                            CHO: <strong>{food.carbohydrate_g}</strong>g
+                          </li>
+                          <li>
+                            PTN: <strong>{food.protein_g}</strong>g
+                          </li>
+                          <li>
+                            LIP: <strong>{food.lipid_g}</strong>g
+                          </li>
+                        </List>
                       </div>
                     )
                   })}
-                  <p></p>
                 </div>
                 <div>
-                  <p>
-                    Quantidade de alimentos na refeição: {meal.foods.length}
-                  </p>
+                  <Subtitle>
+                    Quantidade de alimentos na refeição:{' '}
+                    <strong>{meal.foods.length}</strong>
+                  </Subtitle>
                   <p>Macros da refeição</p>
-                  <ul>
-                    <li>CHO: {meal.macroNutrients.cho}</li>
-                    <li>PTN: {meal.macroNutrients.ptn}</li>
-                    <li>LIP: {meal.macroNutrients.lip}</li>
-                    <li>Total Kcal: {meal.totalKcal}</li>
-                  </ul>
+                  <List>
+                    <li>
+                      CHO: <strong>{meal.macroNutrients.cho}</strong>g
+                    </li>
+                    <li>
+                      PTN: <strong>{meal.macroNutrients.ptn}</strong>g
+                    </li>
+                    <li>
+                      LIP: <strong>{meal.macroNutrients.lip}</strong>g
+                    </li>
+                    <li>
+                      Total Kcal: <strong>{meal.totalKcal}</strong>
+                    </li>
+                  </List>
                 </div>
-              </div>
-            </div>
+              </MealInfoContainer>
+            </MealListContainer>
           )
         })}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '0 30px',
-          }}
-        >
+        <MacrosContainer>
           {totalMealsMacros.kcal > 0 && (
             <div>
-              <p>Valores totais de todas as refeições</p>
-              <ul>
-                <li>CHO: {totalMealsMacros.cho}</li>
-                <li>PTN: {totalMealsMacros.ptn}</li>
-                <li>LIP: {totalMealsMacros.lip}</li>
+              <Subtitle>Valores totais de todas as refeições</Subtitle>
+              <List>
+                <li>
+                  CHO: <strong>{totalMealsMacros.cho}</strong>g
+                </li>
+                <li>
+                  PTN: <strong>{totalMealsMacros.ptn}</strong>g
+                </li>
+                <li>
+                  LIP: <strong>{totalMealsMacros.lip}</strong>g
+                </li>
                 <li>Total Kcal: {totalMealsMacros.kcal}</li>
-              </ul>
+              </List>
             </div>
           )}
           {dietData.metaKcal && (
             <div>
-              <h2>Sua meta de macros nutrientes é de:</h2>
-              <ul>
+              <Subtitle>Sua meta de macros nutrientes é de:</Subtitle>
+              <List>
                 <li>
                   Carboidrato: <strong>{dietData.metaKcal.cho}</strong>g
                 </li>
@@ -179,13 +186,12 @@ export default function Diet({ foods, categories }: DietProps) {
                       dietData.metaKcal.ptn * 4 +
                       dietData.metaKcal.lip * 9}
                   </strong>
-                  g
                 </li>
-              </ul>
+              </List>
             </div>
           )}
-        </div>
-      </div>
+        </MacrosContainer>
+      </MealContainer>
       <BottomMultiStep step={step} currentStep={currentStep} />
     </DietContainer>
   )

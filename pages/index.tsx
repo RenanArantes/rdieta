@@ -70,7 +70,7 @@ export default function Home() {
             <strong>{dietType?.dietKcal}</strong> kcal
           </Title>
           <Button onClick={() => setDietTypeAccordion(!dietTypeAccordion)}>
-            Recalcular
+            <label>Recalcular</label>
             <Calculator size={32} />
           </Button>
         </DataContainer>
@@ -101,7 +101,7 @@ export default function Home() {
               setNutritionalStrategyAccordion(!nutritionalStrategyAccordion)
             }
           >
-            Recalcular
+            <label>Recalcular</label>
             <Calculator size={32} />
           </Button>
         </DataContainer>

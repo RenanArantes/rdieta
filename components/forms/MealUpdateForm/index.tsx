@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import Food from '../../../@types/food'
 import { Button } from '../../Button'
 import { MealUpdateFormModal } from './MealUpdateFormModal'
@@ -8,12 +8,14 @@ interface MealUpdateFormProps {
   foods: Food[]
   categories: string[]
   mealToEdit?: any
+  icon?: ReactNode
 }
 
 export function MealUpdateForm({
   foods,
   categories,
   mealToEdit,
+  icon,
 }: MealUpdateFormProps) {
   const [isDisplayed, setIsDisplayed] = useState('none')
   const [isOpen, setIsOpen] = useState(false)
@@ -31,7 +33,8 @@ export function MealUpdateForm({
           handleDisplayModal()
         }}
       >
-        Modal
+        {icon}
+        <span>Editar</span>
       </Button>
       <MealModalContainer isDisplayed={isDisplayed}>
         <MealUpdateFormModal
