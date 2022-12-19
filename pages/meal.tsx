@@ -10,6 +10,7 @@ import { MealForm } from '../components/forms/MealForm'
 import { MealUpdateForm } from '../components/forms/MealUpdateForm'
 import { List } from '../components/List'
 import { Subtitle } from '../components/Subtitle'
+import { Title } from '../components/Title'
 import { DietContext } from '../contexts/Diet'
 import { MealContext } from '../contexts/Meal'
 import { StepContext } from '../contexts/Step'
@@ -82,9 +83,9 @@ export default function Diet({ foods, categories }: DietProps) {
           return (
             <MealListContainer key={meal.id}>
               <MealHeader>
-                <Subtitle>
+                <Title>
                   Refeição: <strong>{meal.name.toLocaleUpperCase()}</strong>
-                </Subtitle>
+                </Title>
                 <MealFunctionsContainer>
                   <MealUpdateForm
                     categories={categories}
@@ -100,12 +101,11 @@ export default function Diet({ foods, categories }: DietProps) {
               </MealHeader>
               <MealInfoContainer>
                 <div>
-                  <span>Alimentos da refeição</span>
                   {meal.foods.map((food) => {
                     return (
                       <div key={food.id}>
-                        <Subtitle>{food.description}</Subtitle>
                         <List>
+                          <Subtitle>{food.description}</Subtitle>
                           <li>
                             Quantidade: <strong>{food.goals.weight}</strong>g
                           </li>
@@ -128,7 +128,7 @@ export default function Diet({ foods, categories }: DietProps) {
                     Quantidade de alimentos na refeição:{' '}
                     <strong>{meal.foods.length}</strong>
                   </Subtitle>
-                  <p>Macros da refeição</p>
+                  <Subtitle>Macros da refeição</Subtitle>
                   <List>
                     <li>
                       CHO: <strong>{meal.macroNutrients.cho}</strong>g

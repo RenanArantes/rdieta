@@ -5,7 +5,7 @@ export const DietContainer = styled.div`
   flex-direction: column;
 
   margin: 0 auto;
-  width: 70%;
+  width: 90%;
 `
 
 export const MealContainer = styled.div``
@@ -29,9 +29,11 @@ export const MealHeader = styled.div`
 
   @media (max-width: 500px) {
     display: flex;
-    flex-direction: column;
 
-    margin-left: 50px;
+    h1,
+    button {
+      scale: 0.8;
+    }
   }
 `
 
@@ -46,7 +48,7 @@ export const MealFunctionsContainer = styled.div`
       margin-right: 5px;
     }
 
-    @media (max-width: 550px) {
+    @media (max-width: 600px) {
       span {
         display: none;
       }
@@ -57,11 +59,23 @@ export const MealInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 500px) {
+  @media (max-width: 650px) {
     display: flex;
     flex-direction: column;
 
     margin: 0 15px;
+  }
+
+  ul {
+    margin: 8px;
+    border-radius: 6px;
+    border: 2px solid ${(props) => props.theme.blueColors[700]};
+
+    &:hover {
+      transition: 0.2s;
+      background: ${(props) => props.theme.blueColors[700]};
+      color: ${(props) => props.theme.white};
+    }
   }
 `
 export const MacrosContainer = styled.div`
