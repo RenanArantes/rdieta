@@ -234,6 +234,12 @@ export const FoodsOnMealList = styled.ul`
       box-shadow: 0px 1px 0px 0px rgba(133, 193, 246, 0.4);
     }
 
+    h2 {
+      strong {
+        font-size: 22px;
+      }
+    }
+
     div {
       display: flex;
       flex-direction: row;

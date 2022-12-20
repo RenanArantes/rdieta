@@ -3,6 +3,7 @@ import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Food from '../../../../@types/food'
 import { MealContext } from '../../../../contexts/Meal'
+import roundedDivision from '../../../../utils/roundedDivision'
 import { Button } from '../../../Button'
 import { Input } from '../../../Input'
 import { List } from '../../../List'
@@ -130,9 +131,15 @@ export function MealUpdateFormModal({
   }
 
   function findMacrosOfSelectedFood() {
-    const choGoal = (selectedFood.carbohydrate_g / 100) * goalFoodWeight
-    const ptnGoal = (selectedFood.protein_g / 100) * goalFoodWeight
-    const lipGoal = (selectedFood.lipid_g / 100) * goalFoodWeight
+    const choGoal = roundedDivision(
+      (selectedFood.carbohydrate_g / 100) * goalFoodWeight,
+    )
+    const ptnGoal = roundedDivision(
+      (selectedFood.protein_g / 100) * goalFoodWeight,
+    )
+    const lipGoal = roundedDivision(
+      (selectedFood.lipid_g / 100) * goalFoodWeight,
+    )
 
     return { cho: choGoal, ptn: ptnGoal, lip: lipGoal }
   }
@@ -196,8 +203,8 @@ export function MealUpdateFormModal({
       lipid_g: macrosValuesOfSeletedFood.lip,
       goals: {
         macroType: selectedMetaMacro,
-        macroValue: metaMacroValue,
-        weight: goalFoodWeight,
+        macroValue: roundedDivision(metaMacroValue),
+        weight: roundedDivision(goalFoodWeight),
       },
     }
 
@@ -216,9 +223,9 @@ export function MealUpdateFormModal({
 
     setTotalMacrosOnMeal((state) => {
       return {
-        cho: state.cho + macrosValuesOfSeletedFood.cho,
-        ptn: state.ptn + macrosValuesOfSeletedFood.ptn,
-        lip: state.lip + macrosValuesOfSeletedFood.lip,
+        cho: roundedDivision(state.cho + macrosValuesOfSeletedFood.cho),
+        ptn: roundedDivision(state.ptn + macrosValuesOfSeletedFood.ptn),
+        lip: roundedDivision(state.lip + macrosValuesOfSeletedFood.lip),
       }
     })
 
@@ -492,20 +499,20 @@ export function MealUpdateFormModal({
                     <FoodsOnMealList>
                       <li>
                         <Subtitle>
-                          <strong style={{ fontSize: 20 }}>{' > '}</strong>
-                          Carboidratos: {totalMacrosOnMeal.cho}
+                          <strong>{' > '}</strong>
+                          Carboidratos: {totalMacrosOnMeal.cho}g
                         </Subtitle>
                       </li>
                       <li>
                         <Subtitle>
-                          <strong style={{ fontSize: 20 }}>{' > '}</strong>{' '}
-                          Proteína: {totalMacrosOnMeal.ptn}
+                          <strong>{' > '}</strong> Proteína:{' '}
+                          {totalMacrosOnMeal.ptn}g
                         </Subtitle>
                       </li>
                       <li>
                         <Subtitle>
-                          <strong style={{ fontSize: 20 }}>{' > '}</strong>{' '}
-                          Gordura: {totalMacrosOnMeal.lip}
+                          <strong>{' > '}</strong> Gordura:{' '}
+                          {totalMacrosOnMeal.lip}g
                         </Subtitle>
                       </li>
                     </FoodsOnMealList>

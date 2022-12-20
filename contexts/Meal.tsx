@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
+import roundedDivision from '../utils/roundedDivision'
 
 interface GoalsValues {
   weight: number
@@ -61,9 +62,15 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
   }) {
     const { newName, foods, totalMacros } = newMealData
 
-    const { cho, lip, ptn } = totalMacros
+    const { cho, ptn, lip } = totalMacros
 
-    const totalKcalOnMeal = cho * 4 + ptn * 4 + lip * 9
+    const roundedMacros = {
+      cho: roundedDivision(cho),
+      ptn: roundedDivision(ptn),
+      lip: roundedDivision(lip),
+    }
+
+    const totalKcalOnMeal = roundedDivision(cho * 4 + ptn * 4 + lip * 9)
 
     const momentOfMealCreation = new Date()
 
@@ -71,7 +78,7 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
       id: Date.parse(String(momentOfMealCreation)),
       name: newName,
       foods,
-      macroNutrients: totalMacros,
+      macroNutrients: roundedMacros,
       totalKcal: totalKcalOnMeal,
     } as Meal
 

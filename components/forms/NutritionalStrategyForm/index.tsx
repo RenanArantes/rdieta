@@ -7,6 +7,7 @@ import { Button } from '../../Button'
 import { Select } from '../../Select'
 import { FormContainer } from './styles'
 import { Title } from '../../Title'
+import roundedDivision from '../../../utils/roundedDivision'
 
 interface NutritionalStrategyType {
   nutritionalStrategy: 'corporalWeight' | 'percentualMacros'
@@ -35,9 +36,9 @@ export function NutritionalStrategyForm() {
 
     if (nutritionalStrategy === 'percentualMacros') {
       createDietKcalMeta({
-        cho: (dietData.dietType.dietKcal * 0.4) / 4, // 40% de caloria * 4 valor kcal da caloria,
-        ptn: (dietData.dietType.dietKcal * 0.4) / 4, // 40% de proteina * 4 valor kcal da proteina,
-        lip: (dietData.dietType.dietKcal * 0.2) / 9, // 20% de gordura * 9 valor kcal da gordura,
+        cho: roundedDivision((dietData.dietType.dietKcal * 0.4) / 4), // 40% de caloria * 4 valor kcal da caloria,
+        ptn: roundedDivision((dietData.dietType.dietKcal * 0.4) / 4), // 40% de proteina * 4 valor kcal da proteina,
+        lip: roundedDivision((dietData.dietType.dietKcal * 0.2) / 9), // 20% de gordura * 9 valor kcal da gordura,
       })
     }
 

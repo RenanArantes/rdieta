@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react'
 import { ActivityKcal, PersonDataType } from '../@types/person'
+import roundedDivision from '../utils/roundedDivision'
 import { StepContext } from './Step'
 
 interface PersonContextType {
@@ -82,7 +83,7 @@ export function PersonContextProvider({
         bmr: state.bmr,
         gender: state.gender,
         kcalSpender: kcalSpenderMetrics,
-        totalCaloricSpending: totalCaloricSpendingValue,
+        totalCaloricSpending: roundedDivision(totalCaloricSpendingValue),
       }
     })
 

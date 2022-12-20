@@ -8,6 +8,7 @@ import { Button } from '../../Button'
 import { Select } from '../../Select'
 import { FormContainer } from './styles'
 import { Title } from '../../Title'
+import roundedDivision from '../../../utils/roundedDivision'
 
 interface DietType {
   dietType: 'cutting' | 'bulking'
@@ -60,7 +61,7 @@ export function DietForm() {
 
     const newDietKcal = getDietKcalValue(data)
 
-    createDietType({ dietKcal: newDietKcal, type: dietType })
+    createDietType({ dietKcal: roundedDivision(newDietKcal), type: dietType })
 
     reset()
   }

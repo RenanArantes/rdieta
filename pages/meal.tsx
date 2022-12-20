@@ -23,6 +23,7 @@ import {
   MealInfoContainer,
   MealListContainer,
 } from '../styles/pages/meal'
+import roundedDivision from '../utils/roundedDivision'
 
 interface DietProps {
   foods: Food[]
@@ -60,7 +61,7 @@ export default function Diet({ foods, categories }: DietProps) {
           cho: total.cho + meal.macroNutrients.cho,
           ptn: total.ptn + meal.macroNutrients.ptn,
           lip: total.lip + meal.macroNutrients.lip,
-          kcal: total.kcal + meal.totalKcal,
+          kcal: roundedDivision(total.kcal + meal.totalKcal),
         }
       },
       {
@@ -162,7 +163,9 @@ export default function Diet({ foods, categories }: DietProps) {
                 <li>
                   LIP: <strong>{totalMealsMacros.lip}</strong>g
                 </li>
-                <li>Total Kcal: {totalMealsMacros.kcal}</li>
+                <li>
+                  Total: <strong>{totalMealsMacros.kcal}</strong> kcal
+                </li>
               </List>
             </div>
           )}
@@ -180,12 +183,13 @@ export default function Diet({ foods, categories }: DietProps) {
                   Gordura: <strong>{dietData.metaKcal.lip}</strong>g
                 </li>
                 <li>
-                  TotalKcal:{' '}
+                  Total:{' '}
                   <strong>
                     {dietData.metaKcal.cho * 4 +
                       dietData.metaKcal.ptn * 4 +
                       dietData.metaKcal.lip * 9}
-                  </strong>
+                  </strong>{' '}
+                  kcal
                 </li>
               </List>
             </div>
@@ -209,10 +213,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
     return {
       ...food,
-      energy_kcal: Math.round(food.energy_kcal * 100) / 100,
-      carbohydrate_g: Math.round(food.carbohydrate_g * 100) / 100,
-      protein_g: Math.round(food.protein_g * 100) / 100,
-      lipid_g: Math.round(food.lipid_g * 100) / 100,
+      energy_kcal: roundedDivision(food.energy_kcal),
+      carbohydrate_g: roundedDivision(food.carbohydrate_g),
+      protein_g: roundedDivision(food.protein_g),
+      lipid_g: roundedDivision(food.lipid_g),
     }
   })
 

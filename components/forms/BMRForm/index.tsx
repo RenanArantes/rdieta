@@ -8,6 +8,7 @@ import { Input } from '../../Input'
 import { Select } from '../../Select'
 import { FormContainer } from './styles'
 import { Title } from '../../Title'
+import roundedDivision from '../../../utils/roundedDivision'
 
 interface BenedictEquation {
   weight: number
@@ -60,7 +61,9 @@ export function BMRForm() {
       console.log(`AlturaC:${calculedHeight}`)
       console.log(`IdadeC:${calculedAge}`)
 
-      changeBmr(665 + (calculedWeight + calculedHeight) - calculedAge)
+      changeBmr(
+        roundedDivision(665 + (calculedWeight + calculedHeight) - calculedAge),
+      )
     }
 
     changeGender(gender)

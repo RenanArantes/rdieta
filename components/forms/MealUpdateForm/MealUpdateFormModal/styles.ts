@@ -225,6 +225,12 @@ export const FoodsOnMealList = styled.ul`
   border: 2px solid ${(props) => props.theme.blueColors[400]};
   border-radius: 6px;
 
+  h2 {
+    strong {
+      font-size: 22px;
+    }
+  }
+
   li {
     //margin: 12px 0px;
     border: none;
