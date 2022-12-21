@@ -85,14 +85,21 @@ export function MealFormModal({
     setFoods(foodList)
   }, [])
 
-  function findWeightOfSelectedFood(foodMacro: number) {
+  function findWeightOfSelectedFood(
+    foodMacro: number,
+    wantedMacroValue: number,
+  ) {
     if (foodMacro === 0) {
       return 0
     } else {
-      const weightGoal =
-        metaMacroValue === 0 ? foodMacro : (100 * metaMacroValue) / foodMacro
+      console.log(`${foodMacro} encontrou o seguinte peso: `)
+      console.log(`Quantidade em Gramas do macro desejado: ${wantedMacroValue}`)
+      console.log(`Valor do metaMacroValue: ${metaMacroValue}`)
+      console.log(
+        wantedMacroValue === 0 ? 0 : (100 * wantedMacroValue) / foodMacro,
+      )
 
-      return weightGoal
+      return wantedMacroValue === 0 ? 0 : (100 * wantedMacroValue) / foodMacro
     }
   }
 
@@ -100,6 +107,12 @@ export function MealFormModal({
     const updatedFoods = foods.filter((food) => food.id !== foodToRemove.id)
 
     setFoods(updatedFoods)
+  }
+
+  function resetGoalValues() {
+    setSelectedMetaMacro('' as 'cho' | 'ptn' | 'lip')
+    setMetaMacroValue((state) => 0)
+    setGoalFoodWeight((state) => 0)
   }
 
   function findMacrosOfSelectedFood() {
@@ -119,8 +132,7 @@ export function MealFormModal({
   function setMetaWeightGoal(macroType: string) {}
 
   function handleCheckedFoods(e: any, newFood: Food) {
-    setGoalFoodWeight(0)
-    setSelectedMetaMacro('' as 'cho' | 'ptn' | 'lip')
+    resetGoalValues()
 
     if (e.target.checked) {
       setSelectedFood((state) => newFood)
@@ -205,8 +217,7 @@ export function MealFormModal({
 
     setSelectedFood((state) => emptyFood)
     setCheckedFoods(updatedCheckedFoods)
-    setSelectedMetaMacro('' as 'cho' | 'ptn' | 'lip')
-    setGoalFoodWeight((state) => 0)
+    resetGoalValues()
 
     console.log(updatedCheckedFoods.length)
 
@@ -222,26 +233,37 @@ export function MealFormModal({
   }
 
   function handleMetaMacroValue(e: ChangeEvent<HTMLInputElement>) {
-    setMetaMacroValue((state) => Number(e.target.value))
+    e.target.value === '' && console.log('string vazia')
+
+    const inputValue = Number(e.target.value)
+
+    setMetaMacroValue(inputValue)
 
     let macroValue = 0
-
+    console.log('goalFoodWeight')
+    console.log(goalFoodWeight)
     console.log(selectedMetaMacro)
 
-    if (selectedMetaMacro) {
-      console.log('entrou')
-      if (selectedMetaMacro === 'cho') {
+    switch (selectedMetaMacro) {
+      case 'cho':
         macroValue = selectedFood.carbohydrate_g
-      } else if (selectedMetaMacro === 'ptn') {
+        break
+      case 'ptn':
         macroValue = selectedFood.protein_g
-      } else if (selectedMetaMacro === 'lip') {
+        break
+      case 'lip':
         macroValue = selectedFood.lipid_g
-      }
-
-      const weightGoal = findWeightOfSelectedFood(macroValue)
-
-      setGoalFoodWeight((state) => weightGoal)
+        break
+      default:
+        macroValue = 0
+        break
     }
+
+    const weightGoal = findWeightOfSelectedFood(macroValue, inputValue)
+
+    e.target.value === ''
+      ? setGoalFoodWeight((state) => 0)
+      : setGoalFoodWeight((state) => roundedDivision(weightGoal))
   }
 
   function handleSelectedMetaMacro(e: ChangeEvent<HTMLSelectElement>) {
@@ -262,10 +284,16 @@ export function MealFormModal({
       macroValue = selectedFood.lipid_g
     }
 
-    if (metaMacroValue > 0) {
-      const weightGoal = findWeightOfSelectedFood(macroValue)
+    console.log('valor do macro')
+    console.log(macroValue)
 
-      setGoalFoodWeight(weightGoal)
+    if (metaMacroValue > 0) {
+      const weightGoal = findWeightOfSelectedFood(macroValue, metaMacroValue)
+
+      console.log('peso a ser alcançado')
+      console.log(weightGoal)
+
+      setGoalFoodWeight((state) => roundedDivision(weightGoal))
     }
   }
 
@@ -280,7 +308,7 @@ export function MealFormModal({
 
     createMeal(newMealData)
 
-    setGoalFoodWeight(0)
+    resetGoalValues()
     setMealName('' as string)
     setSelectedFood({} as Food)
     setFoodsOnMeal([] as FoodOnMeal[])
