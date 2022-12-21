@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useState } from 'react'
 
 interface StepContextType {
+  stepTexts: string[]
   step: number
   currentStep: number
   increaseCurrentStep: () => void
@@ -15,7 +16,14 @@ interface StepContextProviderProps {
 }
 
 export function StepContextProvider({ children }: StepContextProviderProps) {
-  const [step, setStep] = useState(5)
+  const stepTexts = [
+    'Taxa de Metabolismo Basal',
+    'Gasto Calórico Total',
+    'Gasto Calórico da Dieta',
+    'Meta de Macronutrientes',
+  ]
+
+  const [step, setStep] = useState(stepTexts.length)
   const [currentStep, setCurrentStep] = useState(0)
 
   function increaseCurrentStep() {
@@ -33,6 +41,7 @@ export function StepContextProvider({ children }: StepContextProviderProps) {
   return (
     <StepContext.Provider
       value={{
+        stepTexts,
         step,
         currentStep,
         increaseCurrentStep,

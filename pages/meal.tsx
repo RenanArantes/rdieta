@@ -196,7 +196,7 @@ export default function Diet({ foods, categories }: DietProps) {
           )}
         </MacrosContainer>
       </MealContainer>
-      <BottomMultiStep step={step} currentStep={currentStep} />
+      <BottomMultiStep />
     </DietContainer>
   )
 }
