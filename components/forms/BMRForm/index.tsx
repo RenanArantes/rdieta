@@ -86,6 +86,7 @@ export function BMRForm() {
             max="500.0"
             step="0.1"
             placeholder="Peso em kg"
+            required
             {...register('weight', { valueAsNumber: true })}
           />
         </span>
@@ -97,6 +98,7 @@ export function BMRForm() {
             max="500.0"
             step="0.1"
             placeholder="Altura em cm"
+            required
             {...register('height', { valueAsNumber: true })}
           />
         </span>
@@ -108,12 +110,13 @@ export function BMRForm() {
             max="135"
             step="1"
             placeholder="Idade"
+            required
             {...register('age', { valueAsNumber: true })}
           />
         </span>
         <span>
           <label>Gênero</label>
-          <Select defaultValue="" {...register('gender')}>
+          <Select defaultValue="" required {...register('gender')}>
             <option value="" disabled>
               Selecione uma opção
             </option>

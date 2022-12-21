@@ -72,7 +72,7 @@ export function DietForm() {
       <form onSubmit={handleSubmit(handleDiet)}>
         <span>
           <label>Tipo da Dieta</label>
-          <Select defaultValue="" {...register('dietType')}>
+          <Select defaultValue="" required {...register('dietType')}>
             <option value="" disabled>
               Selecione uma opção
             </option>
@@ -82,7 +82,7 @@ export function DietForm() {
         </span>
         <span>
           <label>Intensidade da dieta</label>
-          <Select defaultValue="" {...register('dietIntensity')}>
+          <Select defaultValue="" required {...register('dietIntensity')}>
             <option value="" disabled>
               Selecione uma opção
             </option>

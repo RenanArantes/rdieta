@@ -110,7 +110,7 @@ export function TotalKcalForm() {
       <form onSubmit={handleSubmit(handleTotalKcal)}>
         <span>
           <label>Atividade Diária</label>
-          <Select defaultValue="" {...register('dailyActivity')}>
+          <Select defaultValue="" required {...register('dailyActivity')}>
             <option value="" disabled>
               Selecione uma opção
             </option>
@@ -121,7 +121,7 @@ export function TotalKcalForm() {
         </span>
         <span>
           <label>Intensidade do cardio</label>
-          <Select defaultValue="" {...register('cardioIntensity')}>
+          <Select defaultValue="" required {...register('cardioIntensity')}>
             <option value="" disabled>
               Selecione uma opção
             </option>
@@ -132,7 +132,7 @@ export function TotalKcalForm() {
         </span>
         <span>
           <label>Intensidade do treino</label>
-          <Select defaultValue="" {...register('workoutIntensity')}>
+          <Select defaultValue="" required {...register('workoutIntensity')}>
             <option value="" disabled>
               Selecione uma opção
             </option>

@@ -51,7 +51,7 @@ export function NutritionalStrategyForm() {
       <form onSubmit={handleSubmit(handleNutritionalStrategy)}>
         <span>
           <label>Estratégia nutricional :</label>
-          <Select defaultValue="" {...register('nutritionalStrategy')}>
+          <Select defaultValue="" required {...register('nutritionalStrategy')}>
             <option value="" disabled>
               Selecione uma opção
             </option>

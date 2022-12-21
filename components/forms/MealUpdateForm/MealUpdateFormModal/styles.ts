@@ -138,6 +138,16 @@ export const SelectedFoodContainer = styled.div`
   }
 `
 
+export const SelectedFoodInputsContainer = styled.div`
+  h2 {
+    margin-bottom: 12px;
+  }
+
+  div {
+    margin: 12px 0;
+  }
+`
+
 export const CheckBoxContainer = styled.label`
   display: block;
   position: relative;

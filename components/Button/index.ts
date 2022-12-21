@@ -19,4 +19,8 @@ export const Button = styled.button`
     background: ${(props) => props.theme.blueColors[300]};
     color: ${(props) => props.theme.blueColors[700]};
   }
+
+  &:disabled {
+    display: none;
+  }
 `

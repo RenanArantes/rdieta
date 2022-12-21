@@ -21,6 +21,7 @@ import {
   HeaderContainer,
   MealInputContainer,
   SelectedFoodContainer,
+  SelectedFoodInputsContainer,
   TextFood,
   WarningToSelectFoodContainer,
 } from './styles'
@@ -384,6 +385,7 @@ export function MealUpdateFormModal({
                 type="text"
                 autoComplete="off"
                 value={mealName}
+                required
                 onChange={(e) => handleChangeMealName(e)}
               />
             </MealInputContainer>
@@ -440,7 +442,7 @@ export function MealUpdateFormModal({
             </FoodListContainer>
           </div>
           <SelectedFoodContainer>
-            <div>
+            <SelectedFoodInputsContainer>
               {Object.entries(selectedFood).length > 0 ? (
                 <span>
                   <Subtitle>
@@ -491,6 +493,9 @@ export function MealUpdateFormModal({
                       <Button
                         type="button"
                         onClick={() => handleAddFoodOnMeal(selectedFood)}
+                        disabled={
+                          metaMacroValue === 0 || selectedMetaMacro.length === 0
+                        }
                       >
                         Adicionar
                       </Button>
@@ -503,7 +508,7 @@ export function MealUpdateFormModal({
                   <Title>Selecione um alimento</Title>
                 </WarningToSelectFoodContainer>
               )}
-            </div>
+            </SelectedFoodInputsContainer>
 
             <FoodsOnMealContainer>
               <Title>Alimentos da refeição: </Title>
