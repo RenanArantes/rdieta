@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${(props) => props.theme.fonts.default}
   }
 
-  body, input, button {
+  body, input, button, select {
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
     font-size: 1rem;

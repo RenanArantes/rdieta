@@ -34,53 +34,71 @@ export default function Home() {
 
   return (
     <HomeContainer>
-      <FormContainer>
-        <DataContainer>
-          <Title>
-            Sua Taxa de Metabolismo Basal é de aproximadamente:{' '}
-            <strong>{bmr}</strong> kcal
-          </Title>
-          <Button onClick={() => setBmrAccordion(!bmrAccordion)}>
-            <label>Recalcular</label>
-            <Calculator size={32} />
-          </Button>
-        </DataContainer>
-        <Accordion isDisplayed={bmrAccordion}>
+      {bmr ? (
+        <FormContainer>
+          <DataContainer>
+            <Title>
+              Sua Taxa de Metabolismo Basal é de aproximadamente:{' '}
+              <strong>{bmr}</strong> kcal
+            </Title>
+            <Button onClick={() => setBmrAccordion(!bmrAccordion)}>
+              <label>Recalcular</label>
+              <Calculator size={32} />
+            </Button>
+          </DataContainer>
+          <Accordion isDisplayed={bmrAccordion}>
+            <BMRForm />
+          </Accordion>
+        </FormContainer>
+      ) : (
+        <FormContainer>
           <BMRForm />
-        </Accordion>
-      </FormContainer>
-      <FormContainer>
-        <DataContainer>
-          <Title>
-            Gasto Calórico total: <strong>{totalCaloricSpending}</strong> kcal
-          </Title>
-          <Button onClick={() => setTotalKcalAccordion(!totalKcalAccordion)}>
-            <label>Recalcular</label>
-            <Calculator size={32} />
-          </Button>
-        </DataContainer>
-        <Accordion isDisplayed={totalKcalAccordion}>
+        </FormContainer>
+      )}
+      {totalCaloricSpending ? (
+        <FormContainer>
+          <DataContainer>
+            <Title>
+              Gasto Calórico total: <strong>{totalCaloricSpending}</strong> kcal
+            </Title>
+            <Button onClick={() => setTotalKcalAccordion(!totalKcalAccordion)}>
+              <label>Recalcular</label>
+              <Calculator size={32} />
+            </Button>
+          </DataContainer>
+          <Accordion isDisplayed={totalKcalAccordion}>
+            <TotalKcalForm />
+          </Accordion>
+        </FormContainer>
+      ) : (
+        <FormContainer>
           <TotalKcalForm />
-        </Accordion>
-      </FormContainer>
-      <FormContainer>
-        <DataContainer>
-          <Title>
-            O gasto calórico da sua dieta é de:{' '}
-            <strong>{dietType?.dietKcal}</strong> kcal
-          </Title>
-          <Button onClick={() => setDietTypeAccordion(!dietTypeAccordion)}>
-            <label>Recalcular</label>
-            <Calculator size={32} />
-          </Button>
-        </DataContainer>
-        <Accordion isDisplayed={dietTypeAccordion}>
+        </FormContainer>
+      )}
+      {dietType ? (
+        <FormContainer>
+          <DataContainer>
+            <Title>
+              O gasto calórico da sua dieta é de:{' '}
+              <strong>{dietType.dietKcal}</strong> kcal
+            </Title>
+            <Button onClick={() => setDietTypeAccordion(!dietTypeAccordion)}>
+              <label>Recalcular</label>
+              <Calculator size={32} />
+            </Button>
+          </DataContainer>
+          <Accordion isDisplayed={dietTypeAccordion}>
+            <DietForm />
+          </Accordion>
+        </FormContainer>
+      ) : (
+        <FormContainer>
           <DietForm />
-        </Accordion>
-      </FormContainer>
-      <FormContainer>
-        <DataContainer>
-          {metaKcal && (
+        </FormContainer>
+      )}
+      {metaKcal ? (
+        <FormContainer>
+          <DataContainer>
             <div>
               <Title>Sua meta de macros nutrientes</Title>
               <List>
@@ -95,20 +113,24 @@ export default function Home() {
                 </li>
               </List>
             </div>
-          )}
-          <Button
-            onClick={() =>
-              setNutritionalStrategyAccordion(!nutritionalStrategyAccordion)
-            }
-          >
-            <label>Recalcular</label>
-            <Calculator size={32} />
-          </Button>
-        </DataContainer>
-        <Accordion isDisplayed={nutritionalStrategyAccordion}>
+            <Button
+              onClick={() =>
+                setNutritionalStrategyAccordion(!nutritionalStrategyAccordion)
+              }
+            >
+              <label>Recalcular</label>
+              <Calculator size={32} />
+            </Button>
+          </DataContainer>
+          <Accordion isDisplayed={nutritionalStrategyAccordion}>
+            <NutritionalStrategyForm />
+          </Accordion>
+        </FormContainer>
+      ) : (
+        <FormContainer>
           <NutritionalStrategyForm />
-        </Accordion>
-      </FormContainer>
+        </FormContainer>
+      )}
       <BottomMultiStep step={step} currentStep={currentStep} />
     </HomeContainer>
   )
