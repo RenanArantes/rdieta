@@ -136,14 +136,6 @@ export const SelectedFoodContainer = styled.div`
   input[type='number'] {
     min-width: 80px;
   }
-
-  div {
-    span {
-      div {
-        margin-top: 10px;
-      }
-    }
-  }
 `
 
 export const CheckBoxContainer = styled.label`
@@ -232,12 +224,15 @@ export const FoodsOnMealList = styled.ul`
   }
 
   li {
-    //margin: 12px 0px;
+    padding: 6px 3px;
+
     border: none;
     box-shadow: 0px 1px 0px 0px rgba(133, 193, 246, 0.2);
 
     &:hover {
       box-shadow: 0px 1px 0px 0px rgba(133, 193, 246, 0.4);
+      background: ${(props) => props.theme.blueColors[400]};
+      color: ${(props) => props.theme.white};
     }
 
     div {
@@ -245,8 +240,6 @@ export const FoodsOnMealList = styled.ul`
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-
-      margin-top: 0;
 
       @media (max-width: 720px) {
         margin-top: 5px;
