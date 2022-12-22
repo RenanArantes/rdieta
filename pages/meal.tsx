@@ -58,9 +58,9 @@ export default function Diet({ foods, categories }: DietProps) {
         meal,
       ) => {
         return {
-          cho: total.cho + meal.macroNutrients.cho,
-          ptn: total.ptn + meal.macroNutrients.ptn,
-          lip: total.lip + meal.macroNutrients.lip,
+          cho: roundedDivision(total.cho + meal.macroNutrients.cho),
+          ptn: roundedDivision(total.ptn + meal.macroNutrients.ptn),
+          lip: roundedDivision(total.lip + meal.macroNutrients.lip),
           kcal: roundedDivision(total.kcal + meal.totalKcal),
         }
       },

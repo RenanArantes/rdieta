@@ -131,7 +131,7 @@ export default function Home() {
           <NutritionalStrategyForm />
         </FormContainer>
       )}
-      <BottomMultiStep />
+      {/* <BottomMultiStep /> */}
     </HomeContainer>
   )
 }
