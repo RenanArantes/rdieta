@@ -53,7 +53,7 @@ export function PersonContextProvider({
   function changeBmr(newBmr: number) {
     setPersonData((state) => {
       return {
-        bmr: newBmr,
+        bmr: roundedDivision(newBmr),
         gender: state.gender,
         kcalSpender: state.kcalSpender,
         totalCaloricSpending: state.totalCaloricSpending,
