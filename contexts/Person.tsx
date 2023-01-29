@@ -54,25 +54,18 @@ export function PersonContextProvider({
   function changeBmr(newBmr: number) {
     setPersonData((state) => {
       return {
+        ...state,
         bmr: roundedDivision(newBmr),
-        gender: state.gender,
-        kcalSpender: state.kcalSpender,
-        totalCaloricSpending: state.totalCaloricSpending,
-        weight: state.weight,
       }
     })
 
     increaseCurrentStep()
   }
-  function changeWeight(newWeight: number) {
-    console.log('Salvando o peso:' + newWeight)
 
+  function changeWeight(newWeight: number) {
     setPersonData((state) => {
       return {
-        bmr: state.bmr,
-        gender: state.gender,
-        kcalSpender: state.kcalSpender,
-        totalCaloricSpending: state.totalCaloricSpending,
+        ...state,
         weight: newWeight,
       }
     })
@@ -83,11 +76,8 @@ export function PersonContextProvider({
   function changeGender(newGender: 'male' | 'female') {
     setPersonData((state) => {
       return {
-        bmr: state.bmr,
+        ...state,
         gender: newGender,
-        kcalSpender: state.kcalSpender,
-        totalCaloricSpending: state.totalCaloricSpending,
-        weight: state.weight
       }
     })
   }
@@ -98,11 +88,9 @@ export function PersonContextProvider({
   ) {
     setPersonData((state) => {
       return {
-        bmr: state.bmr,
-        gender: state.gender,
+        ...state,
         kcalSpender: kcalSpenderMetrics,
         totalCaloricSpending: roundedDivision(totalCaloricSpendingValue),
-        weight: state.weight
       }
     })
 

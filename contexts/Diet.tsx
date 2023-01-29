@@ -55,11 +55,8 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
   }) {
     setDietData((state) => {
       return {
+        ...state,
         dietType: newDietData,
-        fractioning: state.fractioning,
-        metaKcal: state.metaKcal,
-        strategy: state.strategy,
-        meal: state.meal,
       }
     })
 
@@ -73,11 +70,8 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
   }) {
     setDietData((state) => {
       return {
-        dietType: state.dietType,
-        fractioning: state.fractioning,
+        ...state,
         metaKcal: newDietMetaKcalData,
-        strategy: state.strategy,
-        meal: state.meal,
       }
     })
 
