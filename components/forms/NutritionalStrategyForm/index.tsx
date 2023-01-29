@@ -11,11 +11,11 @@ import roundedDivision from '../../../utils/roundedDivision'
 import { PersonContext } from '../../../contexts/Person'
 
 interface NutritionalStrategyType {
-  nutritionalStrategy: 'corporalWeight' | 'percentualMacros'
+  nutritionalStrategy: 'corporalWeight' | 'percentualMacros' | 'percentualMacrosCPL'
 }
 
 const nutritionalStrategyZodValidationSchema = zod.object({
-  nutritionalStrategy: zod.enum(['corporalWeight', 'percentualMacros']),
+  nutritionalStrategy: zod.enum(['corporalWeight', 'percentualMacros', 'percentualMacrosCPL']),
 })
 
 type NutritionalStrategyFormData = zod.infer<
@@ -74,6 +74,14 @@ export function NutritionalStrategyForm() {
       })
     }
 
+    if(nutritionalStrategy === 'percentualMacrosCPL') {
+      createDietKcalMeta({
+        cho: roundedDivision((dietData.dietType.dietKcal * 0.6) / 4), // 40% de caloria * 4 valor kcal da caloria,
+        ptn: roundedDivision((dietData.dietType.dietKcal * 0.3) / 4), // 40% de proteina * 4 valor kcal da proteina,
+        lip: roundedDivision((dietData.dietType.dietKcal * 0.1) / 9), // 20% de gordura * 9 valor kcal da gordura,
+      })
+    }
+
     reset()
   }
 
@@ -87,10 +95,13 @@ export function NutritionalStrategyForm() {
             <option value="" disabled>
               Selecione uma opção
             </option>
+            <option value="corporalWeight">CHO:4g - PTN:2g - LIP:1g</option>
             <option value="percentualMacros">
               CHO:40% - PTN:40% - LIP:20%
             </option>
-            <option value="corporalWeight">CHO:4g - PTN:2g - LIP:1g</option>
+            <option value="percentualMacrosCPL">
+              CHO:60% - PTN:30% - LIP:10% 
+            </option>
           </Select>
         </span>
         <Button type="submit">Enviar</Button>
