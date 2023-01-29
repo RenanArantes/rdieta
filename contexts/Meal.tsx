@@ -106,7 +106,7 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
         if (meal.id === findedMeal.id) {
           const { cho, lip, ptn } = mealToEdit.macroNutrients
 
-          const totalKcalOnMeal = cho * 4 + ptn * 4 + lip * 9
+          const totalKcalOnMeal = roundedDivision(cho * 4 + ptn * 4 + lip * 9)
 
           return {
             id: mealToEdit.id,
