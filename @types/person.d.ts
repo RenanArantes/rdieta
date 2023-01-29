@@ -9,4 +9,5 @@ export interface PersonDataType {
   kcalSpender: ActivityKcal
   totalCaloricSpending: number
   gender: 'male' | 'female'
+  weight: number
 }

@@ -13,6 +13,7 @@ interface PersonContextType {
   personData: PersonDataType
   createPersonData: (personData: PersonDataType) => void
   changeBmr: (newBmr: number) => void
+  changeWeight: (newWeight: number) => void
   changeGender: (newGender: 'male' | 'female') => void
   changeKcalSpenders: (
     kcalSpenderMetrics: ActivityKcal,
@@ -57,6 +58,22 @@ export function PersonContextProvider({
         gender: state.gender,
         kcalSpender: state.kcalSpender,
         totalCaloricSpending: state.totalCaloricSpending,
+        weight: state.weight,
+      }
+    })
+
+    increaseCurrentStep()
+  }
+  function changeWeight(newWeight: number) {
+    console.log('Salvando o peso:' + newWeight)
+
+    setPersonData((state) => {
+      return {
+        bmr: state.bmr,
+        gender: state.gender,
+        kcalSpender: state.kcalSpender,
+        totalCaloricSpending: state.totalCaloricSpending,
+        weight: newWeight,
       }
     })
 
@@ -70,6 +87,7 @@ export function PersonContextProvider({
         gender: newGender,
         kcalSpender: state.kcalSpender,
         totalCaloricSpending: state.totalCaloricSpending,
+        weight: state.weight
       }
     })
   }
@@ -84,6 +102,7 @@ export function PersonContextProvider({
         gender: state.gender,
         kcalSpender: kcalSpenderMetrics,
         totalCaloricSpending: roundedDivision(totalCaloricSpendingValue),
+        weight: state.weight
       }
     })
 
@@ -96,6 +115,7 @@ export function PersonContextProvider({
         personData,
         createPersonData,
         changeBmr,
+        changeWeight,
         changeGender,
         changeKcalSpenders,
       }}

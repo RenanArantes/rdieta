@@ -27,7 +27,7 @@ const bmrZodValidationSchema = zod.object({
 type BmrFormData = zod.infer<typeof bmrZodValidationSchema>
 
 export function BMRForm() {
-  const { changeBmr, changeGender } = useContext(PersonContext)
+  const { changeBmr, changeGender, changeWeight } = useContext(PersonContext)
 
   const { register, handleSubmit, reset, resetField } = useForm<BmrFormData>({
     resolver: zodResolver(bmrZodValidationSchema),
@@ -67,6 +67,7 @@ export function BMRForm() {
     }
 
     changeGender(gender)
+    changeWeight(weight)
 
     resetField('gender', {
       defaultValue: '',

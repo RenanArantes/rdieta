@@ -8,6 +8,7 @@ import { Select } from '../../Select'
 import { FormContainer } from './styles'
 import { Title } from '../../Title'
 import roundedDivision from '../../../utils/roundedDivision'
+import { PersonContext } from '../../../contexts/Person'
 
 interface NutritionalStrategyType {
   nutritionalStrategy: 'corporalWeight' | 'percentualMacros'
@@ -23,6 +24,7 @@ type NutritionalStrategyFormData = zod.infer<
 
 export function NutritionalStrategyForm() {
   const { createDietKcalMeta, dietData } = useContext(DietContext)
+  const { personData } = useContext(PersonContext)
 
   const { register, handleSubmit, reset } =
     useForm<NutritionalStrategyFormData>({
@@ -33,6 +35,26 @@ export function NutritionalStrategyForm() {
   }: NutritionalStrategyType) {
     console.log('nutritional strategy')
     console.log(nutritionalStrategy)
+
+    if (nutritionalStrategy === 'corporalWeight') {
+      console.log('Tentando calcular dieta de peso corporal.')
+      console.log('Peso da pessoa: ' + personData.weight)
+      
+      //2g de proteína por kilo corporal
+      const ptnMeta = personData.weight * 2 
+      //1g de gordura por kilo corporal(multipliquei pq sim)
+      const lipMeta = personData.weight * 1 
+      // (meta calórica - (meta proteina *4 + meta de gordura * 9)) /4
+      const choMeta = (dietData.dietType.dietKcal - ((ptnMeta * 4) + (lipMeta * 9))) / 4 
+
+      console.log('Metas - proteica: ' + ptnMeta + '| gordura: ' + lipMeta + '| carbo: ' + choMeta)
+
+      createDietKcalMeta({
+        cho: roundedDivision(choMeta),
+        ptn: roundedDivision(ptnMeta),
+        lip: roundedDivision(lipMeta)
+      })
+    }
 
     if (nutritionalStrategy === 'percentualMacros') {
       createDietKcalMeta({
