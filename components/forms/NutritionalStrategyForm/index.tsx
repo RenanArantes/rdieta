@@ -44,9 +44,19 @@ export function NutritionalStrategyForm() {
       const ptnMeta = personData.weight * 2 
       //1g de gordura por kilo corporal(multipliquei pq sim)
       const lipMeta = personData.weight * 1 
-      // (meta calórica - (meta proteina *4 + meta de gordura * 9)) /4
-      const choMeta = (dietData.dietType.dietKcal - ((ptnMeta * 4) + (lipMeta * 9))) / 4 
 
+      // (meta calórica - (meta proteina *4 + meta de gordura * 9)) /4
+      // se a soma do ptnMeta e lipMeta(em kcal (x4 e x9, respectivamente)) for maior
+      // que a Caloria Meta a ordem dos produtos muda, pois o resultado daria negativo.
+      let choMeta: number
+      if (dietData.dietType.dietKcal >= (ptnMeta * 4) + (lipMeta * 9)) {
+        //se o gasto da dieta for maior que a meta
+        choMeta = (dietData.dietType.dietKcal - ((ptnMeta * 4) + (lipMeta * 9))) / 4 
+      } else {
+        //se a meta for maior que o gasto da dieta
+        choMeta = (((ptnMeta * 4) + (lipMeta * 9)) - dietData.dietType.dietKcal) / 4
+      }
+      
       console.log('Metas - proteica: ' + ptnMeta + '| gordura: ' + lipMeta + '| carbo: ' + choMeta)
 
       createDietKcalMeta({
