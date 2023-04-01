@@ -12,7 +12,7 @@ interface DietContextType {
   dietData: Diet
   mealFraction: number
   createDietType: (newDietData: {
-    type: 'cutting' | 'bulking'
+    type: 'cutting' | 'bulking' | 'basal'
     dietKcal: number
   }) => void
   createDietKcalMeta: (newDietMetaKcalData: {
@@ -50,7 +50,7 @@ export function DietContextProvider({ children }: DietContextProviderProps) {
   }, [dietData])
 
   function createDietType(newDietData: {
-    type: 'cutting' | 'bulking'
+    type: 'cutting' | 'bulking' | 'basal'
     dietKcal: number
   }) {
     setDietData((state) => {

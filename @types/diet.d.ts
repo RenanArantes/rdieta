@@ -8,7 +8,7 @@ interface MacroNutrients {
 
 export interface Diet {
   dietType: {
-    type: 'cutting' | 'bulking'
+    type: 'cutting' | 'bulking' | 'basal'
     dietKcal: number
   }
   metaKcal: MacroNutrients

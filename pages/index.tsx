@@ -14,6 +14,7 @@ import { DietForm } from '../components/forms/DietForm'
 import { List } from '../components/List'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
 import { Subtitle } from '../components/Subtitle'
+import { Modal } from '../components/Modal'
 
 export default function Home() {
   const {
@@ -132,6 +133,9 @@ export default function Home() {
         </FormContainer>
       )}
       {/* <BottomMultiStep /> */}
+      <Modal>
+        <NutritionalStrategyForm />
+      </Modal>
     </HomeContainer>
   )
 }

@@ -11,12 +11,12 @@ import { Title } from '../../Title'
 import roundedDivision from '../../../utils/roundedDivision'
 
 interface DietType {
-  dietType: 'cutting' | 'bulking'
+  dietType: 'cutting' | 'bulking' | 'basal'
   dietIntensity: 'low' | 'medium' | 'high'
 }
 
 const dietZodValidationSchema = zod.object({
-  dietType: zod.enum(['cutting', 'bulking']),
+  dietType: zod.enum(['cutting', 'bulking', 'basal']),
   dietIntensity: zod.enum(['low', 'medium', 'high']),
 })
 
@@ -42,7 +42,7 @@ export function DietForm() {
         case 'high':
           return personData.totalCaloricSpending * 0.5
       }
-    } else {
+    } else if (dietType === 'bulking') {
       switch (dietIntensity) {
         case 'low':
           return personData.totalCaloricSpending * 1.2
@@ -51,6 +51,10 @@ export function DietForm() {
         case 'high':
           return personData.totalCaloricSpending * 2
       }
+    } else if (dietType === 'basal') {
+      return personData.totalCaloricSpending * 1
+    } else {
+      return 0
     }
   }
 
@@ -77,7 +81,8 @@ export function DietForm() {
               Selecione uma opção
             </option>
             <option value="cutting">Perda de gordura</option>
-            <option value="bulkinng">Ganho de massa</option>
+            <option value="bulking">Ganho de massa</option>
+            <option value="basal">Manter o peso</option>
           </Select>
         </span>
         <span>
