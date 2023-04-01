@@ -6,7 +6,7 @@ export const FormContainer = styled.div`
 
   padding: 6px;
 
-  background-color: transparent;
+  background-color: ${(props) => props.theme.blueColors[800]};
   border: 2px solid ${(props) => props.theme.blueColors[400]};
   border-radius: 6px;
 

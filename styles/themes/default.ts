@@ -1,6 +1,7 @@
 export const defaultTheme = {
   blueColors: {
     900: '#17212a',
+    800: '#283949',
     700: '#32495d',
     400: '#4e7190',
     300: '#6a99c3',
