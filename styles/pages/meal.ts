@@ -11,7 +11,7 @@ export const DietContainer = styled.div`
 export const MealContainer = styled.div``
 
 export const MealListContainer = styled.div`
-  background-color: transparent;
+  background-color: ${(props) => props.theme.blueColors[800]};
   border: 2px solid ${(props) => props.theme.blueColors[400]};
   border-radius: 6px;
 
@@ -81,7 +81,7 @@ export const MealInfoContainer = styled.div`
   ul {
     margin: 8px;
     border-radius: 6px;
-    border: 2px solid ${(props) => props.theme.blueColors[700]};
+    border: 3px solid ${(props) => props.theme.blueColors[400]};
 
     &:hover {
       transition: 0.2s;

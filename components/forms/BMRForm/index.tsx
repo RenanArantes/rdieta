@@ -7,8 +7,8 @@ import { Button } from '../../Button'
 import { Input } from '../../Input'
 import { Select } from '../../Select'
 import { FormContainer } from './styles'
-import { Title } from '../../Title'
 import roundedDivision from '../../../utils/roundedDivision'
+import { BaseForm } from '../BaseForm'
 
 interface BenedictEquation {
   weight: number
@@ -76,8 +76,7 @@ export function BMRForm() {
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit(handleBenedictEquation)}>
-      <Title>Taxa de Metabolismo Basal</Title>
+    <BaseForm onSubmit={handleSubmit(handleBenedictEquation)}>
       <form>
         <span>
           <label>Peso</label>
@@ -127,6 +126,6 @@ export function BMRForm() {
         </span>
         <Button type="submit">Enviar</Button>
       </form>
-    </FormContainer>
+    </BaseForm>
   )
 }

@@ -6,9 +6,9 @@ import { DietContext } from '../../../contexts/Diet'
 import { Button } from '../../Button'
 import { Select } from '../../Select'
 import { FormContainer } from './styles'
-import { Title } from '../../Title'
 import roundedDivision from '../../../utils/roundedDivision'
 import { PersonContext } from '../../../contexts/Person'
+import { BaseForm } from '../BaseForm'
 
 interface NutritionalStrategyType {
   nutritionalStrategy:
@@ -29,12 +29,9 @@ type NutritionalStrategyFormData = zod.infer<
   typeof nutritionalStrategyZodValidationSchema
 >
 
-export function NutritionalStrategyForm({ handleDisplayModal }) {
+export function NutritionalStrategyForm(props: any) {
   const { createDietKcalMeta, dietData } = useContext(DietContext)
   const { personData } = useContext(PersonContext)
-
-  console.log('funcao do nutrition')
-  console.log(handleDisplayModal)
 
   const { register, handleSubmit, reset } =
     useForm<NutritionalStrategyFormData>({
@@ -99,15 +96,15 @@ export function NutritionalStrategyForm({ handleDisplayModal }) {
       })
     }
 
+    props.handleDisplayModal()
     reset()
   }
 
   return (
-    <FormContainer>
-      <Title>Estratégia Nutricional</Title>
+    <BaseForm>
       <form onSubmit={handleSubmit(handleNutritionalStrategy)}>
         <span>
-          <label>Estratégia nutricional :</label>
+          <label>Estratégia :</label>
           <Select defaultValue="" required {...register('nutritionalStrategy')}>
             <option value="" disabled>
               Selecione uma opção
@@ -123,6 +120,6 @@ export function NutritionalStrategyForm({ handleDisplayModal }) {
         </span>
         <Button type="submit">Enviar</Button>
       </form>
-    </FormContainer>
+    </BaseForm>
   )
 }

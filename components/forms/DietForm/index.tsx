@@ -6,9 +6,8 @@ import { PersonContext } from '../../../contexts/Person'
 import { DietContext } from '../../../contexts/Diet'
 import { Button } from '../../Button'
 import { Select } from '../../Select'
-import { FormContainer } from './styles'
-import { Title } from '../../Title'
 import roundedDivision from '../../../utils/roundedDivision'
+import { BaseForm } from '../BaseForm'
 
 interface DietType {
   dietType: 'cutting' | 'bulking' | 'basal'
@@ -71,8 +70,7 @@ export function DietForm() {
   }
 
   return (
-    <FormContainer>
-      <Title>Tipo da Dieta</Title>
+    <BaseForm>
       <form onSubmit={handleSubmit(handleDiet)}>
         <span>
           <label>Tipo da Dieta</label>
@@ -98,6 +96,6 @@ export function DietForm() {
         </span>
         <Button type="submit">Enviar</Button>
       </form>
-    </FormContainer>
+    </BaseForm>
   )
 }

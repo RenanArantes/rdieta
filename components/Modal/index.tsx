@@ -1,14 +1,22 @@
 import React, { ReactElement, ReactNode, useState } from 'react'
 import { Button } from '../Button'
-import { ModalContainer, FormContainer } from './styles'
+import { ModalContainer, FormContainer, ChildrenContainer } from './styles'
+import { Title } from '../Title'
+import { X } from 'phosphor-react'
 
 interface FormProps {
   icon?: ReactNode
   buttonTitle?: string
   children: ReactElement
+  title?: string
 }
 
-export function Modal({ children, buttonTitle = 'Modal', icon }: FormProps) {
+export function Modal({
+  children,
+  buttonTitle = 'Modal',
+  icon,
+  title = ' ',
+}: FormProps) {
   const [isDisplayed, setIsDisplayed] = useState('none')
   const [isOpen, setIsOpen] = useState(false)
 
@@ -30,7 +38,14 @@ export function Modal({ children, buttonTitle = 'Modal', icon }: FormProps) {
       </Button>
       <ModalContainer isDisplayed={isDisplayed}>
         {/* <MealUpdateFormModal handleDisplayModal={handleDisplayModal} /> */}
-        {React.cloneElement(children, { handleDisplayModal })}
+
+        <ChildrenContainer>
+          <div>
+            <Title>{title}</Title>
+            <X size={32} onClick={() => handleDisplayModal()} />
+          </div>
+          {React.cloneElement(children, { handleDisplayModal })}
+        </ChildrenContainer>
       </ModalContainer>
     </FormContainer>
   )

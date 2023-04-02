@@ -1,20 +1,20 @@
 import styled from 'styled-components'
-import spinner from '../../../assets/spinner.png'
 
 export const FormContainer = styled.div`
-  margin: 0 auto;
+  /* margin: 0 auto;
   width: 50%;
 
   padding: 6px;
 
   background-color: transparent;
   border: 2px solid ${(props) => props.theme.blueColors[400]};
-  border-radius: 6px;
+  border-radius: 6px; */
 
+  /* padding-bottom: 20px;
   form {
     display: flex;
     flex-direction: column;
-    margin: 20px 0px;
+    margin: 0 auto;
   }
 
   input {
@@ -78,5 +78,5 @@ export const FormContainer = styled.div`
     input {
       width: 100%;
     }
-  }
+  } */
 `

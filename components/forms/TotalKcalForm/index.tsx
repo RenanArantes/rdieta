@@ -7,6 +7,7 @@ import { Button } from '../../Button'
 import { Select } from '../../Select'
 import { FormContainer } from './styles'
 import { Title } from '../../Title'
+import { BaseForm } from '../BaseForm'
 
 interface TotalKcal {
   dailyActivity: 'sedentary' | 'moderate' | 'high'
@@ -105,8 +106,7 @@ export function TotalKcalForm() {
   }
 
   return (
-    <FormContainer>
-      <Title>Gasto Calórico Total</Title>
+    <BaseForm>
       <form onSubmit={handleSubmit(handleTotalKcal)}>
         <span>
           <label>Atividade Diária</label>
@@ -144,6 +144,6 @@ export function TotalKcalForm() {
         </span>
         <Button type="submit">Enviar</Button>
       </form>
-    </FormContainer>
+    </BaseForm>
   )
 }

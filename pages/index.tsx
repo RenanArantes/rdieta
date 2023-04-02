@@ -13,7 +13,6 @@ import { DietContext } from '../contexts/Diet'
 import { DietForm } from '../components/forms/DietForm'
 import { List } from '../components/List'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
-import { Subtitle } from '../components/Subtitle'
 import { Modal } from '../components/Modal'
 
 export default function Home() {
@@ -42,10 +41,14 @@ export default function Home() {
               Sua Taxa de Metabolismo Basal é de aproximadamente:{' '}
               <strong>{bmr}</strong> kcal
             </Title>
-            <Button onClick={() => setBmrAccordion(!bmrAccordion)}>
-              <label>Recalcular</label>
-              <Calculator size={32} />
-            </Button>
+
+            <Modal
+              buttonTitle="TMB"
+              icon={<Calculator size={32} />}
+              title="Taxa de Metabolismo Basal"
+            >
+              <BMRForm />
+            </Modal>
           </DataContainer>
           <Accordion isDisplayed={bmrAccordion}>
             <BMRForm />
@@ -62,14 +65,14 @@ export default function Home() {
             <Title>
               Gasto Calórico total: <strong>{totalCaloricSpending}</strong> kcal
             </Title>
-            <Button onClick={() => setTotalKcalAccordion(!totalKcalAccordion)}>
-              <label>Recalcular</label>
-              <Calculator size={32} />
-            </Button>
+            <Modal
+              buttonTitle="Gasto Kcal"
+              icon={<Calculator size={32} />}
+              title="Gasto Calórico Total"
+            >
+              <TotalKcalForm />
+            </Modal>
           </DataContainer>
-          <Accordion isDisplayed={totalKcalAccordion}>
-            <TotalKcalForm />
-          </Accordion>
         </FormContainer>
       ) : (
         <FormContainer>
@@ -83,14 +86,14 @@ export default function Home() {
               O gasto calórico da sua dieta é de:{' '}
               <strong>{dietType.dietKcal}</strong> kcal
             </Title>
-            <Button onClick={() => setDietTypeAccordion(!dietTypeAccordion)}>
-              <label>Recalcular</label>
-              <Calculator size={32} />
-            </Button>
+            <Modal
+              buttonTitle="Tipo"
+              icon={<Calculator size={32} />}
+              title="Tipo da Dieta"
+            >
+              <DietForm />
+            </Modal>
           </DataContainer>
-          <Accordion isDisplayed={dietTypeAccordion}>
-            <DietForm />
-          </Accordion>
         </FormContainer>
       ) : (
         <FormContainer>
@@ -114,18 +117,14 @@ export default function Home() {
                 </li>
               </List>
             </div>
-            <Button
-              onClick={() =>
-                setNutritionalStrategyAccordion(!nutritionalStrategyAccordion)
-              }
+            <Modal
+              buttonTitle="Estratégia"
+              icon={<Calculator size={32} />}
+              title="Tipo da Dieta"
             >
-              <label>Recalcular</label>
-              <Calculator size={32} />
-            </Button>
+              <NutritionalStrategyForm />
+            </Modal>
           </DataContainer>
-          <Accordion isDisplayed={nutritionalStrategyAccordion}>
-            <NutritionalStrategyForm />
-          </Accordion>
         </FormContainer>
       ) : (
         <FormContainer>
@@ -133,9 +132,6 @@ export default function Home() {
         </FormContainer>
       )}
       {/* <BottomMultiStep /> */}
-      <Modal>
-        <NutritionalStrategyForm />
-      </Modal>
     </HomeContainer>
   )
 }

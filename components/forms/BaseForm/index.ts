@@ -1,15 +1,10 @@
 import styled from 'styled-components'
 
-export const FormContainer = styled.div`
-  /* width: 50%;
-
-  padding: 6px;
-
-  background-color: ${(props) => props.theme.blueColors[800]};
-  border: 2px solid ${(props) => props.theme.blueColors[400]};
-  border-radius: 6px; */
+export const BaseForm = styled.div`
+  padding-bottom: 20px;
 
   form {
+    width: 85%;
     display: flex;
     flex-direction: column;
 

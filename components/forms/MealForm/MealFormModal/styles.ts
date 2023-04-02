@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components'
-import spinner from '../../../../assets/spinner.png'
+import spinner from '../../../../assets/arrowupdown.png'
 
 export const FormContainer = styled.div`
   margin: auto;
