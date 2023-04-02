@@ -25,4 +25,25 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     font-size: 1rem;
   }
+
+  /* largura da barra */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* fundo da barra */
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  /* cor da barra */
+  ::-webkit-scrollbar-thumb {
+    background-color:${(props) => props.theme.blueColors[400]};
+    border-radius: 5px;
+  }
+
+  /* cor da barra no hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: ${(props) => props.theme.blueColors[300]};
+  }
 `

@@ -24,6 +24,7 @@ import {
   MealListContainer,
 } from '../styles/pages/meal'
 import roundedDivision from '../utils/roundedDivision'
+import MacrosInformer from '../components/MacrosInformer'
 
 interface DietProps {
   foods: Food[]
@@ -77,6 +78,30 @@ export default function Diet({ foods, categories }: DietProps) {
 
   return (
     <DietContainer>
+      <MacrosContainer>
+        {totalMealsMacros.kcal > 0 && (
+          <MacrosInformer
+            macrosData={{
+              cho: totalMealsMacros.cho,
+              ptn: totalMealsMacros.ptn,
+              lip: totalMealsMacros.lip,
+              kcal: totalMealsMacros.kcal,
+            }}
+          />
+        )}
+
+        {dietData !== undefined && dietData.dietType?.dietKcal > 0 && (
+          <MacrosInformer
+            macrosData={{
+              cho: dietData.metaKcal.cho,
+              ptn: dietData.metaKcal.ptn,
+              lip: dietData.metaKcal.lip,
+              kcal: dietData.dietType.dietKcal,
+            }}
+          />
+        )}
+      </MacrosContainer>
+
       <MealForm foods={foods} categories={categories} />
 
       <MealContainer>
@@ -149,52 +174,6 @@ export default function Diet({ foods, categories }: DietProps) {
             </MealListContainer>
           )
         })}
-        <MacrosContainer>
-          {totalMealsMacros.kcal > 0 && (
-            <div>
-              <Subtitle>Valores totais de todas as refeições</Subtitle>
-              <List>
-                <li>
-                  CHO: <strong>{totalMealsMacros.cho}</strong>g
-                </li>
-                <li>
-                  PTN: <strong>{totalMealsMacros.ptn}</strong>g
-                </li>
-                <li>
-                  LIP: <strong>{totalMealsMacros.lip}</strong>g
-                </li>
-                <li>
-                  Total: <strong>{totalMealsMacros.kcal}</strong> kcal
-                </li>
-              </List>
-            </div>
-          )}
-          {dietData.metaKcal && (
-            <div>
-              <Subtitle>Sua meta de macros nutrientes</Subtitle>
-              <List>
-                <li>
-                  Carboidrato: <strong>{dietData.metaKcal.cho}</strong>g
-                </li>
-                <li>
-                  Proteína: <strong>{dietData.metaKcal.ptn}</strong>g
-                </li>
-                <li>
-                  Gordura: <strong>{dietData.metaKcal.lip}</strong>g
-                </li>
-                <li>
-                  Total:{' '}
-                  <strong>
-                    {dietData.metaKcal.cho * 4 +
-                      dietData.metaKcal.ptn * 4 +
-                      dietData.metaKcal.lip * 9}
-                  </strong>{' '}
-                  kcal
-                </li>
-              </List>
-            </div>
-          )}
-        </MacrosContainer>
       </MealContainer>
     </DietContainer>
   )

@@ -5,6 +5,8 @@ export const MealFormContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  margin-top: 25px;
 `
 
 export const ModalButton = styled(Button)`

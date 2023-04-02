@@ -14,6 +14,8 @@ import { DietForm } from '../components/forms/DietForm'
 import { List } from '../components/List'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
 import { Modal } from '../components/Modal'
+import MacrosInformer from '../components/MacrosInformer'
+import getTotalKcal from '../utils/getTotalKcal'
 
 export default function Home() {
   const {
@@ -105,17 +107,14 @@ export default function Home() {
           <DataContainer>
             <div>
               <Title>Sua meta de macros nutrientes</Title>
-              <List>
-                <li>
-                  Carboidrato: <strong>{metaKcal.cho}</strong>g
-                </li>
-                <li>
-                  Proteína: <strong>{metaKcal.ptn}</strong>g
-                </li>
-                <li>
-                  Gordura: <strong>{metaKcal.lip}</strong>g
-                </li>
-              </List>
+              <MacrosInformer
+                macrosData={{
+                  cho: metaKcal.cho,
+                  ptn: metaKcal.ptn,
+                  lip: metaKcal.lip,
+                  kcal: getTotalKcal(metaKcal.cho, metaKcal.ptn, metaKcal.lip),
+                }}
+              />
             </div>
             <Modal
               buttonTitle="Estratégia"

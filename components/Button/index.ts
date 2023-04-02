@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Button = styled.button`
   height: 50px;
-  border: 0;
+  border: 1px solid ${(props) => props.theme.white};
   background: ${(props) => props.theme.blueColors[400]};
   color: ${(props) => props.theme.white};
   font-weight: bold;
@@ -18,6 +18,8 @@ export const Button = styled.button`
     transition: 0.4s;
     background: ${(props) => props.theme.blueColors[300]};
     color: ${(props) => props.theme.blueColors[700]};
+
+    border: 1px solid ${(props) => props.theme.blueColors[400]};
   }
 
   &:disabled {
