@@ -25,6 +25,7 @@ import {
   TextFood,
   WarningToSelectFoodContainer,
 } from './styles'
+import { FoodSearchBar } from '../../../SearchBar'
 
 interface MacroNutrients {
   cho: number
@@ -361,45 +362,28 @@ export function MealFormModal({
                   ))}
               </Select>
               <Subtitle>Valores em 100g do alimento:</Subtitle>
-              {checkedFoods.length === 0
-                ? foods
-                    .filter((food) => food.category === mealCategory)
-                    .map((food) => (
-                      <CheckBoxContainer key={food.id}>
-                        <Input
-                          type="checkbox"
-                          value={food.id}
-                          onChange={(e) => handleCheckedFoods(e, food)}
-                        />
-                        <CheckBox></CheckBox>
-                        <TextFood>{food.description}</TextFood>
-                      </CheckBoxContainer>
-                    ))
-                : checkedFoods
-                    .filter((food) => food.category === mealCategory)
-                    .map((food) => (
-                      <div key={food.id}>
-                        <CheckBoxContainer key={food.id}>
-                          <Input
-                            type="checkbox"
-                            value={food.id}
-                            checked
-                            onChange={(e) => handleCheckedFoods(e, food)}
-                          />
-                          <CheckBox></CheckBox>
-                          <TextFood>{food.description}</TextFood>
-                        </CheckBoxContainer>
-                        <List>
-                          <Subtitle>
-                            Macros de {/* First word of the selected food */}
-                            <strong>{food.description.split(',')[0]}</strong>
-                          </Subtitle>
-                          <li>CHO: {food.carbohydrate_g}</li>
-                          <li>PTN: {food.protein_g}</li>
-                          <li>LIP: {food.lipid_g}</li>
-                        </List>
-                      </div>
-                    ))}
+              <FoodSearchBar
+                data={foods}
+                selectedFood={selectedFood}
+                mealCategory={mealCategory}
+                checkedFoods={handleCheckedFoods}
+              ></FoodSearchBar>
+              {checkedFoods.length > 0 &&
+                checkedFoods
+                  .filter((food) => food.category === mealCategory)
+                  .map((food) => (
+                    <div key={food.id}>
+                      <List>
+                        <Subtitle>
+                          Macros de {/* First word of the selected food */}
+                          <strong>{food.description.split(',')[0]}</strong>
+                        </Subtitle>
+                        <li>CHO: {food.carbohydrate_g}</li>
+                        <li>PTN: {food.protein_g}</li>
+                        <li>LIP: {food.lipid_g}</li>
+                      </List>
+                    </div>
+                  ))}
             </FoodListContainer>
           </div>
           <SelectedFoodContainer>

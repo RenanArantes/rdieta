@@ -82,6 +82,7 @@ export const ContentContainer = styled.div`
     visibility: hidden;
   }
 `
+
 export const FoodListContainer = styled.div`
   display: flex;
   flex-direction: column;
