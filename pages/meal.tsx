@@ -4,7 +4,6 @@ import { PencilLine, Trash } from 'phosphor-react'
 import { useContext, useEffect, useState } from 'react'
 import { MacroNutrients } from '../@types/diet'
 import Food from '../@types/food'
-import { BottomMultiStep } from '../components/BottomMultiStep'
 import { Button } from '../components/Button'
 import { MealForm } from '../components/forms/MealForm'
 import { MealUpdateForm } from '../components/forms/MealUpdateForm'
@@ -13,7 +12,6 @@ import { Subtitle } from '../components/Subtitle'
 import { Title } from '../components/Title'
 import { DietContext } from '../contexts/Diet'
 import { MealContext } from '../contexts/Meal'
-import { StepContext } from '../contexts/Step'
 import {
   DietContainer,
   MacrosContainer,
@@ -38,7 +36,6 @@ interface TotalMealMacrosProps extends MacroNutrients {
 export default function Diet({ foods, categories }: DietProps) {
   const { dietData } = useContext(DietContext)
   const { meals, deleteMeal } = useContext(MealContext)
-  const { step, currentStep } = useContext(StepContext)
 
   const [totalMealsMacros, setTotalMealsMacros] = useState({
     cho: 0,

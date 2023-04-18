@@ -48,9 +48,11 @@ export function FoodSearchBar({
 
       const results = foods.filter((food) => {
         if (searchType === 'exact') {
+          // transforma 'Arroz, Integral, Cozido' em 'arroz integral cozido'
           return food.description
-            .toLowerCase()
-            .replace(',', '')
+            .toLocaleLowerCase()
+            .split(', ')
+            .join(' ')
             .startsWith(value.toLowerCase())
         } else if (searchType === 'contains') {
           // !! Essa lógica ainda não está terminada //

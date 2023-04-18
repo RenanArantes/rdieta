@@ -58,9 +58,7 @@ export function DietForm() {
   }
 
   function handleDiet(data: DietType) {
-    const { dietIntensity, dietType } = data
-
-    console.log(`Tipo: ${dietType} | Intensidade: ${dietIntensity}`)
+    const { dietType } = data
 
     const newDietKcal = getDietKcalValue(data)
 

@@ -1,6 +1,8 @@
 import { Trash, Warning, X } from 'phosphor-react'
 import { ChangeEvent, useContext, useEffect, useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod'
 import Food from '../../../../@types/food'
 import { MealContext } from '../../../../contexts/Meal'
 import roundedDivision from '../../../../utils/roundedDivision'
@@ -11,8 +13,6 @@ import { Select } from '../../../Select'
 import { Subtitle } from '../../../Subtitle'
 import { Title } from '../../../Title'
 import {
-  CheckBox,
-  CheckBoxContainer,
   ContentContainer,
   FoodListContainer,
   FoodsOnMealContainer,
@@ -22,7 +22,6 @@ import {
   MealInputContainer,
   SelectedFoodContainer,
   SelectedFoodInputsContainer,
-  TextFood,
   WarningToSelectFoodContainer,
 } from './styles'
 import { FoodSearchBar } from '../../../SearchBar'
@@ -48,6 +47,12 @@ interface MealFormModalProps {
   handleDisplayModal: () => void
 }
 
+const mealZodValidationSchema = zod.object({
+  mealName: zod.string(),
+})
+
+type MealFormData = zod.infer<typeof mealZodValidationSchema>
+
 export function MealFormModal({
   foodList,
   categories,
@@ -55,13 +60,9 @@ export function MealFormModal({
 }: MealFormModalProps) {
   const { createMeal } = useContext(MealContext)
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    resetField,
-    formState: { errors },
-  } = useForm()
+  const { register, handleSubmit, reset } = useForm<MealFormData>({
+    resolver: zodResolver(mealZodValidationSchema),
+  })
 
   const [foods, setFoods] = useState([] as Food[])
   const [mealCategory, setMealCategory] = useState('')
@@ -94,21 +95,8 @@ export function MealFormModal({
     if (foodMacro === 0) {
       return 0
     } else {
-      console.log(`${foodMacro} encontrou o seguinte peso: `)
-      console.log(`Quantidade em Gramas do macro desejado: ${wantedMacroValue}`)
-      console.log(`Valor do metaMacroValue: ${metaMacroValue}`)
-      console.log(
-        wantedMacroValue === 0 ? 0 : (100 * wantedMacroValue) / foodMacro,
-      )
-
       return wantedMacroValue === 0 ? 0 : (100 * wantedMacroValue) / foodMacro
     }
-  }
-
-  function removeFoodOnMealOfFoods(foodToRemove: Food) {
-    const updatedFoods = foods.filter((food) => food.id !== foodToRemove.id)
-
-    setFoods(updatedFoods)
   }
 
   function resetGoalValues() {
@@ -130,8 +118,6 @@ export function MealFormModal({
 
     return { cho: choGoal, ptn: ptnGoal, lip: lipGoal }
   }
-
-  function setMetaWeightGoal(macroType: string) {}
 
   function handleCheckedFoods(e: any, newFood: Food) {
     resetGoalValues()
@@ -187,9 +173,6 @@ export function MealFormModal({
       },
     }
 
-    console.log('foodToAddOnMeal')
-    console.log(foodToAddOnMeal)
-
     setFoodsOnMeal((state) => [...state, foodToAddOnMeal])
 
     const updatedFoodsToList = foods.filter(
@@ -206,25 +189,14 @@ export function MealFormModal({
       }
     })
 
-    console.log('checkedFoods')
-    console.log(checkedFoods)
-
     const updatedCheckedFoods = checkedFoods.filter(
       (food) => food.id !== newFood.id,
     )
     const emptyFood = {} as Food
 
-    console.log('updatedCheckedFoods')
-    console.log(updatedCheckedFoods)
-
     setSelectedFood((state) => emptyFood)
     setCheckedFoods(updatedCheckedFoods)
     resetGoalValues()
-
-    console.log(updatedCheckedFoods.length)
-
-    console.log('goalFoodWeight')
-    console.log(goalFoodWeight)
   }
 
   function handleCategoryChange(e: ChangeEvent<HTMLSelectElement>) {
@@ -242,9 +214,6 @@ export function MealFormModal({
     setMetaMacroValue(inputValue)
 
     let macroValue = 0
-    console.log('goalFoodWeight')
-    console.log(goalFoodWeight)
-    console.log(selectedMetaMacro)
 
     switch (selectedMetaMacro) {
       case 'cho':
@@ -273,9 +242,6 @@ export function MealFormModal({
 
     setSelectedMetaMacro(selectedMetaMacro)
 
-    console.log('macro type')
-    console.log(selectedMetaMacro)
-
     let macroValue = 0
 
     if (selectedMetaMacro === 'cho') {
@@ -286,22 +252,14 @@ export function MealFormModal({
       macroValue = selectedFood.lipid_g
     }
 
-    console.log('valor do macro')
-    console.log(macroValue)
-
     if (metaMacroValue > 0) {
       const weightGoal = findWeightOfSelectedFood(macroValue, metaMacroValue)
-
-      console.log('peso a ser alcançado')
-      console.log(weightGoal)
 
       setGoalFoodWeight((state) => roundedDivision(weightGoal))
     }
   }
 
   function handleMealCreation(data: { mealName: string }) {
-    console.log(data)
-
     const newMealData = {
       newName: data.mealName,
       foods: foodsOnMeal,

@@ -6,7 +6,6 @@ import * as zod from 'zod'
 import { Button } from '../../Button'
 import { Input } from '../../Input'
 import { Select } from '../../Select'
-import { FormContainer } from './styles'
 import roundedDivision from '../../../utils/roundedDivision'
 import { BaseForm } from '../BaseForm'
 
@@ -34,9 +33,6 @@ export function BMRForm() {
   })
 
   function handleBenedictEquation(data: BenedictEquation) {
-    console.log('data: ')
-    console.log(data)
-
     const { gender, weight, height, age } = data
 
     // Equação de Harris-Benedict
@@ -45,21 +41,15 @@ export function BMRForm() {
       const calculedHeight = 5 * height
       const calculedAge = 6.8 * age
 
-      console.log(`PesoC:${calculedWeight}`)
-      console.log(`AlturaC:${calculedHeight}`)
-      console.log(`IdadeC:${calculedAge}`)
-
-      changeBmr(66 + (calculedWeight + calculedHeight) - calculedAge)
+      changeBmr(
+        roundedDivision(66 + (calculedWeight + calculedHeight) - calculedAge),
+      )
     }
 
     if (gender === 'female') {
       const calculedWeight = 9.6 * weight
       const calculedHeight = 1.8 * height
       const calculedAge = 4.7 * age
-
-      console.log(`PesoC:${calculedWeight}`)
-      console.log(`AlturaC:${calculedHeight}`)
-      console.log(`IdadeC:${calculedAge}`)
 
       changeBmr(
         roundedDivision(665 + (calculedWeight + calculedHeight) - calculedAge),

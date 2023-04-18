@@ -1,17 +1,12 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { PersonContext } from '../contexts/Person'
 import { BMRForm } from '../components/forms/BMRForm'
 import { TotalKcalForm } from '../components/forms/TotalKcalForm'
-import { StepContext } from '../contexts/Step'
-import { BottomMultiStep } from '../components/BottomMultiStep'
 import { DataContainer, FormContainer, HomeContainer } from '../styles/pages'
 import { Title } from '../components/Title'
 import { Calculator } from 'phosphor-react'
-import { Button } from '../components/Button'
-import { Accordion } from '../components/Accordion'
 import { DietContext } from '../contexts/Diet'
 import { DietForm } from '../components/forms/DietForm'
-import { List } from '../components/List'
 import { NutritionalStrategyForm } from '../components/forms/NutritionalStrategyForm'
 import { Modal } from '../components/Modal'
 import MacrosInformer from '../components/MacrosInformer'
@@ -21,18 +16,9 @@ export default function Home() {
   const {
     personData: { bmr, totalCaloricSpending },
   } = useContext(PersonContext)
-  const { step, currentStep } = useContext(StepContext)
   const { dietData } = useContext(DietContext)
 
-  console.log(dietData)
-
   const { dietType, metaKcal } = dietData
-
-  const [bmrAccordion, setBmrAccordion] = useState(false)
-  const [totalKcalAccordion, setTotalKcalAccordion] = useState(false)
-  const [dietTypeAccordion, setDietTypeAccordion] = useState(false)
-  const [nutritionalStrategyAccordion, setNutritionalStrategyAccordion] =
-    useState(false)
 
   return (
     <HomeContainer>
@@ -52,9 +38,6 @@ export default function Home() {
               <BMRForm />
             </Modal>
           </DataContainer>
-          <Accordion isDisplayed={bmrAccordion}>
-            <BMRForm />
-          </Accordion>
         </FormContainer>
       ) : (
         <FormContainer>

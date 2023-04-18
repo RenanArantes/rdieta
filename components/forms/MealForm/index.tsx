@@ -1,8 +1,6 @@
 import { Plus } from 'phosphor-react'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import Food from '../../../@types/food'
-import { DietContext } from '../../../contexts/Diet'
-import { Button } from '../../Button'
 import { Title } from '../../Title'
 import { MealFormModal } from './MealFormModal'
 import { MealFormContainer, MealModalContainer, ModalButton } from './styles'
@@ -13,8 +11,6 @@ interface MealFormProps {
 }
 
 export function MealForm({ foods, categories }: MealFormProps) {
-  const { mealFraction } = useContext(DietContext)
-
   const [isDisplayed, setIsDisplayed] = useState('none')
   const [isOpen, setIsOpen] = useState(false)
 
