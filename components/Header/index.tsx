@@ -1,9 +1,9 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { HouseSimple, ForkKnife } from 'phosphor-react'
-import logo from '../../assets/rdieta_logo.svg'
-import { Title } from '../Title'
-import { HeaderContainer, LogoContainer } from './styles'
+import Image from "next/image";
+import Link from "next/link";
+import { HouseSimple, ForkKnife, CookingPot } from "phosphor-react";
+import logo from "../../assets/rdieta_logo.svg";
+import { Title } from "../Title";
+import { HeaderContainer, LogoContainer } from "./styles";
 
 export function Header() {
   return (
@@ -14,15 +14,19 @@ export function Header() {
       </LogoContainer>
 
       <nav>
-        <Link href={'/'} title="Início">
+        <Link href={"/"} title="Início">
           <HouseSimple size={24} />
           Home
         </Link>
-        <Link href={'/meal'} title="Refeição">
+        <Link href={"/meal"} title="Refeição">
           <ForkKnife size={24} />
           Refeição
         </Link>
+        <Link href={"/foods"} title="Comidas">
+          <CookingPot size={24} />
+          Comidas
+        </Link>
       </nav>
     </HeaderContainer>
-  )
+  );
 }

@@ -1,6 +1,7 @@
 {
   "extends": "@rocketseat/eslint-config/react",
+  "quotes": [2, "single"],
   "rules": {
-    "camelcase":"off"
+    "camelcase": "off"
   }
 }
