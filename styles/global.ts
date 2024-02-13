@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -13,7 +13,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    min-height: 100vh;
+    /* min-height: 100vh; */
     //min-width: 400px;
 
     background: ${(props) => props.theme.blueColors[900]};
@@ -46,4 +46,8 @@ export const GlobalStyle = createGlobalStyle`
   ::-webkit-scrollbar-thumb:hover {
     background-color: ${(props) => props.theme.blueColors[300]};
   }
-`
+`;
+
+export const BasePage = styled.div`
+  min-height: calc(100vh - 185px);
+`;
