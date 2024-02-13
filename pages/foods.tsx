@@ -1,53 +1,64 @@
-import { GetServerSideProps } from "next";
-import { HomeContainer, TableFoods, TableFoodsHeaderContainer, TableFoodsTitleContainer } from "../styles/pages/foods";
-import axios from "axios";
-import Food from "../@types/food";
-import roundedDivision from "../utils/roundedDivision";
-import { ChangeEvent, useState } from "react";
-import { Title } from "../components/Title";
-import { ArrowsDownUp, Info } from "phosphor-react";
-import { Subtitle } from "../components/Subtitle";
-import { Select } from "../components/Select";
-import { TooltipIcon } from "../components/TooltipIcon";
+import { GetServerSideProps } from 'next'
+import {
+  HomeContainer,
+  TableFoods,
+  TableFoodsHeaderContainer,
+  TableFoodsTitleContainer,
+} from '../styles/pages/foods'
+import axios from 'axios'
+import Food from '../@types/food'
+import roundedDivision from '../utils/roundedDivision'
+import { ChangeEvent, useState } from 'react'
+import { Title } from '../components/Title'
+import { ArrowsDownUp } from 'phosphor-react'
+import { Select } from '../components/Select'
+import { TooltipIcon } from '../components/TooltipIcon'
 
 interface DietProps {
-  foods: Food[];
-  categories: string[];
+  foods: Food[]
+  categories: string[]
 }
 
-type TFoodsProps = "description" | "carbohydrate_g" | "protein_g" | "lipid_g" | "energy_kcal";
+type TFoodsProps =
+  | 'description'
+  | 'carbohydrate_g'
+  | 'protein_g'
+  | 'lipid_g'
+  | 'energy_kcal'
 
 export default function Foods({ foods, categories }: DietProps) {
-  const [foodsList, setFoodsList] = useState<Food[]>(foods);
-  const [foodListCategory, setFoodListCategory] = useState<string>(categories[0]);
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [orderBy, setOrderBy] = useState<TFoodsProps>("" as TFoodsProps);
+  const [foodsList, setFoodsList] = useState<Food[]>(foods)
+  const [foodListCategory, setFoodListCategory] = useState<string>(
+    categories[0],
+  )
+  const [order, setOrder] = useState<'asc' | 'desc'>('asc')
+  const [orderBy, setOrderBy] = useState<TFoodsProps>('' as TFoodsProps)
 
   const orderFoodsBy = (keyName: TFoodsProps) => {
-    setOrderBy(keyName);
+    setOrderBy(keyName)
 
     const sortedFoods = [...foodsList].sort((a: Food, b: Food) => {
       if (a[keyName] < b[keyName]) {
-        if (order === "asc") return -1;
-        return 1;
+        if (order === 'asc') return -1
+        return 1
       }
       if (a[keyName] > b[keyName]) {
-        if (order === "asc") return 1;
-        return -1;
+        if (order === 'asc') return 1
+        return -1
       }
 
-      return 0;
-    });
+      return 0
+    })
 
     if (orderBy === keyName) {
-      setOrder(order === "asc" ? "desc" : "asc");
+      setOrder(order === 'asc' ? 'desc' : 'asc')
     }
 
-    setFoodsList(() => sortedFoods);
-  };
+    setFoodsList(() => sortedFoods)
+  }
 
   function handleCategoryChange(e: ChangeEvent<HTMLSelectElement>) {
-    setFoodListCategory(e.target.value);
+    setFoodListCategory(e.target.value)
   }
 
   return (
@@ -55,7 +66,10 @@ export default function Foods({ foods, categories }: DietProps) {
       <TableFoodsHeaderContainer>
         <TableFoodsTitleContainer>
           <Title>Comidas por categoria</Title>
-          <TooltipIcon tooltipText="Listagem de calorias e macros nutrientes a cada 100g do alimento por categoria." size={18} />
+          <TooltipIcon
+            tooltipText="Listagem de calorias e macros nutrientes a cada 100g do alimento por categoria."
+            size={18}
+          />
         </TableFoodsTitleContainer>
 
         {/* <Subtitle>Listagem de calorias e macros nutrientes a cada 100g do alimento por categoria.</Subtitle> */}
@@ -75,16 +89,16 @@ export default function Foods({ foods, categories }: DietProps) {
             <tr>
               <th
                 onClick={(event) => {
-                  event.preventDefault();
-                  orderFoodsBy("description");
+                  event.preventDefault()
+                  orderFoodsBy('description')
                 }}
               >
                 Nome <ArrowsDownUp />
               </th>
               <th
                 onClick={(event) => {
-                  event.preventDefault;
-                  orderFoodsBy("carbohydrate_g");
+                  event.preventDefault()
+                  orderFoodsBy('carbohydrate_g')
                 }}
               >
                 Carboidratos
@@ -92,8 +106,8 @@ export default function Foods({ foods, categories }: DietProps) {
               </th>
               <th
                 onClick={(event) => {
-                  event.preventDefault;
-                  orderFoodsBy("protein_g");
+                  event.preventDefault()
+                  orderFoodsBy('protein_g')
                 }}
               >
                 Proteínas
@@ -101,8 +115,8 @@ export default function Foods({ foods, categories }: DietProps) {
               </th>
               <th
                 onClick={(event) => {
-                  event.preventDefault;
-                  orderFoodsBy("lipid_g");
+                  event.preventDefault()
+                  orderFoodsBy('lipid_g')
                 }}
               >
                 Gorduras
@@ -110,8 +124,8 @@ export default function Foods({ foods, categories }: DietProps) {
               </th>
               <th
                 onClick={(event) => {
-                  event.preventDefault;
-                  orderFoodsBy("energy_kcal");
+                  event.preventDefault()
+                  orderFoodsBy('energy_kcal')
                 }}
               >
                 Calorias
@@ -131,52 +145,46 @@ export default function Foods({ foods, categories }: DietProps) {
                     <td>{food.lipid_g} g</td>
                     <td>{food.energy_kcal} kcal</td>
                   </tr>
-                );
+                )
               })}
           </tbody>
         </TableFoods>
       </div>
     </HomeContainer>
-  );
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await axios.get<Food[]>("http://localhost:3000/api/foods");
+  const response = await axios.get<Food[]>('http://localhost:3000/api/foods')
 
-  const categories = [] as string[];
+  const categories = [] as string[]
 
   const fetchedFoods = response.data.map<Food>((food) => {
     if (categories.indexOf(food.category) === -1) {
-      categories.push(food.category);
-    }
-
-    if (food.id === 515) {
-      console.log("gelatina antes do processamento");
-      console.log(food);
+      categories.push(food.category)
     }
 
     return {
       ...food,
-      energy_kcal: isNaN(roundedDivision(food.energy_kcal)) ? 0 : roundedDivision(food.energy_kcal),
-      carbohydrate_g: isNaN(roundedDivision(food.carbohydrate_g)) ? 0 : roundedDivision(food.carbohydrate_g),
-      protein_g: isNaN(roundedDivision(food.protein_g)) ? 0 : roundedDivision(food.protein_g),
-      lipid_g: isNaN(roundedDivision(food.lipid_g)) ? 0 : roundedDivision(food.lipid_g),
-    };
-  });
-
-  console.log("gelatina depois do processamento");
-  console.log(
-    fetchedFoods.find((food) => {
-      if (food.id === 515) {
-        console.log(food);
-      }
-    })
-  );
+      energy_kcal: isNaN(roundedDivision(food.energy_kcal))
+        ? 0
+        : roundedDivision(food.energy_kcal),
+      carbohydrate_g: isNaN(roundedDivision(food.carbohydrate_g))
+        ? 0
+        : roundedDivision(food.carbohydrate_g),
+      protein_g: isNaN(roundedDivision(food.protein_g))
+        ? 0
+        : roundedDivision(food.protein_g),
+      lipid_g: isNaN(roundedDivision(food.lipid_g))
+        ? 0
+        : roundedDivision(food.lipid_g),
+    }
+  })
 
   return {
     props: {
       foods: fetchedFoods,
       categories,
     },
-  };
-};
+  }
+}
