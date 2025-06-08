@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next'
 import { ArrowsDownUp } from 'phosphor-react'
 import { ChangeEvent, useState } from 'react'
 import Food from '../@types/food'
-import { Select } from '../components/Select'
 import { Title } from '../components/Title'
 import { TooltipIcon } from '../components/TooltipIcon'
 import {
@@ -27,6 +26,16 @@ type TFoodsProps =
   | 'energy_kcal'
   | 'sodium_mg'
 
+// Novo tipo para colunas opcionais
+const optionalColumns = [
+  'carbohydrate_g',
+  'protein_g',
+  'lipid_g',
+  'energy_kcal',
+  'sodium_mg',
+] as const;
+type OptionalColumn = typeof optionalColumns[number];
+
 export default function Foods({ foods, categories }: DietProps) {
   const [foodsList, setFoodsList] = useState<Food[]>(foods)
   const [foodListCategory, setFoodListCategory] = useState<string>(
@@ -35,6 +44,13 @@ export default function Foods({ foods, categories }: DietProps) {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc')
   const [orderBy, setOrderBy] = useState<TFoodsProps>('' as TFoodsProps)
 
+  const [visibleColumns, setVisibleColumns] = useState<Record<OptionalColumn, boolean>>({
+    carbohydrate_g: true,
+    protein_g: true,
+    lipid_g: true,
+    energy_kcal: true,
+    sodium_mg: false,
+  })
 
   const orderFoodsBy = (keyName: TFoodsProps) => {
     setOrderBy(keyName)
@@ -63,6 +79,13 @@ export default function Foods({ foods, categories }: DietProps) {
     setFoodListCategory(e.target.value)
   }
 
+  function handleColumnToggle(column: OptionalColumn) {
+    setVisibleColumns((prev) => ({
+      ...prev,
+      [column]: !prev[column],
+    }))
+  }
+
   return (
     <HomeContainer>
       <TableFoodsHeaderContainer>
@@ -73,17 +96,39 @@ export default function Foods({ foods, categories }: DietProps) {
             size={18}
           />
         </TableFoodsTitleContainer>
-
         {/* <Subtitle>Listagem de calorias e macros nutrientes a cada 100g do alimento por categoria.</Subtitle> */}
-        <Select onChange={handleCategoryChange}>
+        <select onChange={handleCategoryChange}>
           {categories &&
             categories.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
             ))}
-        </Select>
+        </select>
       </TableFoodsHeaderContainer>
+
+      <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'center' }}>
+        {/* Checkboxes para mostrar/esconder colunas, exceto Nome */}
+        {optionalColumns.map((key) => (
+          <label key={key} style={{ marginRight: 12 }}>
+            <input
+              type="checkbox"
+              checked={visibleColumns[key]}
+              onChange={() => handleColumnToggle(key)}
+            />{' '}
+            {(() => {
+              switch (key) {
+                case 'carbohydrate_g': return 'Carboidratos';
+                case 'protein_g': return 'Proteínas';
+                case 'lipid_g': return 'Gorduras';
+                case 'energy_kcal': return 'Calorias';
+                case 'sodium_mg': return 'Sódio';
+                default: return key;
+              }
+            })()}
+          </label>
+        ))}
+      </div>
 
       <div>
         <TableFoods>
@@ -97,51 +142,61 @@ export default function Foods({ foods, categories }: DietProps) {
               >
                 Nome <ArrowsDownUp />
               </th>
-              <th
-                onClick={(event) => {
-                  event.preventDefault()
-                  orderFoodsBy('carbohydrate_g')
-                }}
-              >
-                Carboidratos
-                <ArrowsDownUp />
-              </th>
-              <th
-                onClick={(event) => {
-                  event.preventDefault()
-                  orderFoodsBy('protein_g')
-                }}
-              >
-                Proteínas
-                <ArrowsDownUp />
-              </th>
-              <th
-                onClick={(event) => {
-                  event.preventDefault()
-                  orderFoodsBy('lipid_g')
-                }}
-              >
-                Gorduras
-                <ArrowsDownUp />
-              </th>
-              <th
-                onClick={(event) => {
-                  event.preventDefault()
-                  orderFoodsBy('energy_kcal')
-                }}
-              >
-                Calorias
-                <ArrowsDownUp />
-              </th>
-              <th
-                onClick={(event) => {
-                  event.preventDefault()
-                  orderFoodsBy('sodium_mg')
-                }}
-              >
-                Sódio
-                <ArrowsDownUp />
-              </th>
+              {visibleColumns.carbohydrate_g && (
+                <th
+                  onClick={(event) => {
+                    event.preventDefault()
+                    orderFoodsBy('carbohydrate_g')
+                  }}
+                >
+                  Carboidratos
+                  <ArrowsDownUp />
+                </th>
+              )}
+              {visibleColumns.protein_g && (
+                <th
+                  onClick={(event) => {
+                    event.preventDefault()
+                    orderFoodsBy('protein_g')
+                  }}
+                >
+                  Proteínas
+                  <ArrowsDownUp />
+                </th>
+              )}
+              {visibleColumns.lipid_g && (
+                <th
+                  onClick={(event) => {
+                    event.preventDefault()
+                    orderFoodsBy('lipid_g')
+                  }}
+                >
+                  Gorduras
+                  <ArrowsDownUp />
+                </th>
+              )}
+              {visibleColumns.energy_kcal && (
+                <th
+                  onClick={(event) => {
+                    event.preventDefault()
+                    orderFoodsBy('energy_kcal')
+                  }}
+                >
+                  Calorias
+                  <ArrowsDownUp />
+                </th>
+              )}
+              {visibleColumns.sodium_mg && (
+                <th
+                  onClick={(event) => {
+                    event.preventDefault()
+                    orderFoodsBy('sodium_mg')
+                  }}
+                >
+                  Sódio
+                  <ArrowsDownUp />
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -151,11 +206,11 @@ export default function Foods({ foods, categories }: DietProps) {
                 return (
                   <tr key={food.id}>
                     <td>{food.description}</td>
-                    <td>{food.carbohydrate_g} g</td>
-                    <td>{food.protein_g} g</td>
-                    <td>{food.lipid_g} g</td>
-                    <td>{food.energy_kcal} kcal</td>
-                    <td>{food.sodium_mg} mg</td>
+                    {visibleColumns.carbohydrate_g && <td>{food.carbohydrate_g} g</td>}
+                    {visibleColumns.protein_g && <td>{food.protein_g} g</td>}
+                    {visibleColumns.lipid_g && <td>{food.lipid_g} g</td>}
+                    {visibleColumns.energy_kcal && <td>{food.energy_kcal} kcal</td>}
+                    {visibleColumns.sodium_mg && <td>{food.sodium_mg} mg</td>}
                   </tr>
                 )
               })}
