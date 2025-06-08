@@ -10,6 +10,7 @@ interface Food {
   protein_g: number
   lipid_g: number
   carbohydrate_g: number
+  sodium_mg: number
 }
 
 const foodsData = foods
@@ -27,6 +28,7 @@ export default function handler(
       protein_g,
       lipid_g,
       carbohydrate_g,
+      sodium_mg,
     } = food
 
     return {
@@ -37,6 +39,7 @@ export default function handler(
       protein_g,
       lipid_g,
       carbohydrate_g,
+      sodium_mg,
     }
   })
 

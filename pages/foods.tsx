@@ -1,18 +1,18 @@
+import axios from 'axios'
 import { GetServerSideProps } from 'next'
+import { ArrowsDownUp } from 'phosphor-react'
+import { ChangeEvent, useState } from 'react'
+import Food from '../@types/food'
+import { Select } from '../components/Select'
+import { Title } from '../components/Title'
+import { TooltipIcon } from '../components/TooltipIcon'
 import {
   HomeContainer,
   TableFoods,
   TableFoodsHeaderContainer,
   TableFoodsTitleContainer,
 } from '../styles/pages/foods'
-import axios from 'axios'
-import Food from '../@types/food'
 import roundedDivision from '../utils/roundedDivision'
-import { ChangeEvent, useState } from 'react'
-import { Title } from '../components/Title'
-import { ArrowsDownUp } from 'phosphor-react'
-import { Select } from '../components/Select'
-import { TooltipIcon } from '../components/TooltipIcon'
 
 interface DietProps {
   foods: Food[]
@@ -25,6 +25,7 @@ type TFoodsProps =
   | 'protein_g'
   | 'lipid_g'
   | 'energy_kcal'
+  | 'sodium_mg'
 
 export default function Foods({ foods, categories }: DietProps) {
   const [foodsList, setFoodsList] = useState<Food[]>(foods)
@@ -33,6 +34,7 @@ export default function Foods({ foods, categories }: DietProps) {
   )
   const [order, setOrder] = useState<'asc' | 'desc'>('asc')
   const [orderBy, setOrderBy] = useState<TFoodsProps>('' as TFoodsProps)
+
 
   const orderFoodsBy = (keyName: TFoodsProps) => {
     setOrderBy(keyName)
@@ -131,6 +133,15 @@ export default function Foods({ foods, categories }: DietProps) {
                 Calorias
                 <ArrowsDownUp />
               </th>
+              <th
+                onClick={(event) => {
+                  event.preventDefault()
+                  orderFoodsBy('sodium_mg')
+                }}
+              >
+                Sódio
+                <ArrowsDownUp />
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -144,6 +155,7 @@ export default function Foods({ foods, categories }: DietProps) {
                     <td>{food.protein_g} g</td>
                     <td>{food.lipid_g} g</td>
                     <td>{food.energy_kcal} kcal</td>
+                    <td>{food.sodium_mg} mg</td>
                   </tr>
                 )
               })}
@@ -155,7 +167,7 @@ export default function Foods({ foods, categories }: DietProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await axios.get<Food[]>('http://localhost:3000/api/foods')
+  const response = await axios.get<Food[]>(`${process.env.NEXT_PUBLIC_API_URL}/api/foods`)
 
   const categories = [] as string[]
 
@@ -178,6 +190,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
       lipid_g: isNaN(roundedDivision(food.lipid_g))
         ? 0
         : roundedDivision(food.lipid_g),
+      sodium_mg: isNaN(roundedDivision(food.sodium_mg))
+        ? 0
+        : roundedDivision(food.sodium_mg),
     }
   })
 
